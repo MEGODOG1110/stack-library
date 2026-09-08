@@ -16,7 +16,7 @@ export type BookCoverData = Pick<
 >;
 
 const sizesByVariant = {
-  shelf: "(max-width: 1023px) 42vw, 144px",
+  shelf: "(max-width: 1023px) 82px, 110px",
   detail: "(max-width: 1023px) 110px, 160px",
   context: "44px",
 } as const;
@@ -80,9 +80,14 @@ export function BookCover({
   variant,
 }: BookCoverProps) {
   const coverStyle = getCoverStyle(book, variant);
+  const isShelfPlaceholder = variant === "shelf" && !book.coverImageUrl;
 
   return (
-    <div className={`book-cover book-cover--${variant}`} style={coverStyle}>
+    <div
+      aria-hidden={decorative || undefined}
+      className={`book-cover book-cover--${variant}`}
+      style={coverStyle}
+    >
       {book.coverImageUrl ? (
         <Image
           alt={decorative ? "" : `${book.title}の書影`}
@@ -99,10 +104,16 @@ export function BookCover({
           className="book-cover__placeholder"
           role={decorative ? undefined : "img"}
         >
-          {book.isbn && <span>ISBN {book.isbn}</span>}
-          <i />
-          <i />
-          <strong>Stack Library</strong>
+          {isShelfPlaceholder ? (
+            <span>書影なし</span>
+          ) : (
+            <>
+              {book.isbn && <span>ISBN {book.isbn}</span>}
+              <i />
+              <i />
+              <strong>Stack Library</strong>
+            </>
+          )}
         </div>
       )}
     </div>

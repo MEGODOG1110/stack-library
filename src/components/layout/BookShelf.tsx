@@ -6,8 +6,8 @@ type BookShelfProps = {
 
 export function BookShelf({ children }: BookShelfProps) {
   return (
-    <div className="book-shelf__wrapper">
-      <div className="book-shelf__surface">{children}</div>
+    <div className="SL-ly_book-shelf">
+      <div className="SL-ly_book-shelf__surface">{children}</div>
     </div>
   );
 }

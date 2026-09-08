@@ -133,9 +133,9 @@ src/components/
 - `StatusBadge`は確定済みPrimitiveであり、`components/common/StatusBadge.tsx`を正規のimport先とする。読書状態は日本語ラベルとsignalを併用し、色だけに依存しない
 - `TechnicalAreaTags`は確定済みPrimitiveであり、`components/common/TechnicalAreaTags.tsx`を正規のimport先とする。各タグは`max-content`で内容幅に追従し、分類色を増やさず、複数時はwrapする
 - `ThemeSwitch`は確定済みPrimitiveであり、`components/common/ThemeSwitch.tsx`を正規のimport先とする
-- `BookShelf`は何も収納していない1段分の棚枠・棚面だけを提供するLayoutであり、書籍データや見出しを持たない。`BookShelfSection`は書影一覧の行数に応じて棚本体を伸ばし、見出し・冊数・`BookCard`を組み合わせるBook ListのPatternとする
+- `BookShelf`は何も収納していない棚面と18px railだけを提供するLayoutであり、書籍データや見出しを持たない。`BookShelfSection`は書名・著者を含むHybrid `BookCard`一覧の行数に応じて棚本体を伸ばし、見出し・冊数・`BookCard`を組み合わせるBook ListのPatternとする。Desktop 6列、Mobile 2列、棚コンテナ320px以下1列はCSSへ委譲し、行高は最も高いカードへ追従させる
 
-本棚・書影の寸法、背景、クリック領域、PC/SP・Light/Dark、Storybook検証面の正本は [本棚・書影設計正本](./DESIGN.md) を参照します。Figmaのexact nodeが割り当てられていない状態では、現行実装にない視覚差分をArchitectureへ追加しません。
+本棚・書影の寸法、背景、クリック領域、PC/SP・Light/Dark、Storybook検証面の正本は [本棚・書影設計正本](./DESIGN.md) を参照します。Issue #42のFigma exact nodesはComponent Traceability Registryのnode mapで追跡し、2026-09-08のfigma_design_qa PASS（findings none）によりcurrent-node read-backと実装renderとのparityを`VERIFIED`とします。Desktop typical cardは176×241、long-title cardは176×262、coverは110×170、shelfは1136×330（312+18）で、Mobile / narrow、200%、focus、interaction、missing coverも確認済みです。Header、Page Intro、見出し文言、冊数削除はparity対象外です。
 
 Storybookの実体はリポジトリ直下の`stories/`に置き、`stories/components/`以下は`src/components/`の責務別ディレクトリに対応させます。titleも同じ論理階層を使い、Atomic Design上の層名はナビゲーション階層へ重ねず、各Storyの説明とArchitectureで追跡します。
 
@@ -167,7 +167,7 @@ Components/Layout/LayoutName
 
 `/` はサーバー側で microCMS から `books` を取得します。
 
-蔵書は状態別の棚へ分割せず、実際の棚壁紙に書影だけを並べる単一のカタログとして表示します。`BookShelf`は棚枠・棚面・書影を置く行だけを担当し、`BookShelfSection`が見出し・冊数・`BookCard`を組み合わせます。`BookCard`は詳細へのリンク、`BookCover`は書影の表示を担当します。書影を選ぶとBook Detailへ遷移し、書誌情報・読書状態・技術領域などを確認します。将来の絞り込みは `/` の検索パラメータとして扱い、状態別の独立ページは作りません。
+蔵書は状態別の棚へ分割せず、実際の棚面に書影・書名・著者を並べる単一のカタログとして表示します。`BookShelf`はflatな棚面とrail、`BookShelfSection`は見出し・冊数・Hybrid `BookCard`の組み合わせ、`BookCard`は1リンク/1 Tab stopの詳細導線、`BookCover`は書影または`書影なし`の表示を担当します。書影またはidentityを選ぶとBook Detailへ遷移し、出版社・読書状態・技術領域などを確認します。将来の絞り込みは `/` の検索パラメータとして扱い、状態別の独立ページは作りません。
 
 ### Book Detail
 

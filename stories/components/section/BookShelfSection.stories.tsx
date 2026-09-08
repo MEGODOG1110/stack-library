@@ -33,7 +33,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "本棚の見出し、冊数、壁紙、書影を含む蔵書一覧の表示責務を持つPatternです。蔵書一覧では書影だけを並べ、詳細情報は遷移先へ委譲します。",
+          "本棚の見出し、冊数、フラットなレール、書影・書名・著者を含む蔵書一覧の表示責務を持つPatternです。詳細な書誌情報と読書状態は遷移先へ委譲します。",
       },
     },
   },
@@ -63,4 +63,14 @@ export const LongJapaneseTitles: Story = {
       }),
     ],
   },
+};
+
+export const Narrow320: Story = {
+  decorators: [
+    (Story) => (
+      <div style={{ maxWidth: 320 }}>
+        <Story />
+      </div>
+    ),
+  ],
 };

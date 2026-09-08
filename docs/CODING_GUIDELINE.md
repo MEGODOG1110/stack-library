@@ -56,14 +56,18 @@ Stack Libraryの実装で使うclass名、CSS、状態表現の規約です。�
 - block名に複数の単語を含める場合はハイフンでつなぐ。
 
 ```tsx
-<div className="SL-el_book-card">
-  <span className="SL-el_book-card__tooltip">書名</span>
-</div>
+<a className="SL-el_book-card" href="/books/example">
+  <span className="SL-el_book-card__identity">
+    <span className="SL-el_book-card__title">書名</span>
+    <span className="SL-el_book-card__authors">著者名</span>
+  </span>
+</a>
 ```
 
 ```css
 .SL-el_book-card { /* block */ }
-.SL-el_book-card__tooltip { /* element */ }
+.SL-el_book-card__title { /* element */ }
+.SL-el_book-card__authors { /* element */ }
 ```
 
 ### BlockとElementの構造
@@ -74,7 +78,7 @@ Stack Libraryの実装で使うclass名、CSS、状態表現の規約です。�
 |---|---|---|---|
 | Layout Block | `.SL-ly_<block>` | 独立した配置・構造単位 | `.SL-ly_grid` |
 | UI Block | `.SL-el_<block>` | 独立したUI単位 | `.SL-el_book-card` |
-| Element | `.block__element` | Block内部の意味のある部位 | `.SL-el_book-card__tooltip` |
+| Element | `.block__element` | Block内部の意味のある部位 | `.SL-el_book-card__title` |
 | Modifier | `.block-<modifier>` | Blockの表示variant | `.SL-el_book-cover-shelf` |
 
 **必須**
@@ -264,11 +268,13 @@ Storybook専用classをアプリのUIへ渡したり、アプリのコンポー�
 
 | 分類 | 現行の代表例 | 判定 | 扱い |
 |---|---|---|---|
-| 意味のあるBlock/Element | `book-card`、`book-card__tooltip`、`library-header__navigation`、`book-text-section__body` | Preserve | 責務と参照を維持し、無関係なrenameはしない |
+| 意味のあるBlock/Element | `library-header__navigation`、`book-text-section__body`、既存の`book-cover*` | Preserve | 責務と参照を維持し、無関係なrenameはしない。Issue #42ではBookCard・棚・カタログの対象classを`SL-`へ移行した |
 | 状態を属性で表す設計 | `status-badge` + `data-status`、`library-header` + `data-variant` | Preserve | 属性を状態の正本として維持する。class名の移行は別途判断する |
 | 複数箇所で共有するsemantic class | `text-link`、`message-state` | Defer | 共通責務を維持し、変更時に`SL-`名前空間へのmigrationを検討する |
 | 単一箇所の未名前空間class | `empty-state`、`back-navigation`、`favorite-badge`、`bank-value`、`back-arrow`、`leading-icon-slot` | Defer | 所属BlockのElementまたは`SL-el_`/`SL-ut_`へ移行するIssueで扱う。`data-*`の状態契約は維持する |
 | 旧Modifier記法 | `book-cover--shelf`、`theme-switch__button--light`、`storybook-canvas--component` | Defer | 新規では使わず、参照を一体で更新できるmigration scopeで変更する |
+
+Issue #42のBook List Hybridでは、次の対象classを一体で移行した。`SL-el_book-card`、`SL-el_book-card__identity`、`SL-el_book-card__title`、`SL-el_book-card__authors`、`SL-ly_book-shelf`、`SL-ly_book-shelf__surface`、`SL-el_book-catalog`、`SL-el_book-catalog__heading`、`SL-el_book-catalog__count`、`SL-el_book-catalog__grid`、`SL-el_book-catalog__item`。既存共有の`book-cover*` classと、detail / context variantの契約はこのIssueでは移行しない。新しいglobal token・utility・theme/mobile専用classは追加せず、responsiveはmedia queryと`book-shelf` container query、状態はnative linkと`:focus-visible`で表現する。
 
 `Preserve`は現行コードが新規規約に完全準拠しているという意味ではありません。既存利用の破壊を避けるための判断です。新規classと変更対象のclassは、上記の新規規約へ従います。
 
@@ -279,3 +285,4 @@ Storybook専用classをアプリのUIへ渡したり、アプリのコンポー�
 | 2026-09-02 | 初版作成 |
 | 2026-09-03 | Stack Library名前空間、分類、単一ハイフンModifier、状態表現、既存classの移行境界を追加 |
 | 2026-09-03 | namespaceを2〜3文字の大文字英字に制限し、Stack Libraryでは`SL-`を採用 |
+| 2026-09-08 | Issue #42 Book List Hybridの対象class移行、自然な折返し、container query、状態表現を追記 |
