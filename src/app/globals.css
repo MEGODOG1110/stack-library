@@ -341,7 +341,7 @@ html[data-theme="dark"] .theme-switch__button--dark {
   min-height: 330px;
 }
 
-.SL-ly_book-shelf__surface:not(:has(> .SL-el_book-catalog__grid))::after {
+.SL-ly_book-shelf__surface:not(:has(> .SL-el_book-catalog__grid > .SL-el_book-catalog__item))::after {
   position: absolute;
   right: 0;
   bottom: 0;
@@ -1781,7 +1781,9 @@ html[data-theme="dark"] .book-cover--detail .book-cover__image {
   }
 
   .SL-el_book-catalog__item:nth-child(2n + 1)::after {
-    display: none;
+    right: 0;
+    display: block;
+    width: auto;
   }
 
   .SL-el_book-catalog__item::after {
