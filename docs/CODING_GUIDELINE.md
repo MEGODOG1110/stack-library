@@ -62,7 +62,6 @@ Stack Libraryの実装で使うclass名、CSS、状態表現の規約です。�
     <span className="SL-el_book-card__authors">著者名</span>
   </span>
 </a>
-</a>
 ```
 
 ```css
