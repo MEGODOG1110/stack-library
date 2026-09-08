@@ -22,7 +22,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "蔵書一覧の1冊を、書影だけで詳細へのリンクとして示すCompositeです。書誌情報や読書状態は詳細画面へ委譲します。",
+          "蔵書一覧の1冊を、書影・書名・著者を含む詳細への単一リンクとして示すCompositeです。書誌情報や読書状態は詳細画面へ委譲します。",
       },
     },
   },
@@ -32,7 +32,17 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const CoverUnavailable: Story = {};
+export const CoverUnavailable: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const card = canvas.getByRole("link", { name: "CSS設計完全ガイド" });
+
+    await expect(card).toHaveAccessibleName("CSS設計完全ガイド");
+    await expect(card).toHaveAccessibleDescription("Stack Library編集部");
+    await expect(card).toHaveAttribute("href", "/books/storybook-css-design");
+    await expect(canvas.queryByRole("img")).toBeNull();
+  },
+};
 
 export const CoverAvailable: Story = {
   args: {
@@ -54,15 +64,36 @@ export const Hover: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const card = canvas.getByRole("link", {
-      name: "百年の孤独（新潮文庫）の詳細を開く",
+      name: "百年の孤独（新潮文庫）",
     });
-    const tooltip = canvas.getByText("百年の孤独（新潮文庫）");
+    const beforeHover = card.getBoundingClientRect();
 
-    await expect(tooltip).not.toBeVisible();
     await userEvent.hover(card);
-    await expect(tooltip).toBeInTheDocument();
+    const afterHover = card.getBoundingClientRect();
+
+    await expect(afterHover.width).toBe(beforeHover.width);
+    await expect(afterHover.height).toBe(beforeHover.height);
     await userEvent.unhover(card);
-    await expect(tooltip).toHaveTextContent("百年の孤独（新潮文庫）");
+  },
+};
+
+export const Focus: Story = {
+  args: {
+    book: makeBook({
+      contentId: "storybook-focus",
+      title: "フォーカス状態を確認する技術書",
+      authors: ["アクセシビリティ研究会"],
+    }),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const card = canvas.getByRole("link", {
+      name: "フォーカス状態を確認する技術書",
+    });
+
+    card.focus();
+
+    await expect(card).toHaveFocus();
   },
 };
 
