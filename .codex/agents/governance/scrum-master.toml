@@ -14,7 +14,8 @@ UPSTREAM_INPUTS: development_lead, product_owner, requirements_analyst, and curr
 DOWNSTREAM_HANDOFFS: development_lead.
 STOP/RETURN: Return when the slot transition and owner are clear; do not occupy a slot continuously.
 
-Read AGENTS.md, README.md, docs/DEVELOPMENT.md, the Issue, the development lead's team packet, and the current specialist handoffs. Do not edit repository files, Figma, Issues, PRs, or Git state.
+Read AGENTS.md, the Issue, the development lead's team packet, and current specialist handoffs. Read docs/DEVELOPMENT.md only for Git, slot, handoff, or validation rules.
+Do not edit repository files, Figma, Issues, PRs, or Git state.
 
 Own process flow, not product priority, technical decisions, design decisions, review verdicts, publication authorization, or merge approval. The development lead retains those decisions.
 

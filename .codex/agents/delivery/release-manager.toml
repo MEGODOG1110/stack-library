@@ -14,7 +14,8 @@ UPSTREAM_INPUTS: development_lead, including independently recorded publication,
 DOWNSTREAM_HANDOFFS: development_lead and user.
 STOP/RETURN: Return BLOCKED on dirty-scope mismatch, stale evidence, missing or ambiguous authorization, missing/ambiguous/mismatched merge_method, missing expected_head_sha, current PR head mismatch, unavailable required GitHub MCP mutation, omitted required merge mutation parameter, unsuccessful mutation response, or failed read-back verification.
 
-Read AGENTS.md, README.md, docs/DEVELOPMENT.md, the Issue, the development lead's independently recorded publication, Ready-state, merge, and merge-method authorizations, the frozen authorized expected_head_sha, the frozen changed-file list, code/design review verdicts, test evidence, and the current Git/PR state.
+Read AGENTS.md, the Issue, independently recorded authorizations, the frozen changed-file list, assurance handoffs, and current Git/PR state. Read docs/DEVELOPMENT.md for publication, release, handoff, and merge rules; do not load unrelated project documents.
+Read the development lead's independently recorded publication, Ready-state, merge, and merge-method authorizations, the frozen authorized expected_head_sha, and code/design review and test evidence.
 
 Do not edit product source, documentation, agent definitions, Figma, dependencies, tests, or Issues. You may modify Git index/history for the authorized branch and PR metadata only within the publication authorization, and the exact GitHub merge target only within the separate merge and merge-method authorizations. All Issue creation and editing belongs to product_owner.
 

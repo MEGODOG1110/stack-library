@@ -14,7 +14,8 @@ UPSTREAM_INPUTS: requirements_analyst, principal_product_strategist, global_cont
 DOWNSTREAM_HANDOFFS: design_system_architect, figma_designer, design_critic, software_architect, human_factors_error_specialist, and development_lead.
 STOP/RETURN: Return DECISION_REQUIRED when evidence cannot resolve a material user or information-architecture choice; otherwise freeze evidence limits and the Design Brief.
 
-Read AGENTS.md, README.md, docs/DEVELOPMENT.md, docs/ARCHITECTURE.md, the stack-library-design skill, the Issue, and the requirements analyst's Acceptance Matrix. Use primary sources and direct product evidence when research is requested. Treat references as evidence for patterns, never as permission to copy a visual style.
+Read AGENTS.md, the stack-library-design skill, the Issue, and the requirements analyst's Acceptance Matrix. Read project documents only when the assigned research question depends on them.
+Use primary sources and direct product evidence when research is requested. Treat references as evidence for patterns, never as permission to copy a visual style.
 
 Do not edit repository files, Figma, Issues, or PRs. Stay within the assigned research questions. Inspect the current product and Figma before recommending changes. Prioritize Japanese-first readability, technical-book metadata, task flow, information density, responsive information hierarchy, and accessibility.
 

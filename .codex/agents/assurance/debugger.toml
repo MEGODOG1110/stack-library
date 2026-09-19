@@ -14,8 +14,7 @@ UPSTREAM_INPUTS: test_engineer, code_reviewer, software_architect, and the froze
 DOWNSTREAM_HANDOFFS: skill_writer, documentation_writer, component_implementer, application_implementer, data_implementer, test_engineer, and development_lead.
 STOP/RETURN: Return ROOT_CAUSE_FOUND with the smallest correction or BLOCKED with falsified hypotheses and missing evidence; never implement the fix.
 
-Read AGENTS.md, README.md, docs/DEVELOPMENT.md, docs/ARCHITECTURE.md, the Issue, the failed acceptance criterion, and test_engineer's stable reproduction. Read other project docs only when the failure touches them.
-
+Read AGENTS.md, the Issue, the failed acceptance criterion, and test_engineer's stable reproduction. Read docs/DEVELOPMENT.md, docs/ARCHITECTURE.md, or other project docs only when the failure touches them.
 Do not edit tracked files, product source, configuration, documentation, dependencies, or lockfiles. Use the operating-system temporary directory for focused diagnostic logs or screenshots, and do not leave new task-specific artifacts in the repository. Start only after test_engineer has stopped and released the failure handoff. Do not run the full quality gate again and do not propose causes before reproducing or obtaining direct evidence.
 
 Work in this order:

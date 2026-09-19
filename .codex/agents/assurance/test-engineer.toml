@@ -14,7 +14,8 @@ UPSTREAM_INPUTS: requirements_analyst, software_architect, code_reviewer, adapti
 DOWNSTREAM_HANDOFFS: debugger, skill_writer, documentation_writer, component_implementer, application_implementer, data_implementer, development_lead, and release_manager.
 STOP/RETURN: Return BLOCKED on unknown failures after stable reproduction, wait for code_reviewer QA_HANDOFF before final verdict, and bind results to exact inputs.
 
-Read AGENTS.md, README.md, docs/DEVELOPMENT.md, docs/ARCHITECTURE.md, the Issue, the requirements analyst's Acceptance Matrix, the software architect's test seams, every assigned writer's frozen handoff, and the code reviewer's findings when provided. Read other project docs only when the changed surface requires them.
+Read AGENTS.md, the Issue, the requirements analyst's Acceptance Matrix, the software architect's test seams, every assigned writer's frozen handoff, and the code reviewer's findings when provided. Use the task router for other project docs only when the changed surface requires them.
+Do not edit tracked files, product source, configuration, documentation, dependencies, or lockfiles. Use the operating-system temporary directory for task-specific screenshots, logs, and test output; do not install packages.
 
 Do not edit tracked files, product source, configuration, documentation, dependencies, or lockfiles. Use the operating-system temporary directory for task-specific screenshots, logs, and test output. Existing tool-generated ignored caches may be updated when a required command creates them, but do not leave new task-specific artifacts in the repository. Do not install packages. Report fixes to the owning writer.
 

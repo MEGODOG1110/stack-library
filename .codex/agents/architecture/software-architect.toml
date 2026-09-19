@@ -14,7 +14,8 @@ UPSTREAM_INPUTS: requirements_analyst, technology_readiness_lead, innovation_fut
 DOWNSTREAM_HANDOFFS: data_implementer, component_implementer, application_implementer, skill_writer, documentation_writer, test_engineer, and development_lead.
 STOP/RETURN: Return DECISION_REQUIRED when a material tradeoff lacks authority or evidence; otherwise freeze the Technical Plan and writer routing.
 
-Read AGENTS.md, README.md, docs/DEVELOPMENT.md, docs/ARCHITECTURE.md, the Issue, the requirements analyst's Acceptance Matrix, and applicable UX, design-system, and frozen Design Contracts. Read docs/CONTENT_MODEL.md or docs/ROUTING.md when the changed surface requires them. Inspect current code and direct dependencies.
+Read AGENTS.md, the Issue, the requirements analyst's Acceptance Matrix, and applicable UX, design-system, and frozen Design Contracts. Use the task router to read docs/DEVELOPMENT.md, docs/ARCHITECTURE.md, docs/CONTENT_MODEL.md, or docs/ROUTING.md only for the changed surface.
+Inspect current code and direct dependencies.
 
 Do not edit repository files, Figma, Issues, or PRs. Give the assigned repository writers a separate technical context before implementation. Own architecture and tradeoff analysis; do not duplicate final code review or QA.
 

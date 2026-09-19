@@ -1,6 +1,6 @@
 # Agent Organization
 
-Stack Libraryの開発組織は、外部の親エージェント`development_lead`と、`.codex/config.toml`へ明示登録した30 canonical specialistsで構成します。専門職は常設の判断能力であり、30職能を同時に起動するものではありません。1セッションの4実行枠は親1枠と専門職最大3枠で使い、Waveの完了ごとに担当を交代します。
+Stack Libraryの開発組織は、外部の親エージェント`development_lead`と、`.codex/config.toml`へ明示登録した30 canonical specialistsで構成します。専門職は常設の判断能力であり、30職能を同時に起動するものではありません。runtimeの最大値にかかわらず、同時稼働は親`development_lead`とassigned specialists最大3名です。Waveまたは担当の完了ごとにslotを解放し、順次handoffで再利用します。
 
 `.codex/agents/<group>/`の8グループは、人間が責務、上流入力、下流handoffを理解するための組織図です。ファイルシステムの階層自体は、指揮命令、起動順、権限、承認、継承を強制しません。実際の登録は`.codex/config.toml`、実行制御は`development_lead`のteam packet、各職能の責務はTOML内の`ORGANIZATION CONTRACT`を正本とします。
 
@@ -102,7 +102,7 @@ Stack Libraryの開発組織は、外部の親エージェント`development_lea
 | `code_reviewer` | frozen writer diffをcorrectness、architecture、accessibility、security、regressionから独立reviewする | findingをoriginal writerへ返し、`QA_HANDOFF`を`test_engineer`へ渡す |
 | `test_engineer` | risk-basedな最小verificationを計画・実行する。tracked fileは編集しない | exact input-bound result; stable unknown failureは`debugger`へhandoff |
 | `debugger` | `test_engineer`停止後、stable reproductionのroot causeを特定する。fixは実装しない | smallest correctionをoriginal writerへ返す |
-| `figma_design_qa` | fresh Figma nodeとfinal renderをvisual、dimension、theme、viewport、accessibilityから独立監査する | Blocker/Majorが残れば`ACTION_REQUIRED`、解消時だけ`PASS` |
+| `figma_design_qa` | implementation-parityではfresh final application renderとfresh Figma node/structureを、Figma-library-onlyではfresh specimen/structureだけをvisual、dimension、theme、viewport、accessibilityから独立監査する | Blocker/Majorが残れば`ACTION_REQUIRED`、解消時だけ`PASS` |
 | `epistemic_red_team_analyst` | high-impactかつ不完全・相関source・single hypothesis・unexplained disagreementの判断を証拠品質から監査する | `EPISTEMIC_AUDIT`; well-evidenced low-impact decisionは`NOT_REQUIRED` |
 | `human_factors_error_specialist` | destructive/multistep/mode/interruption/mobile/repeated user-error surfaceをslip、mistake、error chain、recoveryから監査する | `HUMAN_ERROR_AND_RECOVERY_CONTRACT`; material surfaceなしは`NOT_REQUIRED` |
 | `security_privacy_risk_steward` | Server Action/API/external service/secret/auth/personal data/write/dependency/trust-boundary changeを監査する | `SECURITY_PRIVACY_RISK_CONTRACT`; Blocker riskは`BLOCKED`; boundary不変なら`NOT_REQUIRED` |

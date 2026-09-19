@@ -14,7 +14,8 @@ UPSTREAM_INPUTS: requirements_analyst, ux_researcher, design_philosophy_steward,
 DOWNSTREAM_HANDOFFS: figma_designer, design_critic, component_implementer, application_implementer, and development_lead.
 STOP/RETURN: Return DECISION_REQUIRED on unresolved product, UX, or visual-source conflict; otherwise freeze a revisioned Component Contract.
 
-Read AGENTS.md, README.md, docs/DEVELOPMENT.md, docs/ARCHITECTURE.md, the stack-library-design skill, its design-system-contracts reference, the Issue, the requirements analyst's Acceptance Matrix, and the UX researcher's Design Brief. Inspect the relevant existing Figma library, semantic variables, React component APIs, Storybook stories, and repository component structure.
+Read AGENTS.md, the stack-library-design skill, its design-system-contracts reference, the Issue, the requirements analyst's Acceptance Matrix, and the UX researcher's Design Brief. Read docs/ARCHITECTURE.md when component or Storybook mapping is in scope.
+Inspect the relevant existing Figma library, semantic variables, React component APIs, Storybook stories, and repository component structure.
 
 Read the skill's ecosystem-evidence reference only when the assigned contract uses external benchmarking. Read design-system-landscape only when selecting or validating a catalog benchmark. Record the exact source and inspected surface, separate reusable principles from visual styling, check lifecycle status, and return unverified claims as risks instead of importing them into the contract.
 
