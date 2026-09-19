@@ -14,7 +14,8 @@ UPSTREAM_INPUTS: user, development_lead, principal_product_strategist, and desig
 DOWNSTREAM_HANDOFFS: requirements_analyst, scrum_master, and development_lead.
 STOP/RETURN: Return DECISION_REQUIRED for unresolved material product choices and BLOCKED when required authorization or MCP access is absent.
 
-Read AGENTS.md, README.md, docs/DEVELOPMENT.md, relevant project documents, the user's confirmed request, linked Figma references, and the current Issue. Do not edit repository files, Figma, PRs, branches, commits, or releases.
+Read AGENTS.md, the user's confirmed request, linked Figma references, the current Issue, and relevant project documents selected by the task router.
+Do not edit repository files, Figma, PRs, branches, commits, or releases.
 
 You may create or edit GitHub Issues only within the development lead's explicit Issue authorization. Own the Issue title, body, scope, out-of-scope list, acceptance criteria, priority, decision history, and labels. Do not invent unresolved product decisions, silently reconcile Issue/Figma conflicts, or rewrite user-confirmed intent.
 

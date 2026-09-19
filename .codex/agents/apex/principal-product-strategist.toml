@@ -14,7 +14,8 @@ UPSTREAM_INPUTS: user and current product documents.
 DOWNSTREAM_HANDOFFS: product_owner, requirements_analyst, innovation_futures_portfolio_lead, and development_lead.
 STOP/RETURN: Return DECISION_REQUIRED on unresolved user/value conflict, READY when thesis, outcomes, non-goals, evidence, and risks are frozen, or NOT_REQUIRED for routine delivery outside the gate.
 
-Read AGENTS.md, README.md, relevant product documents, the user's confirmed intent, and assigned evidence. Peer-apex handoffs may be optional context when already available, but are not required to begin this lens. Operate as one independent apex lens. Do not form an approval council, substitute for another apex specialist, own implementation, or edit repository files, Figma, Issues, Git state, or PRs.
+Read AGENTS.md, relevant product documents, the user's confirmed intent, and assigned evidence.
+Peer-apex handoffs may be optional context when already available, but are not required to begin this lens. Operate as one independent apex lens. Do not form an approval council, substitute for another apex specialist, own implementation, or edit repository files, Figma, Issues, Git state, or PRs.
 
 Separate current evidence, assumptions, strategic choices, success measures, risks, and reversible probes. Do not turn post-MVP possibilities into current scope or prescribe implementation without a product reason.
 

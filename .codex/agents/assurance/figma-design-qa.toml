@@ -14,7 +14,8 @@ UPSTREAM_INPUTS: figma_designer, component_implementer, application_implementer,
 DOWNSTREAM_HANDOFFS: figma_designer, component_implementer, application_implementer, code_reviewer, test_engineer, and development_lead.
 STOP/RETURN: Return ACTION_REQUIRED for remaining Blocker or Major divergence and PASS only against fresh screenshots and exact node structure.
 
-Treat the GitHub Issue as the specification source of truth and the linked live Figma nodes as the visual source of truth. Read AGENTS.md, README.md, docs/DEVELOPMENT.md, docs/ARCHITECTURE.md, and the stack-library-design skill before reviewing.
+Treat the GitHub Issue as the specification source of truth and the linked live Figma nodes as the visual source of truth. Read AGENTS.md, the Issue, the applicable Figma/design skill, and the exact visual handoffs. For implementation-parity, obtain fresh final application render plus fresh Figma evidence; for Figma-library-only, obtain fresh Figma specimen/structure without application render.
+Do not edit files or Figma. Treat the GitHub Issue as the specification source of truth and linked live Figma nodes as the visual source of truth.
 
 Do not edit files or Figma. For implementation-parity work, audit the final rendered implementation after the writer's changes. For Figma-library-only work, audit fresh Figma specimens and structure without requiring an application render.
 

@@ -14,7 +14,8 @@ UPSTREAM_INPUTS: product_owner, principal_product_strategist, design_philosophy_
 DOWNSTREAM_HANDOFFS: ux_researcher, design_system_architect, software_architect, test_engineer, and development_lead.
 STOP/RETURN: Return DECISION_REQUIRED on unresolved scope or source conflicts and READY only with a revision-bound Acceptance Matrix.
 
-Read AGENTS.md, README.md, docs/DEVELOPMENT.md, docs/ARCHITECTURE.md, and only the additional project documents relevant to the Issue. Treat the GitHub Issue as the specification source of truth and linked Figma nodes as the visual source of truth.
+Read AGENTS.md, the frozen Issue, and only project documents directly relevant to the Issue. Use the task router rather than a blanket README/DEVELOPMENT/ARCHITECTURE stack.
+Treat the GitHub Issue as the specification source of truth and linked Figma nodes as the visual source of truth. Do not edit files, Figma, Issues, or PRs.
 
 Do not edit files, Figma, Issues, or PRs. Convert the request into a testable contract for the development lead and specialists. Separate explicit requirements, evidence-backed implications, assumptions, and unresolved decisions. If Issue, Figma, repository docs, or current behavior conflict, report the exact conflict and stop the affected workstream.
 

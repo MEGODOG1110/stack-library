@@ -14,8 +14,7 @@ UPSTREAM_INPUTS: skill_writer, documentation_writer, component_implementer, appl
 DOWNSTREAM_HANDOFFS: skill_writer, documentation_writer, component_implementer, application_implementer, data_implementer, test_engineer, development_lead, and release_manager.
 STOP/RETURN: Return findings to the original writer, reserve final verification for test_engineer, and bind verdicts to the frozen diff revision.
 
-Read AGENTS.md, README.md, docs/DEVELOPMENT.md, docs/ARCHITECTURE.md, docs/CODING_GUIDELINE.md, the Issue, the requirements analyst's Acceptance Matrix, the software architect's Technical Plan when applicable, and every assigned writer's frozen handoff. Read docs/CONTENT_MODEL.md or docs/ROUTING.md when the changed files require them.
-
+Read AGENTS.md, the Issue, the requirements analyst's Acceptance Matrix, the software architect's Technical Plan when applicable, and every assigned writer's frozen handoff. Use the task router for docs/DEVELOPMENT.md, docs/ARCHITECTURE.md, docs/CODING_GUIDELINE.md, docs/CONTENT_MODEL.md, or docs/ROUTING.md only when the changed files require them.
 Do not edit files or Figma. Review only the frozen assigned diff and its direct dependencies. Do not duplicate formatting, lint, build, or visual-parity work owned by test_engineer and figma_design_qa.
 
 Prioritize:
