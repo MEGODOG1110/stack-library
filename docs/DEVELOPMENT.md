@@ -41,16 +41,16 @@ Codexによる変更は、原則として`1 GitHub Issue / 1 coherent outcome / 
 | 軽量なread-only question、説明、state check、report | Issueを省略できる。mutation開始前にIssue、outcome、branch、ownershipを確定する |
 | merge後のfollow-up change | 完了したparent chatをarchive candidateとし、通常は新しいIssueとparent chatを使う |
 
-同じ論理作業でreview findingやvalidation failureが出ても、新しいparent chatへ移さず、findingを元writerへ返して同じparent chat内のFix Waveで解消します。publication authorizationは、承認済みpathのstage、commit、push、Draft PRの作成・更新の許可であり、DraftからReadyへの変更、merge authorization、merge-method authorizationを含みません。
+同じ論理作業でreview findingやvalidation failureが出ても、新しいparent chatへ移さず、findingを元writerへ返して同じparent chat内のFix Waveで解消します。publication authorizationは、承認済みpathのstage、commit、push、Draft PRの作成・更新の許可であり、Ready-only変更やmerge authorizationを含みません。対象PR/revisionへの明示的なmerge approvalがある場合、その承認は必要なDraftからReadyへの遷移を包含します。
 
 | 状態 | 記録と意味 |
 |---|---|
 | PR作成・更新 | publication authorizationによりDraft PRを作成または更新できる |
-| DraftからReadyへの変更 | PR作成とは別の明示的authorizationを必要とする |
-| merge authorization | userが対象PRのmerge実行を明示的に承認し、`development_lead`が記録する |
-| merge-method authorization | 方法指定のない明示的な「マージ」承認は`development_lead`が`merge_method=merge`へ正規化する。SquashまたはRebaseはuserがその方法を別途明示した場合だけ`merge_method=squash|rebase`と記録する |
+| DraftからReadyへの変更 | Ready-only変更ではPR作成とは別の明示的authorizationを必要とする。対象PR/revisionへの明示的なmerge approvalがある場合は、そのapprovalに包含される |
+| merge authorization | userが対象PRのmerge実行を明示的に承認し、`development_lead`が対象PR/revisionへ束縛して記録する。Draftの場合は必要なReady遷移も同じapprovalに含める |
+| recorded merge_method | 方法指定のない明示的な「マージ」承認は`development_lead`が`merge_method=merge`へ正規化する。SquashまたはRebaseはuserがその方法を明示した場合だけ`merge_method=squash|rebase`と記録する |
 
-`release_manager`はこれらの状態を統合または推測せず、merge authorization、記録済み`merge_method`、authorized/frozen `expected_head_sha`が揃った場合だけ実行します。
+`release_manager`はpublication authorizationとmerge authorizationを統合または推測せず、merge authorization、必要なReady承認またはそれを包含するmerge approval、記録済み`merge_method`、authorized/frozen `expected_head_sha`が揃った場合だけ実行します。
 
 新しいparent chatは、root `AGENTS.md`と`.codex/config.toml`をdiscoverできるよう、同じlocal projectを開き、primary repositoryのproject rootから開始します。tracked fileへの並行writeは禁止し、別Issueや別outcomeへ移る場合も正のworktreeを一つだけ使って順次handoffします。同じbranchまたは同じpathへ複数chatから書いてはいけません。read-only chatも追加worktreeを作成せず、正のworktreeまたは既存の履歴をread-onlyで確認します。開始時とbranch変更の前後に `git rev-parse --show-toplevel` と `git worktree list --porcelain` を確認し、指定rootと正のworktree一件だけに一致しない場合は停止します。
 
@@ -66,7 +66,7 @@ Codexによる変更は、原則として`1 GitHub Issue / 1 coherent outcome / 
 - frozen Acceptance Matrix、Design Brief、Component Contract、Design Contract、Design Critic Approval、Technical Planなど、適用するcontractとrevision
 - 完了済みvalidation、validation input revision、結果、再利用条件とinvalidation conditions
 - Figma file/node ID、対象file、theme、viewport、state
-- publication authorization、DraftからReadyへのauthorization、独立したmerge authorization、`merge_method=merge|squash|rebase`、authorized/frozen `expected_head_sha=<40-character SHA>|absent`の各状態
+- publication authorization、Ready-only時のDraftからReadyへのauthorization、merge authorization（DraftならReady遷移を包含）、`merge_method=merge|squash|rebase`、authorized/frozen `expected_head_sha=<40-character SHA>|absent`の各状態
 - 既存Draft PRのURL/numberと状態
 - 次のdownstream handoff、未解決finding、stop condition
 
@@ -194,16 +194,16 @@ Stacked PRは、2つ以上の依存順を持つ変更を、小さく独立して
 | base branch | 最下層は`main`、上層は直下layerのbranch |
 | PR状態 | stack構築中は各PRをDraftに保ち、layerごとに検証とreviewが完了したものだけ個別にReadyへ変更する |
 | merge | stack全体または複数layerの一括mergeを禁止する。常に最下層の1 PRだけを承認・mergeし、残りもbottom-upで1 PRずつ進める |
-| authorization | PRごとにDraftからReadyへのauthorization、merge authorization、`merge_method`、authorized/frozen `expected_head_sha`を独立して記録する。下層の承認を上層へ流用しない |
+| authorization | PRごとにReady-only時のDraftからReadyへのauthorization、merge authorization、`merge_method`、authorized/frozen `expected_head_sha`を記録する。対象PR/revisionへの明示的merge approvalはDraftからReadyへの遷移を包含でき、下層の承認を上層へ流用しない |
 
 GitHub自体はstack全体または途中までの一括mergeを提供しますが、このrepositoryでは使用しません。上位PRをmergeして下位layerも同時に取り込む操作や、中間PRをmergeして複数の下位layerを取り込む操作は、個別PRのmerge authorizationを迂回するためです。
 
 下層PRのmerge後、GitHubは残る上層branchをservice側で自動的にrebaseし、次のPRのbaseをretargetすることがあります。このservice動作は、local rebase、amend、force-push、その他のhistory rewriteを許可しません。自動更新後は次の順序で残るPRを再評価します。
 
 1. GitHub serviceから対象PRの新しいbase、head SHA、stack位置、CI/check状態を取得する。
-2. 新しいheadで、以前のvalidation、review、writer handoff、Ready authorization、merge authorization、`merge_method`、`expected_head_sha`が引き続き有効かを判定する。
+2. 新しいheadで、以前のvalidation、review、writer handoff、Ready-onlyまたはmerge-inclusive Ready authorization、merge authorization、`merge_method`、`expected_head_sha`が引き続き有効かを判定する。
 3. rebase・retargetまたは差分変化で無効になった証拠だけを再実行または再取得する。
-4. Readyまたはmerge authorizationが新しいheadへ束縛されていない場合は、再承認されるまでmergeしない。
+4. Ready-only authorization、またはReady遷移を包含するmerge authorizationが新しいheadへ束縛されていない場合は、再承認されるまでmergeしない。
 
 GitHub Stacked PRはpublic previewであり、仕様変更の可能性があります。運用時は[GitHub Docs: About stacked pull requests](https://docs.github.com/en/pull-requests/get-started/about-stacked-prs)と[GitHub Changelog: Stacked pull requests are now in public preview](https://github.blog/changelog/2026-07-30-stacked-pull-requests-are-now-in-public-preview/)を確認します。AI sessionとの対応例は[GitHub Blog: Stacked sessions and pull requests in the GitHub Copilot app](https://github.blog/ai-and-ml/github-copilot/stacked-sessions-and-pull-requests-in-the-github-copilot-app/)を参考情報とし、Stack Libraryのparent Codex chat規則を優先します。
 
@@ -223,7 +223,7 @@ Vercel Preview DeploymentとVercel Agent Code Reviewは別の処理です。Prev
 
 ### Merge authorizationと方法
 
-PR作成、DraftからReadyへの変更、merge authorization、merge-method authorizationは独立した状態として記録します。PRの存在、Ready状態、repository設定、GitHub UI、過去の履歴からmerge承認や方法を推測しません。
+PR作成、Ready-only時のDraftからReadyへの変更、merge authorization、development leadが記録したmerge_methodは記録します。対象PR/revisionへの明示的merge approvalがある場合はDraftからReadyへの遷移を同じapprovalに包含します。PRの存在、Ready状態、repository設定、GitHub UI、過去の履歴からmerge承認や方法を推測しません。
 
 | Userの明示的な承認 | `development_lead`の記録 | `release_manager`がMCP merge mutationへ渡す方法 |
 |---|---|---|
@@ -295,7 +295,7 @@ working-tree sourceでは、tracked patchだけではuntrackedな追加ファイ
 
 証拠は、`identity`（raw diff/file hash）、`subject`、`input revision`、`dependency manifest`、`environment assumptions`、`result`、`observed-at`、`invalidators`を持つcompact recordとして引き継ぎます。base/head、path/bytes、依存・設定、環境、remote review/check/base/mergeability、FigmaまたはIssueの対象が変わった場合だけ、影響するevidenceをtargeted revalidationします。新しいremote stateを判断するauditではreview、checks、base、mergeabilityを再取得し、immutableなreview/test evidenceは入力が不変なら再利用できます。skill/docsのcross-document reviewでは、直接consumerとdependent agent metadata（参照されるTOMLを含む）をmanifestへ列挙し、PR #75型の不整合を見落とさないようにします。
 
-このfreshness契約はpublication、DraftからReady、mergeのauthorizationを与えたり省略したりしません。各mutation直前に、対象PRのstate、draft、base/head、expected SHA、checks、mergeabilityを再取得し、authorizationへ束縛された値と一致しない場合は停止します。
+このfreshness契約はpublication、Ready-only時のDraftからReady、mergeのauthorizationを与えたり省略したりしません。明示的merge approvalがReady遷移を包含する場合も、各mutation直前に対象PRのstate、draft、base/head、expected SHA、checks、mergeabilityを再取得し、authorizationへ束縛された値と一致しない場合は停止します。
 
 | 区分 | 主な変更 | 作業中の必須確認 | PR完成前の追加確認 |
 |---|---|---|---|
