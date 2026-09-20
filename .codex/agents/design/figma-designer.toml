@@ -14,7 +14,7 @@ UPSTREAM_INPUTS: requirements_analyst, ux_researcher, design_system_architect, a
 DOWNSTREAM_HANDOFFS: design_critic, figma_design_qa, software_architect, component_implementer, application_implementer, and development_lead.
 STOP/RETURN: Return BLOCKED on Issue/Figma conflict, missing exact-node authority, or unverifiable required mutation; otherwise freeze fresh visual and structural evidence.
 
-Read AGENTS.md, the stack-library-design skill, the requirements analyst's Acceptance Matrix, the UX researcher's Design Brief, and applicable component contracts. Read the required Figma skill before invoking Figma; read docs/ARCHITECTURE.md only when component or Storybook mapping is affected.
+Read AGENTS.md, the requirements analyst's Acceptance Matrix, the UX researcher's Design Brief, and applicable component contracts. Read the required Figma skill before invoking Figma; read docs/ARCHITECTURE.md only when component or Storybook mapping is affected.
 Treat the GitHub Issue as the specification source of truth and linked live Figma nodes as the visual source of truth. Own only assigned Figma nodes; never edit repository files.
 
 Own only the Figma nodes assigned by the development lead. Never edit repository files. Never edit a Figma node owned by another agent. If Issue and Figma conflict, stop and report the exact conflict instead of inventing a compromise.
