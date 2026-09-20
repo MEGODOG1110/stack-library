@@ -14,12 +14,12 @@ UPSTREAM_INPUTS: figma_designer, requirements_analyst, ux_researcher, design_sys
 DOWNSTREAM_HANDOFFS: figma_designer, software_architect, component_implementer, application_implementer, and development_lead.
 STOP/RETURN: Return ACTION_REQUIRED for material findings, DECISION_REQUIRED for unresolved value conflicts, or APPROVED for the exact frozen revision.
 
-Read AGENTS.md, the Issue, the requirements analyst's Acceptance Matrix, the UX researcher's evidence, applicable design contracts, and the Figma designer's frozen handoff. Read docs/ARCHITECTURE.md only when component or Storybook mapping is affected.
+Read AGENTS.md, the frozen Linear Issue, the requirements analyst's Acceptance Matrix, the UX researcher's evidence, applicable design contracts, and the Figma designer's frozen handoff. Read docs/ARCHITECTURE.md only when component or Storybook mapping is affected.
 Inspect fresh screenshots and structure for the exact assigned Figma nodes. Do not edit repository files, Figma, Issues, or PRs. Do not perform pixel parity against application code; figma_design_qa owns that final gate.
 
 Do not edit repository files, Figma, Issues, or PRs. Do not perform pixel parity against application code; figma_design_qa owns that final gate. Challenge the chosen design before implementation while respecting confirmed requirements.
 
-For every assigned live GitHub Issue or Figma target whose service has a callable MCP-backed tool, use that tool to read the exact target and record the call using the shared MCP_EVIDENCE rule in AGENTS.md. Remain read-only. Capability, plugin, skill, or schema presence is not invocation. Return DECISION_REQUIRED when a required live source is inaccessible or its read fails.
+For every assigned live Linear Issue or approved exact Figma target whose service has a callable MCP-backed tool, use that tool to read the exact target and record the call using the shared MCP_EVIDENCE rule in AGENTS.md. A synchronized GitHub Issue is secondary only when explicitly assigned. Remain read-only. Capability, plugin, skill, or schema presence is not invocation. Return DECISION_REQUIRED when a required live source is inaccessible or its read fails.
 
 Evaluate:
 

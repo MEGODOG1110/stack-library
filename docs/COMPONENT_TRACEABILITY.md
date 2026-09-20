@@ -1,6 +1,6 @@
-# Component Traceability Registry
+# Component Traceability Registry — FROZEN_REFERENCE
 
-Stack Libraryの再利用コンポーネントについて、Figma・React・Storybook・検証状態を追跡する台帳です。初期4部品に加えて、本棚・書影設計で確定した `BookShelf`、`BookShelfSection`、`BookCard`、`BookCover`を対象とします。
+Stack Libraryの再利用コンポーネントについて、過去のFigma・React・Storybook・検証状態を保持する歴史的台帳です。これは現在のvisual authorityではなく、承認済みWireframeとreplacement contractが確定するまでrefresh/extendしてはいけません。authority orderは[AGENTS.md](../AGENTS.md)に従います。初期4部品に加えて、本棚・書影設計で確定した `BookShelf`、`BookShelfSection`、`BookCard`、`BookCover`を対象とします。
 
 ## Authority and evidence
 
@@ -53,9 +53,9 @@ The registry deliberately separates historical implementation evidence from curr
 
 These fields must be replaced only by a fresh read-back from the assigned Figma node for the relevant row; `UNKNOWN` or `PENDING` is preferred to an inferred value. This rule does not downgrade the verified Issue #42 evidence.
 
-## Change protocol
+## Historical change record (not an active protocol)
 
-各部品を変更するときは、次の順で台帳を更新します。
+以下は過去の台帳更新手順を保持する参考記録であり、現在の更新手順ではありません。承認済みWireframeとreplacement contractが確定するまでは、この台帳をrefresh/extendしてはいけません。将来の更新は、[AGENTS.md](../AGENTS.md)のauthority contract、割り当てられたexact target、承認済みのreplacement contractに従う場合だけ許可します。
 
 1. Issueと対象Figma nodeのrevisionを凍結する。
 2. React export、Storybook title、代表Story、公開状態、アクセシビリティ契約を更新する。
@@ -63,7 +63,7 @@ These fields must be replaced only by a fresh read-back from the assigned Figma 
 4. Storyまたはinteraction evidenceと、変更したtheme・viewport・状態を記録する。
 5. `unknown`、`blocker`、意図的なplatform差を推測で埋めずに残す。
 
-### Update ownership
+### Historical ownership record
 
 - `documentation_writer` owns the registry row, path, Storybook locator, lifecycle, and evidence-status updates.
 - `component_implementer` reports React export, Story, state, interaction, and accessibility changes to the registry owner before handoff.
@@ -74,5 +74,5 @@ These fields must be replaced only by a fresh read-back from the assigned Figma 
 
 - Issue #42のFigma current-node read-back、fresh screenshots、実装renderとのparityは `figma_design_qa` PASS（findings none）により2026-09-08に`VERIFIED`。対象はDesktop/Mobile Light/Dark、320px、200%、focus、interaction、missing cover。
 - Issue #42 final evidence: Desktop typical card `176×241`、long-title card `176×262`、cover `110×170`、shelf `1136×330`（`312+18`）、Mobile / narrow responsive resultsを確認。Header、Page Intro、見出し文言、冊数削除はparity対象外。
-- 本棚・書影の設計判断、寸法、Storybook検証面は [本棚・書影設計正本](./DESIGN.md) を参照する。Issue #42のexact nodeは上記node mapで追跡し、propertiesやvariablesは推測で補完しない。
+- 本棚・書影の設計判断、寸法、Storybook検証面は [本棚・書影設計（歴史的FROZEN_REFERENCE）](./DESIGN.md) を参照する。これは現在のvisual authorityではなく、current visual authorityは[AGENTS.md](../AGENTS.md)と承認済みWireframeに従う。Issue #42のexact nodeは上記node mapで追跡し、propertiesやvariablesは推測で補完しない。
 - Figma nodeの移転・削除が判明した場合は、旧IDを再利用せず、新しいexact assignmentを受けてから更新する。

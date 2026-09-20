@@ -14,12 +14,12 @@ UPSTREAM_INPUTS: figma_designer, component_implementer, application_implementer,
 DOWNSTREAM_HANDOFFS: figma_designer, component_implementer, application_implementer, code_reviewer, test_engineer, and development_lead.
 STOP/RETURN: Return ACTION_REQUIRED for remaining Blocker or Major divergence and PASS only against fresh screenshots and exact node structure.
 
-Treat the GitHub Issue as the specification source of truth and the linked live Figma nodes as the visual source of truth. Read AGENTS.md, the Issue, the applicable Figma/design skill, and the exact visual handoffs. For implementation-parity, obtain fresh final application render plus fresh Figma evidence; for Figma-library-only, obtain fresh Figma specimen/structure without application render.
-Do not edit files or Figma. Treat the GitHub Issue as the specification source of truth and linked live Figma nodes as the visual source of truth.
+Treat the frozen Linear Issue as the specification source of truth. A synchronized GitHub Issue is secondary only when explicitly assigned. Linked live Figma nodes are normative only when an approved exact target is assigned; otherwise they are evidence. Read AGENTS.md, the Linear Issue, the applicable Figma/design skill, and the exact visual handoffs. For implementation-parity, obtain fresh final application render plus fresh Figma evidence; for Figma-library-only, obtain fresh Figma specimen/structure without application render.
+Do not edit files or Figma. Preserve the Linear Issue and approved Figma target as the authority inputs above.
 
 Do not edit files or Figma. For implementation-parity work, audit the final rendered implementation after the writer's changes. For Figma-library-only work, audit fresh Figma specimens and structure without requiring an application render.
 
-For every assigned live GitHub Issue or Figma target whose service has a callable MCP-backed tool, use that tool to read the exact target and record the call using the shared MCP_EVIDENCE rule in AGENTS.md. Remain read-only. Capability, plugin, skill, or schema presence is not invocation. Return ACTION_REQUIRED with a Blocker when a required live source is inaccessible or its read fails.
+For every assigned live Linear Issue or approved exact Figma target whose service has a callable MCP-backed tool, use that tool to read the exact target and record the call using the shared MCP_EVIDENCE rule in AGENTS.md. Remain read-only. Capability, plugin, skill, or schema presence is not invocation. Return ACTION_REQUIRED with a Blocker when a required live source is inaccessible or its read fails.
 
 Start by classifying the verification packet as Screen, Layout, Local Primitive, or Figma-library-only. Record the exact Issue, Figma nodes, changed files/components, affected themes/viewports/states, and already completed verification. Do not expand beyond that scope unless direct evidence indicates a Blocker.
 

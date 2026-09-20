@@ -1,6 +1,6 @@
 # ARCHITECTURE.md
 
-Stack Library MVP のアーキテクチャ方針です。
+Stack Library MVP のアーキテクチャ方針です。現在のvisual implementation、旧DESIGN/TRACE、旧Issue/Figma記述はevidenceであり、将来visual authorityではありません。visual authorityと停止条件は[AGENTS.md](../AGENTS.md)に従います。
 
 ## 採用方針
 
@@ -84,18 +84,18 @@ Library Bankの集計は `lib/books/bank.ts` の純粋関数で行い、microCMS
 
 ## デザインシステムとコンポーネント
 
-Figma、React、Storybookは同じものの複製ではなく、責務の異なる正本として扱います。
+Figma、React、Storybookは同じものの複製ではなく、責務の異なるevidence/contractとして扱います。visual authorityはapproved exact Figma targetが割り当てられた場合だけ成立し、それ以外はAGENTS.mdのauthority orderに従います。
 
 | 対象 | 責務 |
 |---|---|
-| Figma | 視覚仕様、トークン、レイアウト、状態、コンポーネント間の構成 |
+| Figma | approved exact targetに割り当てられた場合の視覚仕様。それ以外はhistorical/reference evidence |
 | React | 振る舞い、props、データ境界、アクセシビリティ |
 | Storybook | 再利用部品のカタログ、状態・テーマ・表示幅の検証 |
 | App Router | 実データを使う画面構成とルーティング |
 
 Storybookは`@storybook/nextjs-vite`で導入しています。Figmaの見た目をそのままComponent propsへ変換せず、Reactの再利用単位と責務を基準にStoryを作ります。
 
-本棚・書影の設計判断は [本棚・書影設計正本](./DESIGN.md) に集約し、Figma・React・Storybook・検証状態の対応は [Component Traceability Registry](./COMPONENT_TRACEABILITY.md) で管理します。台帳の初期4部品に加えて、`BookShelf`、`BookShelfSection`、`BookCard`、`BookCover`を追跡対象とします。
+本棚・書影の旧設計判断は [本棚・書影設計](./DESIGN.md) に、旧対応台帳は [Component Traceability Registry](./COMPONENT_TRACEABILITY.md) に保持します。いずれもFROZEN_REFERENCEであり、承認済みWireframeまでは現在のvisual authorityとして扱いません。外部referenceはAdopt/Adapt/Rejectを記録し、visual authority orderは[AGENTS.md](../AGENTS.md)に従います。
 
 Atomic Designはページの見出し名ではなく、依存方向の規則として使います。
 
@@ -135,7 +135,7 @@ src/components/
 - `ThemeSwitch`は確定済みPrimitiveであり、`components/common/ThemeSwitch.tsx`を正規のimport先とする
 - `BookShelf`は何も収納していない棚面と18px railだけを提供するLayoutであり、書籍データや見出しを持たない。`BookShelfSection`は書名・著者を含むHybrid `BookCard`一覧の行数に応じて棚本体を伸ばし、見出し・冊数・`BookCard`を組み合わせるBook ListのPatternとする。Desktop 6列、Mobile 2列、棚コンテナ320px以下1列はCSSへ委譲し、行高は最も高いカードへ追従させる
 
-本棚・書影の寸法、背景、クリック領域、PC/SP・Light/Dark、Storybook検証面の正本は [本棚・書影設計正本](./DESIGN.md) を参照します。Issue #42のFigma exact nodesはComponent Traceability Registryのnode mapで追跡し、2026-09-08のfigma_design_qa PASS（findings none）によりcurrent-node read-backと実装renderとのparityを`VERIFIED`とします。Desktop typical cardは176×241、long-title cardは176×262、coverは110×170、shelfは1136×330（312+18）で、Mobile / narrow、200%、focus、interaction、missing coverも確認済みです。Header、Page Intro、見出し文言、冊数削除はparity対象外です。
+本棚・書影の寸法、背景、クリック領域、PC/SP・Light/Dark、Storybook検証面は旧設計のhistorical evidenceです。旧Figma exact nodesと`VERIFIED`記録は現在のvisual authorityやrebuild承認を意味しません。新しいvisual判断は[AGENTS.md](../AGENTS.md)のauthority orderとapproved Wireframeに従います。
 
 Storybookの実体はリポジトリ直下の`stories/`に置き、`stories/components/`以下は`src/components/`の責務別ディレクトリに対応させます。titleも同じ論理階層を使い、Atomic Design上の層名はナビゲーション階層へ重ねず、各Storyの説明とArchitectureで追跡します。
 
@@ -183,7 +183,7 @@ slug はMVPでは使いません。
 
 表示する金額は蔵書に登録した税込価格（日本円）であり、市場価格・買取価格・資産価値ではありません。
 
-視覚仕様はFigmaの `Library Bank / Implementation Source`（section `605:1066`）を正本とします。Desktop Light/Darkは `605:1067` / `605:1068`、Mobile Light/Darkは `605:1069` / `605:1070` を参照し、Headerは`color/surface`、外側ラップと本文は`color/canvas`で連続させます。
+Library BankのFigmaフレーム記述はhistorical evidenceです。新しいvisual authorityはapproved exact targetが割り当てられたFigmaだけとし、現行記述から新規visual判断を推測しません。
 
 通常状態はEyebrow、ページ見出し、集計、明細の階層だけで理解できる構成とし、見出しを反復するdescriptionや実装注記を画面へ表示しません。Book 0件、価格登録済み0件、取得失敗など、誤解を防ぐ必要がある状態説明は残します。
 

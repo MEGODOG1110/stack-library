@@ -108,7 +108,7 @@ npm run storybook
 http://localhost:6006/
 ```
 
-作業はGitHub Issueを起点に、`main`からIssue番号付きの短命ブランチを作ります。Conventional CommitsとPRを使って統合します。ブランチ命名、コミット、検証の詳細は [Development](./docs/DEVELOPMENT.md) を参照してください。
+作業は凍結Linear Issueを起点に、`main`からLinear ID付きの短命ブランチを作ります。GitHub Issueは明示的に要求・同期された場合だけoptional mirrorです。Conventional CommitsとPRを使って統合します。詳細は [Development](./docs/DEVELOPMENT.md) を参照してください。
 
 ## Content Model
 
@@ -175,9 +175,9 @@ Booklog、Notion、一般的なSaaSダッシュボードのコピーにはしま
 - [Development](./docs/DEVELOPMENT.md)
 - [Architecture](./docs/ARCHITECTURE.md)
 - [Coding Guideline](./docs/CODING_GUIDELINE.md)
-- [Design: 本棚・書影](./docs/DESIGN.md)
+- [Design: 本棚・書影（凍結参考資料 / FROZEN_REFERENCE）](./docs/DESIGN.md)
 - [Content Model](./docs/CONTENT_MODEL.md)
 - [Routing](./docs/ROUTING.md)
-- [Component Traceability Registry](./docs/COMPONENT_TRACEABILITY.md)
+- [Component Traceability Registry（凍結参考資料 / FROZEN_REFERENCE）](./docs/COMPONENT_TRACEABILITY.md)
 
 microCMSのスキーマバックアップは [`microcms/api-books-import.json`](./microcms/api-books-import.json) にあります。

@@ -6,7 +6,7 @@ Stack Libraryの開発ワークフローです。人間、Codex、その他の�
 
 - `main`は常に統合可能な状態に保つ
 - `main`へ直接コミットしない
-- GitHub Issueを作業記録の起点にする
+- 凍結Linear Issueを作業記録と仕様の正本にする。GitHub Issueは明示的に要求・同期された場合だけoptional mirrorとする
 - 1ブランチ、1目的とする
 - 短命な作業ブランチからPRを作る
 - merge方法は明示的なuser承認に従い、方法指定のない「マージ」はGitHub merge commitとする
@@ -16,29 +16,29 @@ Stack Libraryの開発ワークフローです。人間、Codex、その他の�
 
 ## 作業開始
 
-最初にGitHub Issueを作り、目的、対応範囲、完了条件を記録します。重複Issueがないことも確認します。
+最初に凍結Linear Issueを確認または作成し、目的、対応範囲、完了条件を記録します。GitHub Issueは明示的に要求・同期された場合だけ作成し、Linear ID/URLを紐付けます。
 
-Issue作成後、作業ツリーがクリーンであることを確認してから、最新の`main`を起点にIssue番号を含むブランチを作ります。
+Linear Issue確定後、作業ツリーがクリーンであることを確認してから、最新の`main`を起点にLinear IDを含むブランチを作ります。
 
 ```bash
 git status --short --branch
 git switch main
 git pull --ff-only origin main
-git switch -c feature/12-book-form
+git switch -c feature/meg-7-freeze
 ```
 
 未コミット差分がある場合は、別作業か現在の作業かを確認します。判断できない差分をstash、破棄、コミットしてはいけません。
 
 ## Codex chat lifecycleと引き継ぎ
 
-Codexによる変更は、原則として`1 GitHub Issue / 1 coherent outcome / 1 parent Codex chat`で進めます。requirements、implementation、review、fix、delivery、mergeは職能ごとの別chatへ分断せず、同じIssue、branch、outcomeを所有するparent chatで継続します。parent chatは必要な専門職をbounded internal subagentとして起動し、user-visible chatを職能ごとに増やしません。
+Codexによる変更は、原則として`1 Linear Issue / 1 coherent outcome / 1 parent Codex chat`で進めます。requirements、implementation、review、fix、delivery、mergeは職能ごとの別chatへ分断せず、同じLinear Issue、branch、outcomeを所有するparent chatで継続します。parent chatは必要な専門職をbounded internal subagentとして起動し、user-visible chatを職能ごとに増やしません。
 
 | 状況 | Chatの扱い |
 |---|---|
 | 同じIssue、branch、coherent outcomeを継続 | requirementsからmergeまで同じparent chatを使う |
 | 別のIssueまたは別のoutcome | 新しいparent chatを作る |
 | shared contextからgenuine alternativeを比較 | forkできる。単なる工程分割、職能分割、引き継ぎには使わない |
-| 軽量なread-only question、説明、state check、report | Issueを省略できる。mutation開始前にIssue、outcome、branch、ownershipを確定する |
+| 軽量なread-only question、説明、state check、report | Issueを省略できる。mutation開始前にLinear Issue、outcome、branch、ownershipを確定する |
 | merge後のfollow-up change | 完了したparent chatをarchive candidateとし、通常は新しいIssueとparent chatを使う |
 
 同じ論理作業でreview findingやvalidation failureが出ても、新しいparent chatへ移さず、findingを元writerへ返して同じparent chat内のFix Waveで解消します。publication authorizationは、承認済みpathのstage、commit、push、Draft PRの作成・更新の許可であり、Ready-only変更やmerge authorizationを含みません。対象PR/revisionへの明示的なmerge approvalがある場合、その承認は必要なDraftからReadyへの遷移を包含します。
@@ -58,7 +58,7 @@ Codexによる変更は、原則として`1 GitHub Issue / 1 coherent outcome / 
 
 別Issue、別outcome、または環境上の理由で新しいparent chatへ移るときは、会話履歴だけに依存せず、次のpacketを渡します。値がない項目も省略せず`none`または`absent`と記録します。
 
-- Issue URL/numberとfrozen Issue revision
+- Linear Issue ID/URLとfrozen updated revision（同期GitHub Issueが明示割当された場合はそのID/URLも記録）
 - branch、base commit、head commit
 - dirty diffの有無、exact changed paths、各diffのowner
 - exact scope、coherent outcome、non-goals
@@ -74,9 +74,9 @@ Codexによる変更は、原則として`1 GitHub Issue / 1 coherent outcome / 
 
 受け取ったparent chatは、branch、base/head、dirty diff、ownership ledger、frozen input revisionがpacketと一致することをread-onlyで確認してから作業を続けます。不一致、同じbranch/pathへの別chatのwrite、凍結入力の更新があれば停止し、`development_lead`へ返します。
 
-ChatGPT、Codex Local、Codex Cloudは、会話履歴や未共有のファイルを自動的には引き継ぎません。このrepositoryではCodex Worktreeを使用せず、会話を正本にせず、GitHub IssueとDraft PRを共有状態として使用します。
+ChatGPT、Codex Local、Codex Cloudは、会話履歴や未共有のファイルを自動的には引き継ぎません。このrepositoryではCodex Worktreeを使用せず、会話を正本にせず、Linear IssueとDraft PRを共有状態として使用します。GitHub Issueは明示的に同期された場合だけ補助参照です。
 
-作業依頼には`.github/ISSUE_TEMPLATE/task.yml`を使用し、最低限以下を記録します。
+明示的な同期GitHub Issueまたは外部協業用mirrorが必要な場合だけ`.github/ISSUE_TEMPLATE/task.yml`を使用します。通常の作業仕様はLinear Issueを正本として、以下を記録します。
 
 - 背景と解決する問題
 - 完了時のゴール
@@ -88,25 +88,25 @@ ChatGPT、Codex Local、Codex Cloudは、会話履歴や未共有のファイル
 - 参照資料と引き継ぎ元
 - 未確定事項
 
-通常の実装は`Codex Local`を選択します。別環境を使う場合も、追加worktreeを作成せず正のworktree一つを作業場所とし、ローカルにしか存在しないファイルや未pushコミットを前提にせず、必要な入力と成果物の受け渡し方法をIssueへ記録します。
+通常の実装は`Codex Local`を選択します。別環境を使う場合も、追加worktreeを作成せず正のworktree一つを作業場所とし、ローカルにしか存在しないファイルや未pushコミットを前提にせず、必要な入力と成果物の受け渡し方法をLinear Issueへ記録します。
 
 推奨する流れ:
 
 ```txt
 ChatGPTで要件を整理
-  -> GitHub Issueを作成
-  -> CodexがIssue番号付きブランチで実装
+  -> Linear Issueを凍結
+  -> CodexがLinear ID付きブランチで実装
   -> 早い段階でDraft PRを作成
   -> コミット、検証結果、残課題をDraft PRへ反映
   -> ChatGPTまたは人間がIssueとDraft PRを確認
   -> 明示的な承認後にマージ
 ```
 
-Issueは「なぜ、何を、どこまで行うか」の正本です。Draft PRは「現在どのコードがあり、何を検証し、何が残っているか」の正本です。作業中に決まった重要事項は、会話だけに残さずIssueの決定ログまたはDraft PR本文へ反映します。
+Linear Issueは「なぜ、何を、どこまで行うか」の正本です。Draft PRは「現在どのコードがあり、何を検証し、何が残っているか」の共有状態です。作業中に決まった重要事項は、会話だけに残さずLinear Issueの決定ログまたはDraft PR本文へ反映します。
 
 ## ブランチ命名
 
-形式は`<category>/<issue-number>-<short-summary>`です。`issue-number`には起点となるGitHub Issue番号を使い、`short-summary`は英小文字とハイフンで簡潔に記述します。
+形式は`<category>/<linear-id>-<short-summary>`です。`linear-id`には起点となるLinear IDを小文字化して使い、`short-summary`は英小文字とハイフンで簡潔に記述します。
 
 | Category | 用途 | 例 |
 |---|---|---|
@@ -168,17 +168,15 @@ PR本文には最低限、以下を記載します。
 
 - 変更内容
 - 変更理由
-- 起点となるIssueへの参照
+- 凍結Linear IssueのID/URL
 - 影響範囲
 - 確認方法と結果
 - UI変更がある場合は対象画面と表示条件
 - 未対応事項や既知の制約
 
-対応完了時にIssueを自動で閉じるため、PR本文へ次の形式を記載します。
+実在するGitHub Issueが明示的に割り当てられ、Linearと同期されている場合に限り、PR本文へそのIssueのclose directiveを記載できます。GitHub Issueがない場合は`Closes #`を作成・推測しません。
 
-```txt
-Closes #12
-```
+`Closes #<issue>`は、実在する同期GitHub Issueが明示的に割り当てられた場合だけ、その番号へ置き換えて使用します。
 
 ### Stacked Pull Request
 
@@ -187,7 +185,7 @@ Stacked PRは、2つ以上の依存順を持つ変更を、小さく独立して
 | 判断対象 | Stack Libraryでの扱い |
 |---|---|
 | 適用できる変更 | 2つ以上のcode-bearing outcomeがあり、上層が下層へ依存し、各outcomeを独立してレビュー・検証・mergeできる変更 |
-| layerの作業単位 | 各layerに別のGitHub Issue、coherent outcome、branch、PR、parent Codex chat（parent task）を割り当てる |
+| layerの作業単位 | 各layerに別のLinear Issue、coherent outcome、branch、PR、parent Codex chat（parent task）を割り当てる |
 | layerにしないもの | 同じoutcome内のrequirements、専門職、Wave、review、fix、deliveryなどの工程分割 |
 | 実装に伴う文書更新 | 対応するcode layerへ同梱し、docs-only layerを作らない |
 | 独立した文書変更 | Stacked PRを使わない通常のdocs-only Issue、branch、PRとして扱える |
@@ -330,7 +328,7 @@ npm run build
 - 色以外でも理解できる状態表現
 - 読み込み中、0件、取得失敗
 
-Figmaを正本とする複数の関連変更は、最後の関連変更後、PR完成前に`figma_design_qa`で一括監査します。画面全体、主要レイアウト、高リスクなアクセシビリティ変更、または明示的に指定された監査は変更時点で実施します。監査後に対象へ影響する変更がなければ再監査しません。
+approved exact Figma targetが割り当てられた変更だけは、そのtargetをvisual authorityとして扱い、複数の関連変更を最後の関連変更後、PR完成前に`figma_design_qa`で一括監査します。割り当てがないFigmaはevidenceに限り、visual authorityとはみなしません。画面全体、主要レイアウト、高リスクなアクセシビリティ変更、または明示的に指定された監査は変更時点で実施します。監査後に対象へ影響する変更がなければ再監査しません。
 
 Storybook導入後は、再利用コンポーネントの変更に対応するStoryと必要なinteraction testを含めます。テーマはglobal、画面幅はviewportまたはcontainerで検証し、見た目の違いだけをComponent propsへ増やしません。
 
