@@ -6,7 +6,7 @@ Stack Libraryの開発組織は、外部の親エージェント`development_lea
 
 ## Parent chat and internal specialists
 
-組織の実行単位は、`1 GitHub Issue / 1 coherent outcome / 1 parent Codex chat`です。`development_lead`であるparent chatが、同じIssue、branch、outcomeをrequirements、implementation、review、fix、delivery、mergeまで保持します。既存30 canonical roleはbounded internal subagentであり、職能ごとのuser-visible chatではありません。全30 custom agent TOMLはmicroCMS serverを明示的に無効化します。live microCMS MCP操作はsubagentへ委譲せず、親の`development_lead`だけが公式リモートMCPへ直接接続します。詳細は[AGENTS.md](../AGENTS.md)を正本とします。
+組織の実行単位は、`1 Linear Issue / 1 coherent outcome / 1 parent Codex chat`です。`development_lead`であるparent chatが、同じLinear Issue、branch、outcomeをrequirements、implementation、review、fix、delivery、mergeまで保持します。同期GitHub Issueは明示的に割り当てられた場合だけsecondary contextです。既存30 canonical roleはbounded internal subagentであり、職能ごとのuser-visible chatではありません。全30 custom agent TOMLはmicroCMS serverを明示的に無効化します。live microCMS MCP操作はsubagentへ委譲せず、親の`development_lead`だけが公式リモートMCPへ直接接続します。詳細は[AGENTS.md](../AGENTS.md)を正本とします。
 
 別Issueまたは別outcomeは新しいparent chatを使います。forkはshared contextからgenuine alternativeが分岐する場合だけに限定し、role、Wave、reviewの分割には使いません。軽量なread-only question、説明、state check、reportはIssueなしで開始できますが、mutation前にIssue、outcome、branch、ownershipを確定します。merge後はparent chatをcompleteかつarchive candidateとし、通常のfollow-up changeは新しいIssueとparent chatへ分けます。
 
@@ -58,7 +58,7 @@ Stack Libraryの開発組織は、外部の親エージェント`development_lea
 | Role | Authority and activation | Contract / return |
 |---|---|---|
 | `scrum_master` | multi-Wave、blocker、scope drift、handoff gapでWIPと親＋3枠の交代を整える。priorityや技術判断は所有しない | `SLOT_PLAN`と`NEXT_TRANSITION`; 交代が明確になったら終了 |
-| `product_owner` | 明示されたIssue authorization内でtitle、body、scope、Acceptance Criteria、priority、decision history、labelを単独編集する | read-back一致を含むfrozen Issue revision; 未決product choiceは`DECISION_REQUIRED` |
+| `product_owner` | 明示されたLinear Issue authorization内でtitle、description、scope、Acceptance Criteria、priority、decision history、labelを単独編集する。同期GitHub Issueはsecondary mirror | Linear read-back一致を含むfrozen Issue revision; 未決product choiceは`DECISION_REQUIRED` |
 | `product_integrity_reviewer` | major scope freeze、新screen/model、高影響判断をMVP、product rules、日本語ファースト、cross-feature整合から独立監査する | `APPROVED/ACTION_REQUIRED/DECISION_REQUIRED/NOT_REQUIRED`; source revision変更で停止 |
 
 ### Discovery

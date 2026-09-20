@@ -1,6 +1,6 @@
-# 本棚・書影設計正本
+# 本棚・書影設計 — FROZEN_REFERENCE
 
-本書は、Stack LibraryのBook Listにおける本棚と書影の設計正本です。Issue #42のHybrid Design Contract `I42-DC-2026-09-07.2`、Component Contract `I42-CC-2026-09-08.1`、Technical Plan `I42-TP-2026-09-08.1`と、現在の実装を照合して記録しています。
+本書は、Stack LibraryのBook Listにおける本棚と書影の歴史的な設計証拠です。内部で「正本」「VERIFIED」と記載された内容は、記録済みrevisionにおける旧設計の主張であり、rebuildを承認したり現在のvisual authorityになったりしません。authority orderと停止条件は[AGENTS.md](../AGENTS.md)に従います。
 
 ## 設計概要
 

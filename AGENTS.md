@@ -12,7 +12,9 @@ UIは日本語ファースト、静かな暗色ベース、細い罫線、精密
 
 read-onlyの質問・説明・報告はIssueなしで進められます。repository、Issue、Figma、Git、PR、外部サービスを変更する場合は、Issue、owner、exact scope、必要なauthorizationを確定してから開始します。依頼されたローカル変更は、割り当て範囲内で実装し、対象検証を行い、変更起因の失敗を元writerへ返すところまで継続します。
 
-破壊的操作、未承認の外部mutation、未解決のproduct choiceまたは仕様矛盾、required authority/tool/evidenceの不足、dirty diffやownership mismatch、manifest外の変更、unsafe stateでは停止します。詳細なIssue・handoff・validationは Development が正本です。
+判断のauthority orderは、現在のuser instruction → 凍結Linear Issue → 承認済みRough → 記録済みReference decisions → 承認済みWireframeです。旧Figma、docs/DESIGN.md、docs/COMPONENT_TRACEABILITY.md、現在のvisual implementationはFROZEN_REFERENCE/evidenceです。承認済みWireframeまでは新しいvisual component、decoration、token expansionを追加せず、既存挙動と削除影響の調査だけを許可します。Figmaはapproved exact targetが割り当てられた場合だけnormativeです。
+
+破壊的操作、未承認の外部mutation、未解決のproduct choiceまたは仕様矛盾、required authority/tool/evidenceの不足、dirty diffやownership mismatch、manifest外の変更、unsafe stateでは停止します。状態値は0、missing、unknown、unavailable、error、not-applicableを区別し、外部reference decisionはAdopt/Adapt/Rejectのいずれかを記録します。詳細なIssue・handoff・validationはDevelopmentが正本です。
 
 ## Deterministic task router
 
@@ -35,7 +37,7 @@ read-onlyの質問・説明・報告はIssueなしで進められます。reposi
 
 作業場所は指定されたprimary repositoryの正のworktree一つだけです。git rev-parse --show-toplevelとgit worktree list --porcelainで、正のworktree一件を開始時とbranch変更前後に確認します。追加worktree、parallel write、agent/ branchは禁止です。
 
-ユーザーの未完了または所有者不明のdirty diffをstash、reset、checkout、削除、上書き、無断commitしません。変更時はGitHub Issueを起点に最新mainを確認し、Issue番号付きbranchを使い、mainへ直接commitしません。local Gitはrepository stateとhistoryを扱い、GitHub serviceのIssue/PR/review/check/release/mergeはcallableなGitHub MCP-backed toolでexact targetへ扱います。publication authorizationは別に必要です。DraftからReadyへの独立承認はReady-only変更では必要ですが、同一PR/revisionへの明示的merge approvalは必要なReady遷移を包含します。merge methodとexpected_head_shaは別途凍結します。詳細とPR運用は Development が正本です。
+ユーザーの未完了または所有者不明のdirty diffをstash、reset、checkout、削除、上書き、無断commitしません。変更時は凍結Linear Issueを起点に最新mainを確認し、Linear ID付きbranchを使い、mainへ直接commitしません。GitHub Issueは明示的に要求・同期された場合だけoptional mirrorです。local Gitはrepository stateとhistoryを扱い、GitHub serviceのPR/review/check/release/mergeはcallableなGitHub MCP-backed toolでexact targetへ扱います。publication authorizationは別に必要です。DraftからReadyへの独立承認はReady-only変更では必要ですが、同一PR/revisionへの明示的merge approvalは必要なReady遷移を包含します。merge methodとexpected_head_shaは別途凍結します。詳細とPR運用は Development が正本です。
 
 tracked fileの内容はteam packetのexact pathを割り当てられたwriterだけが編集します。Issue specificationはauthorized product_owner、Figma nodeはassigned figma_designer、Git index/history・push・PR metadataはpublication authorization後のrelease_managerだけが変更します。reviewer、tester、debuggerはtracked fileを変更しません。
 

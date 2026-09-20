@@ -29,7 +29,7 @@ description = "Controls WIP, blockers, handoff readiness, scope drift, and paren
 config_file = "agents/governance/scrum-master.toml"
 
 [agents.product_owner]
-description = "Owns authorized GitHub Issue specifications, scope, priority, acceptance criteria, and decision history."
+description = "Owns authorized Linear Issue/project specifications, scope, priority, acceptance criteria, and decision history."
 config_file = "agents/governance/product-owner.toml"
 
 [agents.product_integrity_reviewer]

@@ -1,6 +1,0 @@
-interface:
-  display_name: "Stack Library Design"
-  short_description: "Stack LibraryのUIとデザインシステムを設計・監査"
-  default_prompt: "$stack-library-designを使い、現在のユーザー意図と凍結Issueの範囲を確認してください。visual design taskでassigned Issue-linked Figma targetがある場合はFigma、プロジェクト文書、実装証拠を照合し、Stack LibraryのUIまたはデザインシステムを設計・実装連携・レビューしてください。Figma: none、docs-only、nonvisual taskではFigma照合を要求せず、既存の不整合は証拠に基づいて上流契約へ返してください。"
-policy:
-  allow_implicit_invocation: false

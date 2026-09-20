@@ -17,7 +17,7 @@ Stack Library MVP のルーティング定義です。
 
 ## Book List: `/`
 
-本棚・書影の視覚・責務・レスポンシブ契約は [本棚・書影設計正本](./DESIGN.md) を参照します。
+本棚・書影の視覚記述は [本棚・書影設計](./DESIGN.md) のFROZEN_REFERENCEです。現在のvisual authorityと停止条件は[AGENTS.md](../AGENTS.md)に従います。
 
 ### 目的
 
@@ -30,7 +30,7 @@ Stack Library MVP のルーティング定義です。
 
 `BookShelfSection`が見出し・冊数・棚行を組み合わせ、`BookShelf`がflatな棚面とrail、`BookCard`が書影・書名・著者から詳細への1リンク、`BookCover`が書影または`書影なし`を担当します。一覧では出版社、読書状態、技術領域、レベル、概要、ISBNなどを表示しません。
 
-書影または書名・著者を含むBookCardのリンク面を選ぶとBook Detailへ遷移します。出版社、読書状態、技術領域、レベル、概要などの書誌・所蔵情報は一覧へ重ねず、詳細画面で確認します。ルートとIssue #43のIA境界は変更しません。
+書影または書名・著者を含むBookCardのリンク面を選ぶとBook Detailへ遷移します。出版社、読書状態、技術領域、レベル、概要などの書誌・所蔵情報は一覧へ重ねず、詳細画面で確認します。ルートと旧Issue #43のIA記録は歴史的evidenceとして保持します。
 
 ### 状態・絞り込み
 
@@ -121,7 +121,7 @@ slug は使わず、microCMS のコンテンツIDをそのまま使います。
 
 `books` APIは全件取得し、100件を超える蔵書にも対応します。各明細は `/books/[contentId]` へリンクします。
 
-`/bank` の視覚仕様はFigmaの `Library Bank / Implementation Source`（`605:1066`）配下にあるDesktop / Mobile・Light / Darkの4フレームを正本とします。
+`/bank` の旧Figmaフレーム記述はhistorical evidenceです。新しいvisual authorityは[AGENTS.md](../AGENTS.md)のorderとapproved exact targetに従います。
 
 通常状態ではページ見出しや明細見出しを言い換えるdescription、HeaderのProduct Context、画面内の実装注記を表示しません。状態を誤認しうるBook 0件、価格登録済み0件、取得失敗の説明は表示します。
 

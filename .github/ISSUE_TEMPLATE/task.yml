@@ -1,11 +1,11 @@
 name: ChatGPT / Codex 作業依頼
-description: 要件をGitHubへ記録し、ChatGPTとCodexの間で共有できる作業起点を作ります
+description: 任意のGitHub mirrorとして要件を記録し、Linear正本とChatGPT/Codex間で共有できる作業起点を作ります
 title: ""
 body:
   - type: markdown
     attributes:
       value: |
-        このIssueを作業要件の正本として扱います。
+        Linear Issueがある場合はLinearを作業要件の正本とし、このGitHub Issueはoptional mirror/external collaboration用です。Linearがない場合に限り、明示的に要求されたGitHub運用で使用します。デフォルトでは必須ではありません。
         ChatGPTで整理した内容を記録し、Codexが会話履歴に依存せず着手できる状態にしてください。
 
   - type: dropdown
@@ -123,7 +123,7 @@ body:
     id: references
     attributes:
       label: 参照資料・引き継ぎ元
-      description: 関連Issue、PR、ドキュメント、Figma、引き継ぎ書などを記載してください。
+      description: 関連するLinear Issue、必要に応じた同期GitHub Issue、PR、ドキュメント、Figma、引き継ぎ書などを記載してください。
       placeholder: |
         - 関連Issue / PR:
         - リポジトリ内ドキュメント:
