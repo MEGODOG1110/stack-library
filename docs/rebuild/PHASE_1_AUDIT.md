@@ -5,6 +5,8 @@
 **Linear parent:** [MEG-11](https://linear.app/megu-workspace/issue/MEG-11)
 **Child work:** [MEG-12](https://linear.app/megu-workspace/issue/MEG-12), [MEG-13](https://linear.app/megu-workspace/issue/MEG-13), [MEG-14](https://linear.app/megu-workspace/issue/MEG-14), [MEG-15](https://linear.app/megu-workspace/issue/MEG-15), [MEG-16](https://linear.app/megu-workspace/issue/MEG-16)
 
+Previous publication evidence is stale; this classification correction invalidates prior approval and test conclusions until review is repeated.
+
 この文書はPhase 1の統合成果物です。対象はbaseline SHA時点のtracked file 134件であり、Phase 1では削除・移動・Figma/Linear/GitHub mutationを行いません。旧Figma記録と過去の`VERIFIED`表記はhistorical evidenceであり、現在のvisual authorityではありません。権限順序は、current user instruction → frozen Linear Issue → approved Rough → recorded Reference decisions → approved Wireframeです。未承認の見た目変更は、current behaviorの調査を除き停止します。
 
 ## Audit boundary and execution model
@@ -42,9 +44,9 @@
 
 `.github`はGitHub Issueを正本に戻すものではなく、templateを必要時のmirror/external collaborationとして保持する。GitHub IssueはLinearに明示同期された場合のみsecondary referenceである。
 
-### Historical design references — Hold
+### Historical design references — Remove candidate
 
-`docs/DESIGN.md`、`docs/COMPONENT_TRACEABILITY.md`、`docs/design/stack-library-wireframe.html`は過去のFigma/React/Storybook設計、寸法、node map、historical verificationの保存物である。current visual authorityではない。**dependency/impact:** Phase 2以降の承認済み成果物と混同すると誤った再実装を誘発する。**next owner/decision:** documentation_writerは現状を保持し、P4でapproved WireframeとElement Manifestが確定するまでrefresh/extendしない。confidence High。
+`docs/DESIGN.md`、`docs/COMPONENT_TRACEABILITY.md`、`docs/design/stack-library-wireframe.html`は過去のFigma/React/Storybook設計、寸法、node map、historical verificationを保持するRemove candidateである。clean-slate resetでは旧visual decisionが将来の作業を再び固定するため、current visual authorityとして使わない。P1はaudit-onlyなので物理削除せず、削除はP5まで延期する。**dependency/impact:** P5で削除する際はREADMEリンクとARCHITECTURE/ROUTING内の参照を同一変更で更新・除去し、broken linkを残さない。独立した非視覚的factsだけは正本文書へ先に保持し、旧visual decisionのarchive/copyは作らない。**next owner/decision:** user/development_leadがP5削除を承認し、exact path writerを後続packetで割り当てる。confidence High。
 
 ### Data and content boundary — Keep
 
@@ -68,7 +70,7 @@
 
 `public/assets/covers/book-01.jpg`、`book-02.jpg`、`book-03.jpg`、`book-04.jpg`、`book-05.jpg`、`book-06.jpg`、`book-07.jpg`、`book-08.jpg`、`book-09.jpg`、`book-10.jpg`、`book-11.jpg`、`book-12.jpg`、`book-13.jpg`、`book-14.jpg`はHold。Storiesのcover refsとold wireframe evidenceが根拠であり、visual resetで即時削除しない。**next owner/decision:** data_implementerがfixture/evidence契約を確認。confidence Medium-High。
 
-`public/assets/shelf/bg_cafe@2x.png`、`bg_cherry@2x.png`、`bg_craftwork@2x.png`、`bg_custom@2x.png`、`bg_darknight@2x.png`、`bg_grafitti@2x.png`、`bg_kids@2x.png`、`bg_maple@2x.png`、`bg_premium01@2x.png`、`bg_premium02@2x.png`、`bg_spider@2x.png`、`bg_stationery@2x.png`、`bg_walnut@2x.png`、`maple_center.png`、`maple_left.png`、`maple_right.png`、`maple_shadow_left.png`、`maple_shadow_right.png`はRemove candidate。old wireframe-only provenanceで、現行runtime/Story consumerはない。**dependency/impact:** old reference再現に使えなくなるため、削除はPhase 5でexact pathとconsumer scanを確定してから行う。**next owner/decision:** 削除承認はuser/development_lead、Phase 5のexact path writerは後続packetで明示割当、release_managerはpublicationのみ。confidence Medium。
+`public/assets/shelf/bg_cafe@2x.png`、`bg_cherry@2x.png`、`bg_craftwork@2x.png`、`bg_custom@2x.png`、`bg_darknight@2x.png`、`bg_grafitti@2x.png`、`bg_kids@2x.png`、`bg_maple@2x.png`、`bg_premium01@2x.png`、`bg_premium02@2x.png`、`bg_spider@2x.png`、`bg_stationery@2x.png`、`bg_walnut@2x.png`、`maple_center.png`、`maple_left.png`、`maple_right.png`、`maple_shadow_left.png`、`maple_shadow_right.png`はHold。raw reusable assetsとして物理保持するが、old wireframe provenanceのみであり、現行visual authorityではない。後続のRough/Reference/Wireframeが独立に採用した場合だけ再利用でき、既存ファイルの存在自体はdesign requirementではない。**next owner/decision:** user/development_leadが再利用または保持方針を承認し、release_managerはpublicationのみ。confidence Medium。
 
 ## Dependency graph and sequence
 
@@ -89,7 +91,7 @@ P1はbaselineを読むだけで、visual implementationを変更しない。P2�
 - 現行UIはvisual layerとroute/data/interaction/accessibilityが同じ実装単位に結合しているため、P2 Rough作成前にbehavior contractが必要。
 - `globals.css`のReplace candidate判定はvisual resetに限定し、focus、contrast、state、responsive、motionの保護を解除しない。
 - 旧Figmaの寸法・node・`VERIFIED` claimsはhistorical evidenceであり、新しいexact targetの割当がない限り仕様として再利用できない。
-- shelf assetsはold wireframe-onlyでruntime/Story consumerがない候補だが、P5まで削除しない。coversはStories refsとold wireframe evidenceとして保持する。
+- shelf assetsはraw reusable assetsとしてHoldし、old wireframe provenance以外のauthorityを持たない。Rough/Reference/Wireframeの独立採用なしに再利用せず、coversはStories refsとold wireframe evidenceとして保持する。
 - 現行のdata normalization、pagination/all-content、server-only secret boundary、0とmissing等の状態語彙を新UIへどう公開するかはPhase 2 decision。
 - `public/icon-*`、OGP、route metadataの保持範囲と新visual systemの接続は未決定。
 - retired skill residueは0。replacement skillは作成しない。
@@ -99,10 +101,10 @@ P1はbaselineを読むだけで、visual implementationを変更しない。P2�
 | Asset group | Classification | Current role/consumer | Evidence/rationale | Next owner/decision |
 |---|---|---|---|---|
 | `public/assets/covers/**` (14) | Hold | Stories cover refs、old wireframe evidence | fixture/evidenceとして参照可能 | data_implementer: consumer確認 |
-| `public/assets/shelf/**` (18) | Remove candidate | runtime/Story consumerなし | old wireframe-only provenance | user/development_lead: deletion approval; Phase 5 writer later; release_manager: publication only |
+| `public/assets/shelf/**` (18) | Hold | raw reusable assets、現行runtime/Story consumerなし | old wireframe-only provenance。後続成果物の独立採用がなければdesign requirementではない | user/development_lead: reuse/retention decision; release_manager: publication only |
 | `public/icon-dark.svg`, `icon-light.svg` | Keep | `src/app/layout.tsx`、`src/components/common/ThemeSwitch.tsx` | direct icon refs | application_implementer: ref維持 |
 | `public/ogp-center-stage.png` | Keep | `src/app/layout.tsx` | direct metadata/OGP ref | application_implementer: ref維持 |
-| `docs/design/stack-library-wireframe.html` | Hold | historical visual evidence | FROZEN_REFERENCE | documentation_writer: refresh禁止 |
+| `docs/design/stack-library-wireframe.html` | Remove candidate | historical visual evidence | clean-slate resetで旧visual decisionを再アンカーしない。P1では保持、P5で削除 | user/development_lead: deletion approval; exact writer later |
 
 ## Baseline evidence
 
