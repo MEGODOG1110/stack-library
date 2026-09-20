@@ -179,5 +179,6 @@ Booklog、Notion、一般的なSaaSダッシュボードのコピーにはしま
 - [Content Model](./docs/CONTENT_MODEL.md)
 - [Routing](./docs/ROUTING.md)
 - [Component Traceability Registry（凍結参考資料 / FROZEN_REFERENCE）](./docs/COMPONENT_TRACEABILITY.md)
+- [Phase 1 Audit](./docs/rebuild/PHASE_1_AUDIT.md)
 
 microCMSのスキーマバックアップは [`microcms/api-books-import.json`](./microcms/api-books-import.json) にあります。
