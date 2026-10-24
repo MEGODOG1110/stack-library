@@ -1,11 +1,12 @@
 import styles from "./page.module.css";
+import { BookshelfScreen } from "@/components/bookshelf/BookshelfScreen";
+import { shelfAreas, shelfBooks, shelfTags } from "@/components/bookshelf/bookshelf.fixtures";
 
 export default function HomePage() {
   return (
-    <main className={styles["SL-ly_development"]}>
-      <h1>Stack Library</h1>
-      <p>開発環境を準備しました。</p>
-      <p>本棚・検索・書籍登録の画面は、これから実装します。</p>
+    <main>
+      <p className={styles["SL-el_sample-notice"]}>表示確認用サンプル・データ保存なし</p>
+      <BookshelfScreen books={shelfBooks} areas={shelfAreas} tags={shelfTags} />
     </main>
   );
 }

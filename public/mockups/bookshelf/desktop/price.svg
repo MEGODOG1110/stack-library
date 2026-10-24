@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Book price icon">
+<path id="Yen symbol" d="M8.5 6.5L11.5 9.35714M11.5 9.35714L14.5 6.5M11.5 9.35714V11.0714M11.5 11.0714V13.0143M11.5 11.0714H8.8M11.5 11.0714H14.2M11.5 13.0143V14.5M11.5 13.0143H8.8M11.5 13.0143H14.2" stroke-width="1.5" stroke="#111827"/>
+<path id="Book binding" d="M6 2.5V17.5" stroke-width="1.6" stroke="#111827"/>
+<mask id="stroke0_0_6" fill="white">
+<path d="M5.5 2.5H15.5C16.33 2.5 17 3.17 17 4V17.5H5.5C4.12 17.5 3 16.38 3 15V5C3 3.62 4.12 2.5 5.5 2.5Z"/>
+</mask>
+<path id="Book outline" d="M5.5 2.5H15.5C16.33 2.5 17 3.17 17 4V17.5H5.5C4.12 17.5 3 16.38 3 15V5C3 3.62 4.12 2.5 5.5 2.5Z" stroke-width="3.2" stroke="#111827" mask="url(#stroke0_0_6)"/>
+</g>
+</svg>

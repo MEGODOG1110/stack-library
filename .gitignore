@@ -21,3 +21,14 @@ Thumbs.db
 
 # vscode
 .vscode/
+
+# Local review covers: publication rights are pending (MEG-35).
+/public/mockups/bookshelf/covers/ai-dialogue.png
+/public/mockups/bookshelf/covers/ai-documents.png
+/public/mockups/bookshelf/covers/codex.png
+/public/mockups/bookshelf/covers/css-design.png
+/public/mockups/bookshelf/covers/figma-design-system.png
+/public/mockups/bookshelf/covers/figma-mcp.png
+/public/mockups/bookshelf/covers/react.png
+/public/mockups/bookshelf/covers/ui-ideas.png
+/public/mockups/bookshelf/covers/web-design.png
