@@ -1,0 +1,27 @@
+:root {
+  color-scheme: dark;
+  --sl-color-background: #111318;
+  --sl-color-text: #f1f2f4;
+  --sl-color-focus: #a9c6ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--sl-color-background);
+  color: var(--sl-color-text);
+  font-family: system-ui, sans-serif;
+  line-height: 1.75;
+}
+
+button {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--sl-color-focus);
+  outline-offset: 4px;
+}
