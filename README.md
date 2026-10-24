@@ -1,8 +1,64 @@
 # Stack Library
 
-**再構築中です。旧実装はリセットしました。現在、実行できるアプリはありません。**
+**再構築中です。Next.jsとStorybookの開発基盤は構築済みです。本棚・検索・書籍登録は未実装です。**
 
-Stack Libraryは、技術書を探し、確認し、登録する日本語ファーストの個人用ライブラリアプリです。
+Stack Libraryは、積読の技術書を覚えきれず、書店・ネット通販で同じ本を買ってしまうことを防ぐ、日本語ファーストの個人用蔵書管理Webアプリです。購入前に表紙・タイトルから所蔵を確認でき、自宅の蔵書を少ない手間で登録できることを目指します。
+
+## 採用技術
+
+| 役割 | 技術 | 用途 |
+|---|---|---|
+| 画面・アプリ基盤 | React 19 / Next.js 16 App Router | 画面とサーバー処理 |
+| 言語 | TypeScript 5.9（strict） | アプリ・設定の型検査 |
+| 実行環境 | Node.js 24 | ローカルとサーバーの基準 |
+| パッケージ管理 | pnpm 10.34.7 | 依存関係とlockfileの管理 |
+| UI開発 | Storybook 10 / Next.js Vite framework | 部品と状態のローカル確認 |
+| スタイル | CSS Modules / 共通CSS変数 | モックに沿った画面と部品のスタイル |
+| 公開先 | Vercel | 後続のプレビュー・本番実行環境 |
+| 書籍・書影の保存 | microCMS | 後続の書籍データ・書影登録 |
+
+実際の依存バージョンはpackage.jsonとpnpm-lock.yamlで固定します。microCMSへの接続とアップロード、Vercelへの公開はまだ行いません。
+
+## 開発環境
+
+Node.jsの基準バージョンは[.node-version](.node-version)、pnpmは[package.json](package.json)のpackageManagerで固定しています。Node.jsとpnpmを準備してから、リポジトリ直下で実行してください。
+
+```sh
+node --version
+pnpm --version
+pnpm install --frozen-lockfile
+```
+
+### アプリ
+
+```sh
+pnpm dev
+```
+
+[localhost:3000](http://localhost:3000/)で開発環境の確認ページを表示します。製品画面の完成を示すページではありません。
+
+### Storybook
+
+```sh
+pnpm storybook
+```
+
+[localhost:6006](http://localhost:6006/)でDevelopment / Environment Checkを開きます。共通CSSの読み込みとボタンのクリックによるReactの更新を確認できます。製品用コンポーネントは実装に合わせて追加します。Storybookはローカル用で、公開・静的配布はしません。
+
+### 検証と本番ビルド
+
+```sh
+pnpm lint
+pnpm typecheck
+pnpm build
+pnpm start
+```
+
+typecheckはNext.jsのroute型を生成してからTypeScriptを検査します。buildもTypeScriptを検査します。設定や依存関係を変えていなければ、同じ差分で両方を重複実行する必要はありません。
+
+現在の起動確認ページとStorybookは、APIキーやmicroCMSのデータなしで動作します。.env.localはGit管理外で保持し、秘密値をクライアントやStoryへ渡しません。
+
+Next.jsのagentRulesはfalseにし、開発サーバーがプロジェクトのAGENTS.mdを自動変更しないようにしています。ESLintはNext.jsのReact関連プラグインが宣言する互換範囲に合わせて9系を使用しています。
 
 ## 現在の正本
 
@@ -25,13 +81,13 @@ Stack Libraryは、技術書を探し、確認し、登録する日本語ファ�
 - 追加worktreeは変更がないことを確認して削除し、primary repository一件に整理
 - 旧実装と既存の未コミット変更は再利用しない。利用者の確認によりバックアップ・復元確認は不要
 
-これは新MVPの実装完了やPhase 5全受入条件の達成を意味しません。LinearのIssue状態は今回変更していません。旧画面の実装済み情報を新MVPの進捗として扱わないでください。
+これは新MVPの実装完了やPhase 5全受入条件の達成を意味しません。リセット完了はPR #84とLinearに記録済みです。旧画面の実装済み情報を新MVPの進捗として扱わないでください。
 
 ## 次の工程
 
 MEG-34の確定事項からデータ契約と最小構成を定義し、必要な資産だけを新規実装します。既存の型・スキーマの再採用は前提にしません。登録は手入力をMVPとし、外部書誌検索・カメラ読取・編集削除は対象外です。最新の詳細はLinearで確認してください。
 
-MVPの対象画面は `/`、`/books/[contentId]`、`/bank`、`/books/new` です。依存関係と起動手順は、再構築で構成が確定してから追加します。
+MVPの対象画面は `/`、`/books/[contentId]`、`/bank`、`/books/new` です。今回の開発環境には `/` の起動確認ページだけを置き、製品画面はモックと確定事項から実装します。書影は必須でアプリからmicroCMSへ保存する方針、目次とISBNによる外部取得はMVP対象外です。
 
 ## 作業規約
 

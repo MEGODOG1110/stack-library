@@ -1,5 +1,8 @@
 node_modules/
 .next/
+.pnpm-store/
+.playwright-cli/
+output/playwright/
 out/
 *.tsbuildinfo
 
