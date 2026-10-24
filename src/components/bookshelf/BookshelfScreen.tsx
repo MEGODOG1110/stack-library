@@ -15,7 +15,7 @@ type Props = {
   initialView?: "shelf" | "search";
   error?: string;
   onRetry?: () => void;
-  onSelectBook?: (book: ShelfBook) => void;
+  onSelectBook?: (book: ShelfBook, context: { keyword: string; filters: ShelfFilters }) => void;
   onAddBook?: () => void;
 };
 
@@ -88,7 +88,7 @@ export function BookshelfScreen({ books, areas, tags, initialKeyword = "", initi
     setDraft((current) => ({ ...current, [group]: current[group].includes(id) ? current[group].filter((value) => value !== id) : [...current[group], id] }));
   }
   function select(book: ShelfBook) {
-    if (onSelectBook) { onSelectBook(book); return; }
+    if (onSelectBook) { onSelectBook(book, { keyword, filters }); return; }
     setSelected(book);
     bookDialog.current?.showModal();
   }

@@ -6,3 +6,5 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 export const ImageError: Story = { args: { src: "/mockups/bookshelf/unavailable.svg" } };
+export const Detail: Story = { args: { size: "detail" } };
+export const DetailImageError: Story = { args: { size: "detail", src: "/mockups/bookshelf/unavailable.svg" } };

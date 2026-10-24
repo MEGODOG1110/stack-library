@@ -9,7 +9,7 @@
   .SL-el_book-cover { width: 128px; height: 193.108px; }
 }
 
-.SL-el_book-cover img {
+.SL-el_book-cover > img {
   display: block;
   object-fit: contain;
   object-position: center bottom;
@@ -17,13 +17,7 @@
   height: 100%;
 }
 
-.SL-el_book-cover__error {
-  display: grid;
-  place-content: center;
-  height: 100%;
-  border: 1px solid #9ca3af;
-  background: #f3f4f6;
-  color: #374151;
-  text-align: center;
-  font-size: 12px;
+.SL-el_book-cover[data-size="detail"] { width: 72.913px; height: 110px; flex-shrink: 0; }
+@media (min-width: 1000px) {
+  .SL-el_book-cover[data-size="detail"] { width: 146px; height: 220px; }
 }

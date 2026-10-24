@@ -1,0 +1,10 @@
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { BookIdentity } from "./BookIdentity";
+import { detailBooks, specimenBook } from "./book-detail.fixtures";
+const meta = { title: "BookDetail/BookIdentity", component: BookIdentity, args: { book: detailBooks[0] } } satisfies Meta<typeof BookIdentity>;
+export default meta;
+type Story = StoryObj<typeof meta>;
+export const Default: Story = {};
+export const Publication: Story = { args: { book: specimenBook } };
+export const LongTitle: Story = { args: { book: { ...specimenBook, title: "長い書名を省略せずに表示し、書影と著者から購入前に所蔵を確認するためのサンプル", authors: ["サンプル著者A", "サンプル著者B", "サンプル著者C", "サンプル編集委員会"] } } };
+export const CoverError: Story = { args: { book: { ...specimenBook, coverSrc: "/missing-detail-cover.png" } } };
