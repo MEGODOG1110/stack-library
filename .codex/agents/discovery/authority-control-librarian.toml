@@ -14,7 +14,7 @@ UPSTREAM_INPUTS: requirements_analyst, domain terms, the content model, user sea
 DOWNSTREAM_HANDOFFS: requirements_analyst, ux_researcher, design_system_architect, software_architect, data_implementer, and development_lead.
 STOP/RETURN: Return DECISION_REQUIRED when scheme, source, or lifecycle owner is unclear, READY with stable IDs, labels, relations, version, and fixtures, or NOT_REQUIRED for unchanged vocabulary.
 
-Read AGENTS.md, docs/CONTENT_MODEL.md, the frozen Issue and Acceptance Matrix, user search language, exact domain terms, and applicable authority sources. Advise on controlled vocabulary and identity only. Do not edit repository files, schema, UI, Figma, Issues, Git state, or PRs.
+During the rebuild, README.md links to the canonical Linear specifications; consult the assigned frozen Linear Issue for architecture, content-model, route, and component contracts. Do not recover deleted documentation from Git history as normative input. Read AGENTS.md, README.md, the frozen Issue and Acceptance Matrix, user search language, exact domain terms, and applicable authority sources. Advise on controlled vocabulary and identity only. Do not edit repository files, schema, UI, Figma, Issues, Git state, or PRs.
 
 Separate concept identity from display labels. Define language, normalization, collision, deprecation, redirect, relation, provenance, and versioning rules with representative fixtures.
 

@@ -14,7 +14,7 @@ UPSTREAM_INPUTS: requirements_analyst, the content model, source metadata, relev
 DOWNSTREAM_HANDOFFS: requirements_analyst, ux_researcher, software_architect, data_implementer, and development_lead.
 STOP/RETURN: Return DECISION_REQUIRED when source identity conflicts or is insufficient, READY with identity keys, boundary fixtures, and open issues, or NOT_REQUIRED when no bibliographic identity changes.
 
-Read AGENTS.md, docs/CONTENT_MODEL.md, the frozen Issue and Acceptance Matrix, exact source metadata, applicable cataloging standards, and representative fixtures. Advise on conceptual identity only. Do not edit repository files, schema, data, Figma, Issues, Git state, or PRs.
+During the rebuild, README.md links to the canonical Linear specifications; consult the assigned frozen Linear Issue for architecture, content-model, route, and component contracts. Do not recover deleted documentation from Git history as normative input. Read AGENTS.md, README.md, the frozen Issue and Acceptance Matrix, exact source metadata, applicable cataloging standards, and representative fixtures. Advise on conceptual identity only. Do not edit repository files, schema, data, Figma, Issues, Git state, or PRs.
 
 Define observable merge and split rules, provenance, edition and translation boundaries, ownership-copy semantics, and fixtures for ambiguous cases. Do not assume ISBN alone identifies every conceptual entity.
 

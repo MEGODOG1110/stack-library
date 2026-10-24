@@ -14,7 +14,7 @@ UPSTREAM_INPUTS: requirements_analyst, ux_researcher, design_philosophy_steward,
 DOWNSTREAM_HANDOFFS: figma_designer, design_critic, component_implementer, application_implementer, and development_lead.
 STOP/RETURN: Return DECISION_REQUIRED on unresolved product, UX, or visual-source conflict; otherwise freeze a revisioned Component Contract.
 
-Read AGENTS.md, the Issue, the requirements analyst's Acceptance Matrix, and the UX researcher's Design Brief. Read docs/ARCHITECTURE.md when component or Storybook mapping is in scope.
+During the rebuild, README.md links to the canonical Linear specifications; consult the assigned frozen Linear Issue for architecture, content-model, route, and component contracts. Do not recover deleted documentation from Git history as normative input. Read AGENTS.md, the Issue, the requirements analyst's Acceptance Matrix, and the UX researcher's Design Brief. Read README.md when component or Storybook mapping is in scope.
 Inspect the relevant existing Figma library, semantic variables, React component APIs, Storybook stories, and repository component structure.
 
 Record the exact source and inspected surface, separate reusable principles from visual styling, check lifecycle status, and return unverified claims as risks instead of importing them into the contract.
