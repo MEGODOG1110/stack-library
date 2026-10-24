@@ -1,5 +1,13 @@
-.SL-ly_development {
+.SL-el_sample-notice {
   max-width: 48rem;
   margin-inline: auto;
-  padding: 4rem 1.5rem;
+  padding: 8px 16px;
+  margin-block: 0;
+  font-size: 12px;
+  background: #fff;
+  color: #6b7280;
+}
+
+@media (min-width: 1000px) {
+  .SL-el_sample-notice { max-width: none; margin-left: 184px; padding-inline: 32px; }
 }

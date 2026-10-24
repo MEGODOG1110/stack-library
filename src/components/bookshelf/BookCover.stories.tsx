@@ -1,0 +1,8 @@
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { BookCover } from "./BookCover";
+import { shelfBooks } from "./bookshelf.fixtures";
+const meta = { title: "Bookshelf/BookCover", component: BookCover, args: { src: shelfBooks[0].coverSrc } } satisfies Meta<typeof BookCover>;
+export default meta;
+type Story = StoryObj<typeof meta>;
+export const Default: Story = {};
+export const ImageError: Story = { args: { src: "/mockups/bookshelf/unavailable.svg" } };

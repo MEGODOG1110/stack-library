@@ -1,0 +1,9 @@
+.SL-ly_book-shelf__header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.SL-ly_book-shelf__header h2 { margin: 0; font-size: 14px; }
+.SL-ly_book-shelf__header span { font-size: 12px; white-space: nowrap; }
+.SL-ly_book-shelf__books { display: grid; grid-template-columns: repeat(3, minmax(0, 104px)); justify-content: space-between; gap: 16px 8px; margin: 0; padding: 0; list-style: none; }
+
+@media (min-width: 1000px) {
+  .SL-ly_book-shelf__header { justify-content: flex-start; gap: 8px; margin-bottom: 16px; }
+  .SL-ly_book-shelf__books { grid-template-columns: repeat(auto-fill, 128px); justify-content: start; gap: 8px; }
+}

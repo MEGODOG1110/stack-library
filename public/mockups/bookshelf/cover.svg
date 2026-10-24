@@ -1,0 +1,13 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="104" height="156.9" viewBox="0 0 104 156.9" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="cover-book">
+<g clip-path="url(#clip0_0_18)">
+<rect id="Cover placeholder" width="104" height="156.9" rx="4.28" fill="#E0E0E0"/>
+<path id="Placeholder cross" d="M0 0L52 78.45M52 78.45L104 156.9M52 78.45L104 0M52 78.45L0 156.9" stroke-width="1.43" stroke="#F5F5F5"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_0_18">
+<rect width="104" height="156.9" rx="4.28" fill="white"/>
+</clipPath>
+</defs>
+</svg>

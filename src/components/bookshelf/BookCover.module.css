@@ -1,0 +1,29 @@
+.SL-el_book-cover {
+  display: block;
+  width: 104px;
+  max-width: 100%;
+  aspect-ratio: 104 / 156.9;
+}
+
+@media (min-width: 1000px) {
+  .SL-el_book-cover { width: 128px; height: 193.108px; }
+}
+
+.SL-el_book-cover img {
+  display: block;
+  object-fit: contain;
+  object-position: center bottom;
+  width: 100%;
+  height: 100%;
+}
+
+.SL-el_book-cover__error {
+  display: grid;
+  place-content: center;
+  height: 100%;
+  border: 1px solid #9ca3af;
+  background: #f3f4f6;
+  color: #374151;
+  text-align: center;
+  font-size: 12px;
+}
