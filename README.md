@@ -36,3 +36,7 @@ MVPの対象画面は `/`、`/books/[contentId]`、`/bank`、`/books/new` です
 ## 作業規約
 
 [AGENTS.md](AGENTS.md)、[Development](docs/DEVELOPMENT.md)、[Agent Organization](docs/AGENT_ORGANIZATION.md)、[Coding Guideline](docs/CODING_GUIDELINE.md) を保持しています。これらは作業規約であり、撤去した実装の存続や再採用を要求するものではありません。旧資料への参照は履歴として扱い、現在の仕様には使いません。
+
+## デプロイの停止
+
+再構築中はvercel.jsonのgit.deploymentEnabledをfalseにし、Git連携による自動デプロイを停止します。旧デプロイのNEXT_NO_VERSIONは、Next.jsとpackage.jsonの撤去後も旧ビルド設定が動いたためです。アプリと検証手順が整った時点で、対象Issueの承認を受けて自動デプロイを再開します。既存の公開デプロイを削除する設定ではありません。

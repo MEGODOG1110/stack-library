@@ -17,7 +17,7 @@ Stack Libraryの実装で使うclass名、CSS、状態表現の規約です。�
 
 - [AGENTS.md](../AGENTS.md): 作業契約、MVPの制約、セキュリティ、所有範囲
 - [Development](./DEVELOPMENT.md): Issue、ブランチ、PR、検証の進め方
-- [Architecture](./ARCHITECTURE.md): 技術構成、責務分離、コンポーネントの境界
+- [README](../README.md)と対象の凍結Linear Issue: 再構築する技術構成、責務分離、コンポーネントの境界
 - 本書: class名、CSS、状態表現など、コードをどう書くか
 
 他の文書と矛盾する場合は、上記のプロジェクト制約とアーキテクチャを優先します。

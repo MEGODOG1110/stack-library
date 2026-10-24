@@ -12,7 +12,7 @@ UIは日本語ファースト、静かな暗色ベース、細い罫線、精密
 
 read-onlyの質問・説明・報告はIssueなしで進められます。repository、Issue、Figma、Git、PR、外部サービスを変更する場合は、Issue、owner、exact scope、必要なauthorizationを確定してから開始します。依頼されたローカル変更は、割り当て範囲内で実装し、対象検証を行い、変更起因の失敗を元writerへ返すところまで継続します。
 
-判断のauthority orderは、現在のuser instruction → 凍結Linear Issue → 承認済みRough → 記録済みReference decisions → 承認済みWireframeです。旧Figma、docs/DESIGN.md、docs/COMPONENT_TRACEABILITY.md、現在のvisual implementationはFROZEN_REFERENCE/evidenceです。承認済みWireframeまでは新しいvisual component、decoration、token expansionを追加せず、既存挙動と削除影響の調査だけを許可します。Figmaはapproved exact targetが割り当てられた場合だけnormativeです。
+判断のauthority orderは、現在のuser instruction → 凍結Linear Issue → 承認済みRough → 記録済みReference decisions → 承認済みWireframeです。旧実装・旧仕様資料は撤去済みです。旧FigmaとGit履歴は現在の仕様ではなく、明示的な採用判断なしに仕様の補完へ使いません。承認済みWireframeまでは新しいvisual component、decoration、token expansionを追加せず、既存挙動と削除影響の調査だけを許可します。Figmaはapproved exact targetが割り当てられた場合だけnormativeです。
 
 破壊的操作、未承認の外部mutation、未解決のproduct choiceまたは仕様矛盾、required authority/tool/evidenceの不足、dirty diffやownership mismatch、manifest外の変更、unsafe stateでは停止します。状態値は0、missing、unknown、unavailable、error、not-applicableを区別し、外部reference decisionはAdopt/Adapt/Rejectのいずれかを記録します。詳細なIssue・handoff・validationはDevelopmentが正本です。
 
@@ -24,11 +24,11 @@ read-onlyの質問・説明・報告はIssueなしで進められます。reposi
 |---|---|
 | product identity, MVP, setup, current routes | [README.md](README.md) |
 | Git, branch, PR, release, handoff, validation | [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) |
-| component, software boundary, Storybook mapping | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
+| component, software boundary, Storybook mapping | [README.md](README.md)から対象の凍結Linear Issue・新契約へ進む |
 | role activation, authority, ownership, waves | [docs/AGENT_ORGANIZATION.md](docs/AGENT_ORGANIZATION.md) |
 | CSS, class, naming, state, shared style | [docs/CODING_GUIDELINE.md](docs/CODING_GUIDELINE.md) |
-| pages, URLs, static generation | [docs/ROUTING.md](docs/ROUTING.md) |
-| microCMS, types, queries, fixtures, Server Actions | [docs/CONTENT_MODEL.md](docs/CONTENT_MODEL.md) |
+| pages, URLs, static generation | [README.md](README.md)と対象の凍結Linear Issue |
+| microCMS, types, queries, fixtures, Server Actions | [README.md](README.md)からMEG-34と対象の凍結Linear Issueへ進む |
 | Figma/design source | applicable Figma skill, exact node, and role TOML |
 | assigned role behavior | that role's .codex/agents/**/*.toml |
 | external mutation, secret, trust boundary | this contract plus Development authorization/evidence rules |

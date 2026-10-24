@@ -363,10 +363,7 @@ Storyは`Foundations / Components / Patterns`の責務に沿って配置しま�
 | `README.md` | プロダクト概要、現在の状態、セットアップ、主要な入口 |
 | `AGENTS.md` | エージェントが必ず守るプロジェクト固有の作業契約 |
 | `docs/DEVELOPMENT.md` | ブランチ、コミット、PR、検証の共通ルール |
-| `docs/ARCHITECTURE.md` | 技術構成、責務分離、コンポーネント設計 |
 | `docs/CODING_GUIDELINE.md` | class名、CSS、状態表現などコードの書き方 |
-| `docs/CONTENT_MODEL.md` | microCMSスキーマとTypeScript型 |
-| `docs/ROUTING.md` | URL、画面責務、ナビゲーション |
 
 方針を変更した場合は、実装と同じPRで該当文書を更新します。
 
@@ -395,3 +392,5 @@ tracked fileの内容は、team packetでexact pathを割り当てられた次�
 - findingを返す`FINDING_RETURN_WRITER`
 
 Git index/historyとpush、およびGitHub上のDraft PR metadataは、publication authorizationを受けた`release_manager`だけが変更します。前者はlocal `git`、後者は上記のGitHub service規則に従います。
+
+再構築中のarchitecture、content model、routingの仕様はREADMEから対象Linear Issueを確認します。旧実装の資料は撤去済みで、Git履歴から仕様を復活させません。
