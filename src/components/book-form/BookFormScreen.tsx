@@ -2,13 +2,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import type { MouseEvent } from "react";
+import type { MouseEvent, ReactNode } from "react";
 import { BookForm } from "./BookForm";
 import type { BookFormDraft, FormTag } from "./book-form.types";
 import styles from "./BookFormScreen.module.css";
 
-export function BookFormScreen({ tags, initialValues, onExit }: { tags: readonly FormTag[]; initialValues?: Partial<BookFormDraft>; onExit?: (href: string) => void }) {
-  const [dirty, setDirty] = useState(false);
+export function BookFormScreen({ tags, initialValues, onExit, children, hasUnsavedChanges = false }: { tags: readonly FormTag[]; initialValues?: Partial<BookFormDraft>; onExit?: (href: string) => void; children?: ReactNode; hasUnsavedChanges?: boolean }) {
+  const [localDirty, setDirty] = useState(false);
+  const dirty = localDirty || hasUnsavedChanges;
   const dialog = useRef<HTMLDialogElement>(null);
   const destination = useRef("/");
   useEffect(() => {
@@ -32,7 +33,7 @@ export function BookFormScreen({ tags, initialValues, onExit }: { tags: readonly
     <header className={styles["SL-ly_book-form-screen__header"]}>
       <Link href="/" aria-label="本棚に戻る" onClick={(event) => navigate(event, "/")}><Image src="/mockups/bookshelf/back.svg" width={20} height={20} alt="" unoptimized /></Link><h1>本を追加</h1>
     </header>
-    <BookForm tags={tags} initialValues={initialValues} onDirtyChange={setDirty} />
+    {children ?? <BookForm tags={tags} initialValues={initialValues} onDirtyChange={setDirty} />}
     <dialog ref={dialog} className={styles["SL-el_book-form-screen__dialog"]} aria-labelledby="form-leave-title">
       <h2 id="form-leave-title">入力内容を破棄しますか？</h2><p>入力内容と選択した画像は保存されません。</p>
       <button type="button" autoFocus onClick={() => dialog.current?.close()}>入力を続ける</button>
