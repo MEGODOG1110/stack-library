@@ -15,7 +15,7 @@ export async function probeGoogleBooks(isbn: string, signal: AbortSignal) {
   return { region: process.env.VERCEL_REGION ?? "local", keyPresent: !!key, keyWhitespace: key !== key.trim(), results };
 }
 async function request(path: string, signal: AbortSignal) {
-  const url = new URL(`https://books.googleapis.com/books/v1/${path}`);
+  const url = new URL(`https://www.googleapis.com/books/v1/${path}`);
   const headers = { "X-Goog-Api-Key": process.env.GOOGLE_BOOKS_API_KEY!.trim() };
   let response = await fetch(url, { headers, signal, cache: "no-store" });
   // 読取りだけを再試行する。共通signalの20秒上限を超えず、認証・quotaエラーは再送しない。
@@ -27,6 +27,8 @@ async function request(path: string, signal: AbortSignal) {
       const timer = setTimeout(() => { signal.removeEventListener("abort", abort); resolve(); }, 300 * 2 ** attempt);
       signal.addEventListener("abort", abort, { once: true });
     });
+    // 同じGoogle Booksサービスの公式ホストを切替え、失敗した経路だけを連打しない。
+    url.hostname = attempt === 0 ? "books.googleapis.com" : "www.googleapis.com";
     response = await fetch(url, { headers, signal, cache: "no-store" });
   }
   if (!response.ok) {

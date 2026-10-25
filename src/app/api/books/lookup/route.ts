@@ -5,7 +5,6 @@ import { auth } from "@/auth";
 import { authConfigured, isLocalDevelopment, isOwner } from "@/lib/auth/owner";
 
 export const runtime = "nodejs";
-export const preferredRegion = "hnd1";
 export async function GET(request: Request) {
   if (!isLocalDevelopment(new URL(request.url)) && (!authConfigured() || !isOwner((await auth())?.user?.id))) return Response.json({ error: "authentication-required" }, { status: 401, headers: { "Cache-Control": "no-store" } });
   const origin = request.headers.get("origin");
