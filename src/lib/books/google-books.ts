@@ -12,7 +12,7 @@ export async function probeGoogleBooks(isbn: string, signal: AbortSignal) {
     const reason = json?.error?.errors?.[0]?.reason;
     results.push({ host, status: response.status, count: typeof json?.totalItems === "number" ? json.totalItems : null, reason: ["backendError", "backendFailed", "rateLimitExceeded", "keyInvalid", "ipRefererBlocked", "accessNotConfigured"].includes(reason) ? reason : null, errorStatus: ["UNAVAILABLE", "PERMISSION_DENIED", "INVALID_ARGUMENT", "RESOURCE_EXHAUSTED", "UNAUTHENTICATED"].includes(json?.error?.status) ? json.error.status : null, json: !!json });
   }
-  return { keyPresent: !!key, keyWhitespace: key !== key.trim(), results };
+  return { region: process.env.VERCEL_REGION ?? "local", keyPresent: !!key, keyWhitespace: key !== key.trim(), results };
 }
 async function request(path: string, signal: AbortSignal) {
   const url = new URL(`https://books.googleapis.com/books/v1/${path}`);
