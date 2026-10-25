@@ -41,6 +41,12 @@ GitHub OAuth AppのHomepage URLは本番URL、Authorization callback URLは `htt
 
 実サービスへの試験登録は書籍・書影を作成します。認証の検証と実登録の検証は分け、実登録は明示された1冊を確認して実行します。書影の公開時の扱いは引き続き保留です。
 
+### 本番のGoogle Books接続（MEG-40）
+
+Vercel Functionsは`vercel.json`の`regions: ["hnd1"]`で東京に固定します。2026-10-25の比較では、米国`iad1`からGoogle BooksへHTTP503/`backendFailed`が継続し、同じキー・検索条件を東京`hnd1`から実行するとHTTP200と書誌・書影の取得を確認しました。キーの空白・渡し方・公式ホストの変更だけでは解消しませんでした。Google内部の障害箇所を特定したという意味ではありません。
+
+キーは[Google推奨のヘッダー](https://docs.cloud.google.com/docs/authentication/api-keys-use)でサーバーから渡し、URLには含めません。5xxだけは`www.googleapis.com`と[公式SDKの接続先](https://googleapis.dev/nodejs/googleapis/latest/books/classes/Books.html)`books.googleapis.com`の間で最大2回切り替えます。401/403/429の再送・無認証への切替はせず、全体20秒の上限を維持します。ISBN検索0件の場合はopenBDから書名を補い、Googleの候補と詳細のISBNが完全一致するものだけ採用します。書影や書誌を固定データで補いません。診断用の比較入口は調査後に除去しています。
+
 ## 開発環境
 
 Node.jsの基準バージョンは[.node-version](.node-version)、pnpmは[package.json](package.json)のpackageManagerで固定しています。Node.jsとpnpmを準備してから、リポジトリ直下で実行してください。

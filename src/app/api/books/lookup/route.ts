@@ -1,5 +1,5 @@
 import { lookupOpenBd } from "@/lib/books/openbd";
-import { lookupGoogleBooks, probeGoogleBooks } from "@/lib/books/google-books";
+import { lookupGoogleBooks } from "@/lib/books/google-books";
 import { isValidIsbn, normalizeIsbn } from "@/components/book-form/book-form.validation";
 import { auth } from "@/auth";
 import { authConfigured, isLocalDevelopment, isOwner } from "@/lib/auth/owner";
@@ -14,7 +14,6 @@ export async function GET(request: Request) {
   if (!isValidIsbn(isbn)) return Response.json({ error: "invalid-isbn" }, { status: 400, headers });
   try {
     const signal = AbortSignal.any([request.signal, AbortSignal.timeout(20000)]);
-    if (new URL(request.url).searchParams.get("probe") === "1") return Response.json(await probeGoogleBooks(isbn, signal), { headers });
     const direct = await lookupGoogleBooks(isbn, [`isbn:${isbn}`], signal).catch(() => undefined);
     let fallback;
     try { fallback = await lookupOpenBd(isbn, signal); }

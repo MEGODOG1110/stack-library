@@ -1,19 +1,5 @@
 import type { LookupBook } from "@/components/book-form/isbn-registration.types";
 type Volume = { id?: string; volumeInfo?: { title?: string; authors?: string[]; publisher?: string; publishedDate?: string; industryIdentifiers?: { type: string; identifier: string }[]; imageLinks?: Record<string, string> } };
-/** 本人限定の切り分け用。資格情報・URL・上流本文は返さない。 */
-export async function probeGoogleBooks(isbn: string, signal: AbortSignal) {
-  const key = process.env.GOOGLE_BOOKS_API_KEY ?? "";
-  const results = [];
-  for (const host of ["www.googleapis.com", "books.googleapis.com"] as const) {
-    const url = new URL(`https://${host}/books/v1/volumes`);
-    url.searchParams.set("q", `isbn:${isbn}`); url.searchParams.set("maxResults", "20");
-    const response = await fetch(url, { headers: { "X-Goog-Api-Key": key.trim() }, signal, cache: "no-store" });
-    const json = await response.json().catch(() => null);
-    const reason = json?.error?.errors?.[0]?.reason;
-    results.push({ host, status: response.status, count: typeof json?.totalItems === "number" ? json.totalItems : null, reason: ["backendError", "backendFailed", "rateLimitExceeded", "keyInvalid", "ipRefererBlocked", "accessNotConfigured"].includes(reason) ? reason : null, errorStatus: ["UNAVAILABLE", "PERMISSION_DENIED", "INVALID_ARGUMENT", "RESOURCE_EXHAUSTED", "UNAUTHENTICATED"].includes(json?.error?.status) ? json.error.status : null, json: !!json });
-  }
-  return { region: process.env.VERCEL_REGION ?? "local", keyPresent: !!key, keyWhitespace: key !== key.trim(), results };
-}
 async function request(path: string, signal: AbortSignal) {
   const url = new URL(`https://www.googleapis.com/books/v1/${path}`);
   const headers = { "X-Goog-Api-Key": process.env.GOOGLE_BOOKS_API_KEY!.trim() };
@@ -34,7 +20,7 @@ async function request(path: string, signal: AbortSignal) {
   if (!response.ok) {
     // 上流の本文・URLにはキーやIPが含まれ得るため記録しない。
     const body = await response.json().catch(() => undefined);
-    const reasons = ["API_KEY_IP_ADDRESS_BLOCKED", "API_KEY_HTTP_REFERRER_BLOCKED", "API_KEY_INVALID", "API_KEY_SERVICE_BLOCKED", "SERVICE_DISABLED", "RATE_LIMIT_EXCEEDED", "IP_REFERER_BLOCKED", "dailyLimitExceeded", "quotaExceeded", "accessNotConfigured", "keyInvalid"];
+    const reasons = ["API_KEY_IP_ADDRESS_BLOCKED", "API_KEY_HTTP_REFERRER_BLOCKED", "API_KEY_INVALID", "API_KEY_SERVICE_BLOCKED", "SERVICE_DISABLED", "RATE_LIMIT_EXCEEDED", "IP_REFERER_BLOCKED", "dailyLimitExceeded", "quotaExceeded", "accessNotConfigured", "keyInvalid", "backendFailed", "backendError"];
     const reported = body?.error?.details?.flatMap((detail: { reason?: string }) => detail.reason ? [detail.reason] : []) ?? [];
     const legacy = body?.error?.errors?.map((error: { reason?: string }) => error.reason) ?? [];
     console.warn("google-books-request-failed", { status: response.status, reason: [...reported, ...legacy].find((reason: unknown) => typeof reason === "string" && reasons.includes(reason)) ?? "unknown" });
