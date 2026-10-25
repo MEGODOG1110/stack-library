@@ -1,9 +1,12 @@
 import { lookupOpenBd } from "@/lib/books/openbd";
 import { lookupGoogleBooks } from "@/lib/books/google-books";
 import { isValidIsbn, normalizeIsbn } from "@/components/book-form/book-form.validation";
+import { auth } from "@/auth";
+import { authConfigured, isLocalDevelopment, isOwner } from "@/lib/auth/owner";
 
 export const runtime = "nodejs";
 export async function GET(request: Request) {
+  if (!isLocalDevelopment(new URL(request.url)) && (!authConfigured() || !isOwner((await auth())?.user?.id))) return Response.json({ error: "authentication-required" }, { status: 401, headers: { "Cache-Control": "no-store" } });
   const origin = request.headers.get("origin");
   const localStory = process.env.NODE_ENV === "development" && (origin === "http://localhost:6006" || origin === "http://127.0.0.1:6006");
   const headers = { "Cache-Control": "no-store", ...(localStory ? { "Access-Control-Allow-Origin": origin!, Vary: "Origin" } : {}) };

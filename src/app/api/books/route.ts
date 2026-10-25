@@ -1,11 +1,13 @@
 import { registerInMicrocms, RegistrationError } from "@/lib/books/microcms-registration";
 import { uploadCover } from "@/lib/books/cover-upload";
+import { auth } from "@/auth";
+import { authConfigured, isLocalDevelopment, isOwner } from "@/lib/auth/owner";
 
 export const runtime = "nodejs";
 export async function POST(request: Request) {
   const url = new URL(request.url);
-  // 個人用認証ができるまでは公開先で書込みを有効化しない。
-  if (process.env.NODE_ENV !== "development" || !["localhost", "127.0.0.1"].includes(url.hostname) || request.headers.get("origin") !== url.origin) return Response.json({ error: "registration-disabled" }, { status: 403 });
+  if (request.headers.get("origin") !== url.origin) return Response.json({ error: "forbidden" }, { status: 403 });
+  if (!isLocalDevelopment(url) && (!authConfigured() || !isOwner((await auth())?.user?.id))) return Response.json({ error: "authentication-required" }, { status: 401 });
   const missing = [
     ...(process.env.MICROCMS_SERVICE_DOMAIN !== "stack-library" ? ["MICROCMS_SERVICE_DOMAIN=stack-library"] : []),
     ...(!process.env.MICROCMS_API_KEY ? ["MICROCMS_API_KEY"] : []),

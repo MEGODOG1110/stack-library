@@ -1,6 +1,6 @@
 # Stack Library
 
-**再構築中です。本棚・書籍詳細・登録フォームの入力確認をローカルで利用できます。microCMSへのローカル登録処理を実装中です。実保存は未検証です。**
+**再構築中です。仕様・検証記録の正本はLinearです。本棚・検索・詳細はmicroCMSの実データを表示します。本番の書籍登録はGitHubの所有者アカウントに限定します（MEG-40）。**
 
 Stack Libraryは、積読の技術書を覚えきれず、書店・ネット通販で同じ本を買ってしまうことを防ぐ、日本語ファーストの個人用蔵書管理Webアプリです。購入前に表紙・タイトルから所蔵を確認でき、自宅の蔵書を少ない手間で登録できることを目指します。
 
@@ -17,7 +17,29 @@ Stack Libraryは、積読の技術書を覚えきれず、書店・ネット通�
 | 公開先 | Vercel | 後続のプレビュー・本番実行環境 |
 | 書籍・書影の保存 | microCMS | 後続の書籍データ・書影登録 |
 
-実際の依存バージョンはpackage.jsonとpnpm-lock.yamlで固定します。microCMSへの接続とアップロード、Vercelへの公開はまだ行いません。
+実際の依存バージョンはpackage.jsonとpnpm-lock.yamlで固定します。公開先は[Stack Library](https://stack-library.vercel.app/)です。
+
+### 本番の本人限定登録（MEG-40）
+
+スマホで「追加」を開くとGitHubログインへ進み、所有者（GitHub ID `63797040`）のみISBN補完・書影アップロード・登録を利用できます。アカウント名やメールアドレスでは許可しません。本棚・検索・詳細の閲覧にはログイン不要です。Auth.js `next-auth@5.0.0-beta.32`を固定し、暗号化JWTセッションを7日保持します。GitHubのアクセストークンはブラウザへ渡さず、DBやユーザー登録機能は追加しません。「ログアウト」で端末のセッションを終了できます。
+
+VercelのProductionに次を設定します。秘密値はリポジトリ・チャットへ記載しません。
+
+| 環境変数 | 内容 |
+|---|---|
+| `AUTH_GITHUB_ID` | GitHub OAuth AppのClient ID |
+| `AUTH_GITHUB_SECRET` | 同AppのClient secret |
+| `AUTH_SECRET` | 暗号学的乱数で生成した32バイト以上のセッション秘密鍵 |
+| `AUTH_URL` | `https://stack-library.vercel.app` |
+| `GOOGLE_BOOKS_API_KEY` | Books API専用のサーバーキー。自宅IPの制限はVercelでは利用不可 |
+| `MICROCMS_SERVICE_DOMAIN` | `stack-library` |
+| `MICROCMS_API_KEY` | 既存のbooks GET/POST・post-media権限を持つキー |
+
+GitHub OAuth AppのHomepage URLは本番URL、Authorization callback URLは `https://stack-library.vercel.app/api/auth/callback/github` です。Previewで本番OAuth Appを使い回しません。設定後は再デプロイが必要です。
+
+登録ページに加えて、`/api/books/lookup`と`POST /api/books`もサーバーで本人を確認します。未認証は401、保存の異なるOriginは403、設定不足は登録を開放しません。localhostのdevelopmentとローカルStorybookは従来どおり利用可能で、productionモードにローカル例外はありません。セッション切れ後の再ログインは別タブで行うと入力を維持できます。
+
+実サービスへの試験登録は書籍・書影を作成します。認証の検証と実登録の検証は分け、実登録は明示された1冊を確認して実行します。書影の公開時の扱いは引き続き保留です。
 
 ## 開発環境
 
@@ -154,7 +176,7 @@ MVPの対象画面は `/`、`/books/{ISBN13}`、`/bank`、`/books/new` です。
 
 画像はJPEG/PNG/WebPで5MB以下。選択ファイルまたはGoogleの許可ホストのHTTPS書影のみ受け付けます。画像POSTはManagement API、書籍GET/POSTはContent API。登録済みサンプルではなくCMS側でISBN重複を確認します。分野は6分類の選択肢の値、検索語はkeywordsへ改行区切りで保存し、価格0も保持します。保存失敗でも入力を保持、成否不明時は同じ画面で再登録を停止します。画像成功後に書籍保存が失敗すると孤立メディアが残る可能性があり、自動削除しません。並行プロセス間の重複保証は未完成です。
 
-本番環境は認証未実装のため登録403を維持します。本棚・詳細のCMS読取統合は後続で、登録成功が現在のサンプル本棚へ反映されたとは扱いません。Storybookは誤書込みを避け、Live Lookupも実保存を接続しません。実登録はlocalhost:3000/books/newから明示操作してください。
+MEG-40で本番はGitHub所有者のログイン後に登録可能とします。本棚・検索・詳細は保存先と同じmicroCMSを読み取ります。Storybookは誤書込みを避け、Live Lookupも実保存を接続しません。実登録はアプリの `/books/new` から明示操作してください。ログイン設定と検証範囲は上記「本番の本人限定登録」を参照してください。
 
 ### v8 設定制約の見直し
 
