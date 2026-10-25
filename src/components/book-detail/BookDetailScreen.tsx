@@ -20,13 +20,13 @@ export function BookDetailScreen({ book, backControl, shelfControl, searchContro
   const priceLabel = price === undefined ? undefined : Number.isFinite(price) && price >= 0 ? yen.format(price) : "価格を表示できません";
   return <div className={styles["SL-ly_book-detail"]}>
     <nav className={styles["SL-ly_book-detail__navigation"]} aria-label="メインナビゲーション">
-      {shelfControl ?? <Link href="/"><Image src="/mockups/bookshelf/desktop/home.svg" width={20} height={20} alt="" unoptimized />本棚</Link>}
-      {searchControl ?? <Link href="/?view=search"><Image src="/mockups/bookshelf/desktop/search.svg" width={20} height={20} alt="" unoptimized />検索</Link>}
-      <Link href="/books/new"><Image src="/mockups/bookshelf/desktop/add.svg" width={20} height={20} alt="" unoptimized />追加</Link>
-      <button disabled><Image src="/mockups/bookshelf/desktop/price.svg" width={20} height={20} alt="" unoptimized /><span>金額<small>準備中</small></span></button>
+      {shelfControl ?? <Link href="/"><Image className="SL-ut_theme-icon" src="/mockups/bookshelf/desktop/home.svg" width={20} height={20} alt="" unoptimized />本棚</Link>}
+      {searchControl ?? <Link href="/?view=search"><Image className="SL-ut_theme-icon" src="/mockups/bookshelf/desktop/search.svg" width={20} height={20} alt="" unoptimized />検索</Link>}
+      <Link href="/books/new"><Image className="SL-ut_theme-icon" src="/mockups/bookshelf/desktop/add.svg" width={20} height={20} alt="" unoptimized />追加</Link>
+      <button disabled><Image className="SL-ut_theme-icon" src="/mockups/bookshelf/desktop/price.svg" width={20} height={20} alt="" unoptimized /><span>金額<small>準備中</small></span></button>
     </nav>
     <div className={styles["SL-ly_book-detail__body"]}>
-      <div className={styles["SL-ly_book-detail__toolbar"]}>{backControl ?? <Link href="/" aria-label="本棚に戻る"><Image src="/mockups/bookshelf/back.svg" width={20} height={20} alt="" unoptimized /></Link>}</div>
+      <div className={styles["SL-ly_book-detail__toolbar"]}>{backControl ?? <Link href="/" aria-label="本棚に戻る"><Image className="SL-ut_theme-icon" src="/mockups/bookshelf/back.svg" width={20} height={20} alt="" unoptimized /></Link>}</div>
       <BookIdentity book={book} />
       <div className={styles["SL-ly_book-detail__content"]} tabIndex={0} role="region" aria-label="書籍の補足情報">
         <div className={styles["SL-ly_book-detail__ledger"]}>

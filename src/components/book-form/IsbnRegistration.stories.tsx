@@ -17,6 +17,8 @@ async function lookup(canvasElement: HTMLElement) {
   await expect(await canvas.findByRole("heading", { name: "この本で間違いありませんか？" })).toBeVisible();
   return canvas;
 }
+export const Light: Story = { globals: { theme: "light" } };
+export const Dark: Story = { globals: { theme: "dark" } };
 export const Mobile: Story = { globals: { viewport: { value: "mobileMock" } } };
 export const Desktop: Story = { globals: { viewport: { value: "desktopMock" } } };
 export const LiveLookup: Story = { args: { lookup: liveIsbnLookup, register: undefined, notice: "Google Books・openBDから書誌情報と書影を取得します。例: 9784815636623。localhost:3000の起動が必要です。保存は未接続です。" } };

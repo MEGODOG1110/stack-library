@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, fn, userEvent, waitFor, within } from "storybook/test";
 import { CoverPicker } from "./CoverPicker";
 import { makeSampleCover } from "./book-form.fixtures";
-const meta = { title: "BookForm/CoverPicker", component: CoverPicker, args: { id: "cover-story", onChange: fn() }, decorators: [(Story) => <div style={{ maxWidth: 420, padding: 16, background: "#fff", color: "#111827" }}><Story /></div>] } satisfies Meta<typeof CoverPicker>;
+const meta = { title: "BookForm/CoverPicker", component: CoverPicker, args: { id: "cover-story", onChange: fn() }, decorators: [(Story) => <div style={{ maxWidth: 420, padding: 16, background: "var(--sl-color-background)", color: "var(--sl-color-text)" }}><Story /></div>] } satisfies Meta<typeof CoverPicker>;
 export default meta;
 type Story = StoryObj<typeof meta>;
 export const Default: Story = {};

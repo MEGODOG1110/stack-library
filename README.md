@@ -19,6 +19,22 @@ Stack Libraryは、積読の技術書を覚えきれず、書店・ネット通�
 
 実際の依存バージョンはpackage.jsonとpnpm-lock.yamlで固定します。公開先は[Stack Library](https://stack-library.vercel.app/)です。
 
+### ホーム画面へ追加する（PWA / MEG-41）
+
+[本番サイト](https://stack-library.vercel.app/)を端末のブラウザで開いて追加できます。
+
+- iPhone・iPad：Safariの共有メニュー →「ホーム画面に追加」。表示される場合は「Webアプリとして開く」をオンにします。
+- Android：Chromeのメニュー →「ホーム画面に追加」→「インストール」。
+- PC：Chrome・Edgeのアドレスバーのインストールボタン、またはブラウザメニューから追加します。
+
+追加後は提供いただいた本棚アイコンで起動し、アドレスバーのないアプリ用ウィンドウで本棚を開きます。ISBN補完・書籍登録には本人のGitHubログインとインターネット接続が必要です。PWA用のオフライン保存・登録の自動再送・push通知は追加していません。Service WorkerでAPIや認証情報をキャッシュしません。
+
+本棚・詳細・登録画面とPWAの上部色はOSのライト／ダーク設定に追従します。明るい背景と暗い背景は共通の色変数で切り替え、書影・NoImage画像・アプリアイコンの色は反転しません。アプリ側に独自の切替設定は追加しません。PWAの固定theme/background指定は置かず、HTMLのmedia付きtheme-colorとCSSのcolor-schemeへ統一しています。iOS／Chromeが付けるぼかしそのものの除去は保証せず、固定高さの帯や余白で隠しません。iPhoneで以前の表示が残る場合は、ホーム画面のアプリを完全に終了して開き直してください。
+
+Storybook上部の配色メニューで「OS設定に追従」「ライト」「ダーク」を選べます。BookshelfScreen・BookDetailScreen・IsbnRegistration・BookFormScreenのLight／Darkで両配色を固定表示できます。入力欄・選択状態・ダイアログも同じ共通配色を使います。
+
+`src/app/manifest.ts`で表示名・起動URL・単独表示を設定しています。アイコンの元データは`public/icons/stack-library.svg`です。PNGは同SVGを192px・512px・Apple用180px・favicon用32pxへ変換したものです。maskableとApple用は角まで暗色の背景を敷き、本のシンボルを安全領域内に保っています。新しい依存ライブラリや独自のインストールダイアログは追加していません。
+
 ### 本番の本人限定登録（MEG-40）
 
 スマホで「追加」を開くとGitHubログインへ進み、所有者（GitHub ID `63797040`）のみISBN補完・書影アップロード・登録を利用できます。アカウント名やメールアドレスでは許可しません。本棚・検索・詳細の閲覧にはログイン不要です。Auth.js `next-auth@5.0.0-beta.32`を固定し、暗号化JWTセッションを7日保持します。GitHubのアクセストークンはブラウザへ渡さず、DBやユーザー登録機能は追加しません。「ログアウト」で端末のセッションを終了できます。

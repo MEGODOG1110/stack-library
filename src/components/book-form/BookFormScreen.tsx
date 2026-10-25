@@ -25,13 +25,13 @@ export function BookFormScreen({ tags, initialValues, onExit, children, hasUnsav
   }
   return <div className={styles["SL-ly_book-form-screen"]}>
     <nav className={styles["SL-ly_book-form-screen__navigation"]} aria-label="メインナビゲーション">
-      <Link href="/" onClick={(event) => navigate(event, "/")}><Image src="/mockups/bookshelf/desktop/home.svg" width={20} height={20} alt="" unoptimized />本棚</Link>
-      <Link href="/?view=search" onClick={(event) => navigate(event, "/?view=search")}><Image src="/mockups/bookshelf/desktop/search.svg" width={20} height={20} alt="" unoptimized />検索</Link>
-      <span aria-current="page"><Image src="/mockups/bookshelf/desktop/add.svg" width={20} height={20} alt="" unoptimized />追加</span>
-      <button disabled><Image src="/mockups/bookshelf/desktop/price.svg" width={20} height={20} alt="" unoptimized /><span>金額<small>準備中</small></span></button>
+      <Link href="/" onClick={(event) => navigate(event, "/")}><Image className="SL-ut_theme-icon" src="/mockups/bookshelf/desktop/home.svg" width={20} height={20} alt="" unoptimized />本棚</Link>
+      <Link href="/?view=search" onClick={(event) => navigate(event, "/?view=search")}><Image className="SL-ut_theme-icon" src="/mockups/bookshelf/desktop/search.svg" width={20} height={20} alt="" unoptimized />検索</Link>
+      <span aria-current="page"><Image className="SL-ut_theme-icon" src="/mockups/bookshelf/desktop/add.svg" width={20} height={20} alt="" unoptimized />追加</span>
+      <button disabled><Image className="SL-ut_theme-icon" src="/mockups/bookshelf/desktop/price.svg" width={20} height={20} alt="" unoptimized /><span>金額<small>準備中</small></span></button>
     </nav>
     <header className={styles["SL-ly_book-form-screen__header"]}>
-      <Link href="/" aria-label="本棚に戻る" onClick={(event) => navigate(event, "/")}><Image src="/mockups/bookshelf/back.svg" width={20} height={20} alt="" unoptimized /></Link><h1>本を追加</h1>
+      <Link href="/" aria-label="本棚に戻る" onClick={(event) => navigate(event, "/")}><Image className="SL-ut_theme-icon" src="/mockups/bookshelf/back.svg" width={20} height={20} alt="" unoptimized /></Link><h1>本を追加</h1>
     </header>
     {children ?? <BookForm tags={tags} initialValues={initialValues} onDirtyChange={setDirty} />}
     <dialog ref={dialog} className={styles["SL-el_book-form-screen__dialog"]} aria-labelledby="form-leave-title">

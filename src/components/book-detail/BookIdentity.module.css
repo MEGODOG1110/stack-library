@@ -1,7 +1,7 @@
 .SL-ly_book-identity { display: flex; align-items: flex-start; gap: 16px; }
 .SL-ly_book-identity__body { display: grid; gap: 6px; min-width: 0; overflow-wrap: anywhere; }
 .SL-ly_book-identity__body h1 { margin: 0; font-size: 18px; line-height: 1.5; }
-.SL-ly_book-identity__body p { margin: 0; color: #4b5563; font-size: 13px; }
+.SL-ly_book-identity__body p { margin: 0; color: var(--sl-color-muted); font-size: 13px; }
 .SL-ly_book-identity__body .SL-el_book-identity__isbn { font-size: 12px; }
 @media (min-width: 1000px) {
   .SL-ly_book-identity { gap: 24px; }

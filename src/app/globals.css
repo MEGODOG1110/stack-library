@@ -1,9 +1,35 @@
 :root {
-  color-scheme: dark;
-  --sl-color-background: #111318;
-  --sl-color-text: #f1f2f4;
-  --sl-color-focus: #a9c6ff;
+  color-scheme: light dark;
+  --sl-color-background: light-dark(#ffffff, #111318);
+  --sl-color-text: light-dark(#111827, #f1f2f4);
+  --sl-color-focus: light-dark(#2457d6, #a9c6ff);
+  --sl-color-surface: light-dark(#f3f4f6, #1c222b);
+  --sl-color-selected: light-dark(#e5e7eb, #2b3543);
+  --sl-color-muted: light-dark(#4b5563, #b8c1cf);
+  --sl-color-border: light-dark(#d1d5db, #465264);
+  --sl-color-border-strong: light-dark(#9ca3af, #76849a);
+  --sl-color-border-subtle: light-dark(#e5e7eb, #323c4b);
+  --sl-color-action: light-dark(#374151, #dbe2ec);
+  --sl-color-on-action: light-dark(#ffffff, #111827);
+  --sl-color-error: light-dark(#b91c1c, #ffaaaa);
+  --sl-icon-filter: none;
+  background: var(--sl-color-background);
 }
+
+.SL-ly_theme-preview {
+  background: var(--sl-color-background);
+  color: var(--sl-color-text);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root { --sl-icon-filter: invert(1); }
+}
+
+.SL-ly_theme-preview[data-sl-theme="light"] { --sl-icon-filter: none; }
+.SL-ly_theme-preview[data-sl-theme="dark"] { --sl-icon-filter: invert(1); }
+.SL-ut_theme-icon { filter: var(--sl-icon-filter); }
+
+input::placeholder, textarea::placeholder { color: var(--sl-color-muted); opacity: 1; }
 
 * {
   box-sizing: border-box;

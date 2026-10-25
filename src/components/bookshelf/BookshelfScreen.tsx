@@ -32,9 +32,9 @@ export function compareBooksByTitle(a: ShelfBook, b: ShelfBook) {
 
 function Icon({ name }: { name: string }) {
   const size = name === "filter" ? 16 : 20;
-  if (name === "close") return <Image src="/mockups/bookshelf/close.svg" width={20} height={20} alt="" unoptimized />;
-  if (name === "back") return <Image src="/mockups/bookshelf/back.svg" width={20} height={20} alt="" unoptimized />;
-  return <><Image className={styles["SL-el_bookshelf__mobile-icon"]} src={`/mockups/bookshelf/${name}.svg`} width={size} height={size} alt="" unoptimized /><Image className={styles["SL-el_bookshelf__desktop-icon"]} src={`/mockups/bookshelf/desktop/${name}.svg`} width={20} height={20} alt="" unoptimized /></>;
+  if (name === "close") return <Image className="SL-ut_theme-icon" src="/mockups/bookshelf/close.svg" width={20} height={20} alt="" unoptimized />;
+  if (name === "back") return <Image className="SL-ut_theme-icon" src="/mockups/bookshelf/back.svg" width={20} height={20} alt="" unoptimized />;
+  return <><Image className={`${styles["SL-el_bookshelf__mobile-icon"]} SL-ut_theme-icon`} src={`/mockups/bookshelf/${name}.svg`} width={size} height={size} alt="" unoptimized /><Image className={`${styles["SL-el_bookshelf__desktop-icon"]} SL-ut_theme-icon`} src={`/mockups/bookshelf/desktop/${name}.svg`} width={20} height={20} alt="" unoptimized /></>;
 }
 
 export function BookshelfScreen({ books, areas, tags, initialKeyword = "", initialFilters, initialView = "shelf", error, onRetry, onSelectBook, onAddBook }: Props) {
