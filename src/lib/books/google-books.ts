@@ -3,7 +3,18 @@ type Volume = { id?: string; volumeInfo?: { title?: string; authors?: string[]; 
 async function request(path: string, signal: AbortSignal) {
   const url = new URL(`https://www.googleapis.com/books/v1/${path}`);
   url.searchParams.set("key", process.env.GOOGLE_BOOKS_API_KEY!);
-  const response = await fetch(url, { signal, cache: "no-store" });
+  let response = await fetch(url, { signal, cache: "no-store" });
+  // 読取りだけを再試行する。共通signalの20秒上限を超えず、認証・quotaエラーは再送しない。
+  for (let attempt = 0; attempt < 2 && [500, 502, 503, 504].includes(response.status); attempt++) {
+    await response.body?.cancel();
+    await new Promise<void>((resolve, reject) => {
+      if (signal.aborted) { reject(signal.reason); return; }
+      const abort = () => { clearTimeout(timer); reject(signal.reason); };
+      const timer = setTimeout(() => { signal.removeEventListener("abort", abort); resolve(); }, 300 * 2 ** attempt);
+      signal.addEventListener("abort", abort, { once: true });
+    });
+    response = await fetch(url, { signal, cache: "no-store" });
+  }
   if (!response.ok) {
     // 上流の本文・URLにはキーやIPが含まれ得るため記録しない。
     const body = await response.json().catch(() => undefined);
