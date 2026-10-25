@@ -22,7 +22,7 @@ export function BookDetailScreen({ book, backControl, shelfControl, searchContro
     <nav className={styles["SL-ly_book-detail__navigation"]} aria-label="メインナビゲーション">
       {shelfControl ?? <Link href="/"><Image src="/mockups/bookshelf/desktop/home.svg" width={20} height={20} alt="" unoptimized />本棚</Link>}
       {searchControl ?? <Link href="/?view=search"><Image src="/mockups/bookshelf/desktop/search.svg" width={20} height={20} alt="" unoptimized />検索</Link>}
-      <button disabled><Image src="/mockups/bookshelf/desktop/add.svg" width={20} height={20} alt="" unoptimized /><span>追加<small>準備中</small></span></button>
+      <Link href="/books/new"><Image src="/mockups/bookshelf/desktop/add.svg" width={20} height={20} alt="" unoptimized />追加</Link>
       <button disabled><Image src="/mockups/bookshelf/desktop/price.svg" width={20} height={20} alt="" unoptimized /><span>金額<small>準備中</small></span></button>
     </nav>
     <div className={styles["SL-ly_book-detail__body"]}>

@@ -27,6 +27,7 @@ export function BookshelfPage({ keyword, filters, view }: { keyword: string; fil
     } catch { /* 一時storageが使えなくてもURLの検索条件は利用できる。 */ }
   }, []);
   return <BookshelfScreen books={shelfBooks} areas={shelfAreas} tags={shelfTags} initialKeyword={keyword} initialFilters={filters} initialView={view}
+    onAddBook={() => router.push("/books/new")}
     onSelectBook={(book, context) => {
       const query = new URLSearchParams();
       if (context.keyword) query.set("q", context.keyword);
