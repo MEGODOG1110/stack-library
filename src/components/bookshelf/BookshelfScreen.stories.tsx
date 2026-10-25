@@ -18,6 +18,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
+export const Light: Story = { globals: { theme: "light" } };
+export const Dark: Story = { globals: { theme: "dark" } };
 export const TitleSortedShelves: Story = {
   args: { books: [...shelfBooks].reverse() },
   play: async ({ canvasElement }) => {

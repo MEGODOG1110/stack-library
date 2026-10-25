@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, fn, userEvent, waitFor, within } from "storybook/test";
 import { BookForm } from "./BookForm";
 import { makeSampleCover, sampleBookDraft, sampleFormTags } from "./book-form.fixtures";
-const meta = { title: "BookForm/BookForm", component: BookForm, args: { tags: sampleFormTags, onCheck: fn() }, decorators: [(Story) => <div style={{ height: "100dvh", display: "flex", flexDirection: "column", background: "#fff", color: "#111827" }}><Story /></div>], parameters: { layout: "fullscreen" } } satisfies Meta<typeof BookForm>;
+const meta = { title: "BookForm/BookForm", component: BookForm, args: { tags: sampleFormTags, onCheck: fn() }, decorators: [(Story) => <div style={{ height: "100dvh", display: "flex", flexDirection: "column", background: "var(--sl-color-background)", color: "var(--sl-color-text)" }}><Story /></div>], parameters: { layout: "fullscreen" } } satisfies Meta<typeof BookForm>;
 export default meta;
 type Story = StoryObj<typeof meta>;
 export const Default: Story = {};

@@ -9,6 +9,8 @@ const meta = { title: "BookForm/BookFormScreen", component: BookFormScreen, args
 export default meta;
 type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
+export const Light: Story = { globals: { theme: "light" } };
+export const Dark: Story = { globals: { theme: "dark" } };
 export const Mobile: Story = { globals: { viewport: { value: "mobileMock", isRotated: false } } };
 export const Desktop: Story = { globals: { viewport: { value: "desktopMock", isRotated: false } } };
 export const LeaveConfirmation: Story = { play: async ({ canvasElement, args }) => {

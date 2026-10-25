@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { FormField } from "./FormField";
 const meta = { title: "BookForm/FormField", component: FormField, args: { id: "field-story", name: "title", label: "書名", value: "", onChange: () => {}, required: true },
-  decorators: [(Story) => <div style={{ width: "min(360px, 100%)", padding: 16, background: "#fff", color: "#111827" }}><Story /></div>],
+  decorators: [(Story) => <div style={{ width: "min(360px, 100%)", padding: 16, background: "var(--sl-color-background)", color: "var(--sl-color-text)" }}><Story /></div>],
   render: function FieldStory(args) { const [value, setValue] = useState(args.value); return <FormField {...args} value={value} onChange={setValue} />; },
 } satisfies Meta<typeof FormField>;
 export default meta;

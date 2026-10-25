@@ -1,9 +1,9 @@
 .SL-el_cover-picker { display: grid; gap: 8px; min-width: 0; }
 .SL-el_cover-picker > label { font-size: 13px; font-weight: 600; }
-.SL-el_cover-picker input { width: 100%; min-width: 0; padding: 8px; border: 1px solid #9ca3af; background: #fff; color: #111827; font: inherit; font-size: 13px; }
-.SL-el_cover-picker input::file-selector-button, .SL-el_cover-picker button { min-height: 44px; padding: 8px 12px; border: 1px solid #9ca3af; background: #fff; color: #111827; font: inherit; cursor: pointer; }
-.SL-el_cover-picker p { margin: 0; color: #4b5563; font-size: 12px; overflow-wrap: anywhere; }
-.SL-el_cover-picker .SL-el_cover-picker__error { color: #b91c1c; }
+.SL-el_cover-picker input { width: 100%; min-width: 0; padding: 8px; border: 1px solid var(--sl-color-border-strong); background: var(--sl-color-background); color: var(--sl-color-text); font: inherit; font-size: 13px; }
+.SL-el_cover-picker input::file-selector-button, .SL-el_cover-picker button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--sl-color-border-strong); background: var(--sl-color-background); color: var(--sl-color-text); font: inherit; cursor: pointer; }
+.SL-el_cover-picker p { margin: 0; color: var(--sl-color-muted); font-size: 12px; overflow-wrap: anywhere; }
+.SL-el_cover-picker .SL-el_cover-picker__error { color: var(--sl-color-error); }
 .SL-ly_cover-picker__preview { display: flex; align-items: flex-start; gap: 12px; min-width: 0; }
 .SL-ly_cover-picker__preview > img { flex-shrink: 0; object-fit: contain; }
 .SL-ly_cover-picker__preview > div { display: grid; gap: 8px; min-width: 0; }

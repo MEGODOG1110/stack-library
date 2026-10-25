@@ -14,6 +14,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
+export const Light: Story = { globals: { theme: "light" } };
+export const Dark: Story = { globals: { theme: "dark" } };
 export const Mobile: Story = { globals: { viewport: { value: "mobileMock", isRotated: false } } };
 export const Desktop: Story = { globals: { viewport: { value: "desktopMock", isRotated: false } } };
 export const WithOptionalInformation: Story = { args: { book: specimenBook } };

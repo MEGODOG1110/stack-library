@@ -1,4 +1,4 @@
 .SL-el_book-meta { display: grid; gap: 16px; margin: 0; }
 .SL-el_book-meta__record { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
-.SL-el_book-meta__record dt { color: #4b5563; font-size: 12px; }
+.SL-el_book-meta__record dt { color: var(--sl-color-muted); font-size: 12px; }
 .SL-el_book-meta__record dd { margin: 0; font-size: 14px; font-weight: 600; overflow-wrap: anywhere; text-align: right; }
