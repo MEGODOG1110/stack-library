@@ -25,6 +25,6 @@ export async function POST(request: Request) {
     input = { ...fields, cover: "https://images.microcms-assets.io/pending.png" };
   }
   catch { return Response.json({ error: "invalid-json" }, { status: 400 }); }
-  try { return Response.json(await registerInMicrocms(input, () => uploadCover(cover)), { status: 201, headers: { "Cache-Control": "no-store" } }); }
+  try { return Response.json(await registerInMicrocms(input, (isbn) => uploadCover(cover, isbn)), { status: 201, headers: { "Cache-Control": "no-store" } }); }
   catch (error) { return Response.json({ error: error instanceof RegistrationError ? error.code : "cms-unavailable" }, { status: error instanceof RegistrationError ? error.httpStatus : 502 }); }
 }

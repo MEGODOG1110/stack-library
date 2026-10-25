@@ -21,10 +21,10 @@ export function toBooksPayload(input: unknown) {
   const keywords = splitKeywords(text("keywords")).join("\n");
   const price = value.registeredPrice;
   if (price !== undefined && (typeof price !== "number" || !Number.isFinite(price) || price < 0)) throw new RegistrationError("invalid-price", 400);
-  return { ...(ids.length ? { technicalAreas: bookAreas.filter(area=>ids.includes(area.id)).map(area=>area.label) } : {}), ...(keywords ? { keywords } : {}), title, authors: authors.join("\n"), cover: cover.href, publication: { fieldId: "publication", ...(isbn ? { isbn } : {}), ...(text("publisher") ? { publisher: text("publisher") } : {}), ...(price !== undefined ? { price } : {}) }, reading: { fieldId: "reading", status: ["積読"], favorite: false } };
+  return { ...(ids.length ? { technicalAreas: bookAreas.filter(area=>ids.includes(area.id)).map(area=>area.label) } : {}), ...(keywords ? { keywords } : {}), title, authors: authors.join("\n"), cover: cover.href, publication: { fieldId: "publication", isbn, ...(text("publisher") ? { publisher: text("publisher") } : {}), ...(price !== undefined ? { price } : {}) }, reading: { fieldId: "reading", status: ["積読"], favorite: false } };
 }
 
-export async function registerInMicrocms(input: unknown, resolveCover?: () => Promise<string>) {
+export async function registerInMicrocms(input: unknown, resolveCover?: (isbn: string) => Promise<string>) {
   const payload = toBooksPayload(input);
   const service = process.env.MICROCMS_SERVICE_DOMAIN;
   const key = process.env.MICROCMS_API_KEY;
@@ -44,7 +44,7 @@ export async function registerInMicrocms(input: unknown, resolveCover?: () => Pr
     if (offset >= page.totalCount) break;
     if (!page.contents.length) throw new RegistrationError("cms-read-failed", 502);
   }
-  if (resolveCover) payload.cover = await resolveCover();
+  if (resolveCover) payload.cover = await resolveCover(isbn);
   // timeoutやread-back失敗後は自動再送しない。
   let contentId: string;
   try {
