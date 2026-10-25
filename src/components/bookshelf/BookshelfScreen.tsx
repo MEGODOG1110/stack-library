@@ -64,7 +64,7 @@ export function BookshelfScreen({ books, areas, tags, initialKeyword = "", initi
   function filterBooks(query: string, conditions: ShelfFilters) {
     const terms = normalize(query).trim().split(/\s+/).filter(Boolean);
     return books.filter((book) => {
-    const searchable = normalize([book.title, ...book.authors, book.isbn ?? ""].join(" "));
+    const searchable = normalize([book.title, ...book.authors, book.isbn ?? "", ...book.tagIds].join(" "));
     return terms.every((term) => searchable.includes(term))
       && (!conditions.areaIds.length || conditions.areaIds.some((id) => book.areaIds.includes(id)))
       && (!conditions.tagIds.length || conditions.tagIds.some((id) => book.tagIds.includes(id)));
@@ -104,7 +104,7 @@ export function BookshelfScreen({ books, areas, tags, initialKeyword = "", initi
           <button type="button" aria-label="本棚に戻る" onClick={() => setView("shelf")}><Icon name="back" /></button>
           <input id="bookshelf-keyword" ref={searchFormInput} type="search" placeholder="タイトル・著者・ISBN" value={draftKeyword} onChange={(event) => setDraftKeyword(event.target.value)} />
         </div>
-        {([{ key: "areaIds", label: "分野", options: areas }, { key: "tagIds", label: "技術タグ", options: tags }] as const).map((group) => <fieldset key={group.key}>
+        {([{ key: "areaIds", label: "分野", options: areas }, { key: "tagIds", label: "検索語", options: tags }] as const).map((group) => <fieldset key={group.key}>
           <legend>{group.label}（複数選択可）</legend>
           <div className={styles["SL-ly_bookshelf__choices"]}>{group.options.map((option) => <label key={option.id} className={styles["SL-el_bookshelf__choice"]}>
             <input type="checkbox" checked={draft[group.key].includes(option.id)} onChange={() => toggle(group.key, option.id)} />{option.label}
@@ -132,7 +132,7 @@ export function BookshelfScreen({ books, areas, tags, initialKeyword = "", initi
         {error ? <div className={styles["SL-el_bookshelf__message"]} role="alert"><p>{error}</p><button type="button" onClick={onRetry} disabled={!onRetry}>再読み込み</button></div>
           : books.length === 0 ? <div className={styles["SL-el_bookshelf__message"]}><p>まだ本がありません</p><button type="button" onClick={onAddBook} disabled={!onAddBook}>本を追加{!onAddBook && "（準備中）"}</button></div>
           : filtered ? <>{matches.length ? <BookShelf label="検索結果" books={matches} onSelect={select} announceCount /> : <div className={styles["SL-el_bookshelf__message"]}><p role="status">0冊</p><p>条件に合う本がありません</p><button type="button" onClick={clear}>条件をクリア</button></div>}</>
-          : <>{areas.map((area) => { const shelf = matches.filter((book) => book.areaIds.includes(area.id)); return shelf.length > 0 && <BookShelf key={area.id} label={`${area.label}棚`} books={shelf} onSelect={select} />; })}{matches.some((book) => !book.areaIds.some((id) => areas.some((area) => area.id === id))) && <BookShelf label="未分類棚" books={matches.filter((book) => !book.areaIds.some((id) => areas.some((area) => area.id === id)))} onSelect={select} />}</>}
+          : <>{areas.map((area) => { const shelf = matches.filter((book) => book.areaIds.find((id) => areas.some((option) => option.id === id)) === area.id); return shelf.length > 0 && <BookShelf key={area.id} label={`${area.label}棚`} books={shelf} onSelect={select} />; })}{matches.some((book) => !book.areaIds.some((id) => areas.some((area) => area.id === id))) && <BookShelf label="未分類棚" books={matches.filter((book) => !book.areaIds.some((id) => areas.some((area) => area.id === id)))} onSelect={select} />}</>}
       </div>
       </div>
       <nav className={styles["SL-ly_bookshelf__navigation"]} aria-label="メインナビゲーション">
@@ -144,7 +144,7 @@ export function BookshelfScreen({ books, areas, tags, initialKeyword = "", initi
 
       <dialog ref={filterDialog} className={styles["SL-el_bookshelf__dialog"]} aria-labelledby="bookshelf-filter-title">
         <div className={styles["SL-ly_bookshelf__dialog-header"]}><h2 id="bookshelf-filter-title">絞り込み条件</h2><button type="button" aria-label="閉じる" onClick={() => filterDialog.current?.close()}><Icon name="close" /></button></div>
-        <p>{activeLabels.length ? activeLabels.map((option) => option.label).join(" / ") : "分野・タグの指定はありません"}</p><button type="button" onClick={() => { filterDialog.current?.close(); openSearch(); }}>条件を変更</button><button type="button" onClick={() => { clear(); filterDialog.current?.close(); }}>条件をクリア</button>
+        <p>{activeLabels.length ? activeLabels.map((option) => option.label).join(" / ") : "分野・検索語の指定はありません"}</p><button type="button" onClick={() => { filterDialog.current?.close(); openSearch(); }}>条件を変更</button><button type="button" onClick={() => { clear(); filterDialog.current?.close(); }}>条件をクリア</button>
       </dialog>
       <dialog ref={sortDialog} className={styles["SL-el_bookshelf__dialog"]} aria-labelledby="bookshelf-sort-title"><h2 id="bookshelf-sort-title">並び替え</h2><p>書名順（読み）</p><button type="button" onClick={() => sortDialog.current?.close()}>閉じる</button></dialog>
       <dialog ref={bookDialog} className={styles["SL-el_bookshelf__dialog"]} aria-labelledby="bookshelf-book-title"><h2 id="bookshelf-book-title">書籍の確認</h2>{selected && <><h3>{selected.title}</h3><p>{selected.authors.join("・")}</p>{selected.isbn && <p>ISBN {selected.isbn}</p>}</>}<button type="button" onClick={() => bookDialog.current?.close()}>閉じる</button></dialog>

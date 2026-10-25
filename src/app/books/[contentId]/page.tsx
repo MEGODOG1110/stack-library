@@ -1,16 +1,17 @@
-import { notFound } from "next/navigation";
-import { detailBooks } from "@/components/book-detail/book-detail.fixtures";
+import { normalizeIsbn, isValidIsbn } from "@/components/book-form/book-form.validation";
+import { notFound, redirect } from "next/navigation";
+import { getCmsBook, getCmsBookByIsbn } from "@/lib/books/microcms-books";
 import { DetailNavigation } from "./DetailNavigation";
-import styles from "../../page.module.css";
-
-export function generateStaticParams() { return detailBooks.map((book) => ({ contentId: book.id })); }
 
 export default async function BookDetailPage({ params, searchParams }: {
   params: Promise<{ contentId: string }>;
   searchParams: Promise<{ from?: string | string[] }>;
 }) {
   const [{ contentId }, query] = await Promise.all([params, searchParams]);
-  const book = detailBooks.find((item) => item.id === contentId);
+  const canonical = normalizeIsbn(contentId);
+  const isbnPath = isValidIsbn(canonical);
+  if (/^\d{13}$/.test(canonical) && !isbnPath) notFound();
+  const book = isbnPath ? await getCmsBookByIsbn(canonical) : await getCmsBook(contentId);
   if (!book) notFound();
   let returnTo = "/";
   if (typeof query.from === "string") {
@@ -19,5 +20,7 @@ export default async function BookDetailPage({ params, searchParams }: {
       if (url.origin === "https://stack-library.invalid" && url.pathname === "/") returnTo = url.pathname + url.search;
     } catch { /* 不正な戻り先は本棚へ。 */ }
   }
-  return <main><p className={styles["SL-el_sample-notice"]}>表示確認用サンプル・データ保存なし</p><DetailNavigation book={book} returnTo={returnTo} /></main>;
+  if (!book.isbn || !isValidIsbn(book.isbn)) notFound();
+  if (contentId !== book.isbn) redirect(`/books/${book.isbn}${returnTo !== "/" ? `?from=${encodeURIComponent(returnTo)}` : ""}`);
+  return <main><DetailNavigation book={book} returnTo={returnTo} /></main>;
 }

@@ -132,7 +132,7 @@ ignore_default_excludes = false
 MICROCMS_API_KEY = "exclude"
 
 [mcp_servers.microcms]
-url = "https://mcp.microcms.io/mcp/meguru-stack-library"
+url = "https://mcp.microcms.io/mcp/stack-library"
 bearer_token_env_var = "MICROCMS_API_KEY"
 default_tools_approval_mode = "auto"
 

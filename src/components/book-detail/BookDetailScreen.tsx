@@ -30,7 +30,7 @@ export function BookDetailScreen({ book, backControl, shelfControl, searchContro
       <BookIdentity book={book} />
       <div className={styles["SL-ly_book-detail__content"]} tabIndex={0} role="region" aria-label="書籍の補足情報">
         <div className={styles["SL-ly_book-detail__ledger"]}>
-          <section className={styles["SL-el_book-detail__surface"]} aria-labelledby="detail-tags"><h2 id="detail-tags">技術タグ</h2><BookTags tags={book.tags} /></section>
+          <section className={styles["SL-el_book-detail__surface"]} aria-labelledby="detail-tags"><h2 id="detail-tags">検索語</h2><BookTags tags={book.tags} /></section>
           <section className={styles["SL-el_book-detail__surface"]} aria-labelledby="detail-ledger"><h2 id="detail-ledger">蔵書情報</h2>
             <BookMetadata items={[{ label: "登録価格（税込）", value: priceLabel }, { label: "読書状況", value: book.readingStatus ? statusLabels[book.readingStatus] : undefined }]} />
             <button disabled className={styles["SL-el_book-detail__status-action"]}>読書状況の変更（準備中）</button>

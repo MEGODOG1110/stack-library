@@ -2,18 +2,19 @@
 import { useId, useRef, useState } from "react";
 import { CoverPicker } from "./CoverPicker";
 import { FormField } from "./FormField";
+import { bookAreas } from "@/lib/books/classification";
 import { TagSelector } from "./TagSelector";
 import { checkBookInput, emptyBookDraft } from "./book-form.validation";
 import type { BookFormDraft, BookFormErrors, CheckedBookInput, FormTag } from "./book-form.types";
 import styles from "./BookForm.module.css";
 
-export function BookForm({ tags, initialValues, onDirtyChange, onCheck }: {
-  tags: readonly FormTag[]; initialValues?: Partial<BookFormDraft>; onDirtyChange?: (dirty: boolean) => void; onCheck?: (value: CheckedBookInput) => void;
+export function BookForm({ initialValues, onDirtyChange, onCheck, initialCoverSrc, confirmLabel = "入力内容を確認" }: {
+  tags: readonly FormTag[]; initialValues?: Partial<BookFormDraft>; onDirtyChange?: (dirty: boolean) => void; onCheck?: (value: CheckedBookInput) => void; initialCoverSrc?: string; confirmLabel?: string;
 }) {
   const prefix = useId();
   const form = useRef<HTMLFormElement>(null);
-  const [draft, setDraft] = useState<BookFormDraft>(() => ({ ...emptyBookDraft, ...initialValues, tagIds: [...(initialValues?.tagIds ?? [])] }));
-  const [cover, setCover] = useState<File>();
+  const [draft, setDraft] = useState<BookFormDraft>(() => ({ ...emptyBookDraft, ...initialValues, areaIds: [...(initialValues?.areaIds ?? [])] }));
+  const [cover, setCover] = useState<File | string>();
   const [errors, setErrors] = useState<BookFormErrors>({});
   const [checked, setChecked] = useState(false);
   function dirty() { onDirtyChange?.(true); setChecked(false); }
@@ -21,7 +22,7 @@ export function BookForm({ tags, initialValues, onDirtyChange, onCheck }: {
     dirty(); setDraft((current) => ({ ...current, [key]: value }));
     setErrors((current) => ({ ...current, [key]: undefined }));
   }
-  const field = (key: "title" | "authors" | "isbn" | "publisher" | "editionPublicationText" | "price", label: string, options: { required?: boolean; hint?: string; multiline?: boolean; inputMode?: "numeric" | "decimal"; placeholder?: string } = {}) =>
+  const field = (key: "title" | "authors" | "isbn" | "publisher" | "price" | "keywords", label: string, options: { required?: boolean; hint?: string; multiline?: boolean; inputMode?: "numeric" | "decimal"; placeholder?: string } = {}) =>
     <FormField id={`${prefix}-${key}`} name={key} label={label} value={draft[key]} onChange={(value) => update(key, value)} error={errors[key as keyof BookFormErrors]} {...options} />;
   return <form ref={form} className={styles["SL-ly_book-form"]} noValidate onSubmit={(event) => {
     event.preventDefault(); const result = checkBookInput(draft, cover); setErrors(result.errors); setChecked(false);
@@ -39,20 +40,20 @@ export function BookForm({ tags, initialValues, onDirtyChange, onCheck }: {
         <div className={styles["SL-ly_book-form__column"]}>
           {field("title", "書名", { required: true })}
           {field("authors", "著者", { required: true, multiline: true, hint: "複数名は改行して入力できます。編者・団体名も入力できます。" })}
-          {field("isbn", "ISBN", { inputMode: "numeric", hint: "任意。13桁のISBNを入力してください。ハイフンも使えます。" })}
+          {field("isbn", "ISBN", { required: true, inputMode: "numeric", hint: "13桁のISBNを入力してください。ハイフン・全角数字も使えます。" })}
           {field("publisher", "出版社")}
-          {field("editionPublicationText", "版・出版年", { placeholder: "第2版 / 2026年" })}
-          <TagSelector options={tags} selected={draft.tagIds} onChange={(ids) => update("tagIds", ids)} />
+          <TagSelector label="分野（任意）" options={bookAreas} selected={draft.areaIds} onChange={(ids) => update("areaIds", ids)} />
+          {field("keywords", "検索語（任意）", { multiline: true, hint: "React・CSSなど、探すときの言葉を1行に1つ入力できます。空欄でも登録できます。" })}
         </div>
         <div className={styles["SL-ly_book-form__column"]}>
-          <CoverPicker id={`${prefix}-cover`} error={errors.cover} onDirty={dirty} onChange={(file) => { setCover(file); setChecked(false); if (file) setErrors((current) => ({ ...current, cover: undefined })); }} />
+          <CoverPicker id={`${prefix}-cover`} initialSrc={initialCoverSrc} error={errors.cover} onDirty={dirty} onChange={(file) => { setCover(file); setChecked(false); if (file) setErrors((current) => ({ ...current, cover: undefined })); }} />
           {field("price", "税込価格", { inputMode: "decimal", hint: "任意。空欄の価格は集計しません。0円も入力できます。" })}
         </div>
       </div>
     </div>
     <footer className={styles["SL-ly_book-form__footer"]}>
       {checked && <p role="status">入力内容を確認しました。保存はまだ行っていません。</p>}
-      <button type="submit">入力内容を確認</button>
+      <button type="submit">{confirmLabel}</button>
     </footer>
   </form>;
 }

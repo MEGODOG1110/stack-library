@@ -4,14 +4,16 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./CoverPicker.module.css";
 
 const acceptedTypes = ["image/jpeg", "image/png", "image/webp"];
-export function CoverPicker({ id, error, onChange, onDirty }: { id: string; error?: string; onChange: (file?: File) => void; onDirty?: () => void }) {
-  const [selection, setSelection] = useState<{ file: File; url: string; ready: boolean }>();
+export function CoverPicker({ id, error, onChange, onDirty, initialSrc }: { id: string; error?: string; onChange: (file?: File | string) => void; onDirty?: () => void; initialSrc?: string }) {
+  const [selection, setSelection] = useState<{ file?: File; url: string; ready: boolean } | undefined>(() => initialSrc ? { url: initialSrc, ready: false } : undefined);
   const [failure, setFailure] = useState("");
-  const urlRef = useRef<string | undefined>(undefined);
+  const urlRef = useRef<string | undefined>(initialSrc);
+  const ownedUrlRef = useRef<string | undefined>(undefined);
   const input = useRef<HTMLInputElement>(null);
-  useEffect(() => () => { if (urlRef.current) URL.revokeObjectURL(urlRef.current); }, []);
+  useEffect(() => () => { if (ownedUrlRef.current) URL.revokeObjectURL(ownedUrlRef.current); }, []);
   function clear(resetInput = true) {
-    if (urlRef.current) URL.revokeObjectURL(urlRef.current);
+    if (ownedUrlRef.current) URL.revokeObjectURL(ownedUrlRef.current);
+    ownedUrlRef.current = undefined;
     urlRef.current = undefined;
     setSelection(undefined); onChange(undefined);
     if (resetInput && input.current) input.current.value = "";
@@ -24,17 +26,17 @@ export function CoverPicker({ id, error, onChange, onDirty }: { id: string; erro
       if (!file) return;
       onDirty?.(); clear(false); setFailure("");
       if (!acceptedTypes.includes(file.type)) { event.currentTarget.value = ""; setFailure("JPEG・PNG・WebPの画像を選択してください"); return; }
-      if (file.size > 10 * 1024 * 1024) { event.currentTarget.value = ""; setFailure("10MB以下の画像を選択してください"); return; }
-      const url = URL.createObjectURL(file); urlRef.current = url;
+      if (file.size > 5 * 1024 * 1024) { event.currentTarget.value = ""; setFailure("5MB以下の画像を選択してください"); return; }
+      const url = URL.createObjectURL(file); urlRef.current = url; ownedUrlRef.current = url;
       setSelection({ file, url, ready: false });
     }} />
-    <p id={`${id}-hint`}>JPEG・PNG・WebP、10MB以下。画像は端末内でプレビューします。</p>
+    <p id={`${id}-hint`}>JPEG・PNG・WebP、5MB以下。画像は端末内でプレビューします。</p>
     {selection ? <div className={styles["SL-ly_cover-picker__preview"]}>
       <Image key={selection.url} src={selection.url} width={104} height={157} alt="選択した書影のプレビュー" unoptimized loading="eager" onLoad={() => {
         if (urlRef.current !== selection.url) return;
-        setSelection({ ...selection, ready: true }); onChange(selection.file);
+        setSelection({ ...selection, ready: true }); onChange(selection.file ?? selection.url);
       }} onError={() => { if (urlRef.current !== selection.url) return; clear(); setFailure("画像を読み込めませんでした。別の画像を選択してください"); }} />
-      <div><p>{selection.file.name}</p><p role="status">{selection.ready ? "選択済み（未保存）" : "画像を確認しています"}</p><button type="button" onClick={() => { onDirty?.(); clear(); setFailure(""); }}>画像を外す</button></div>
+      <div><p>{selection.file?.name ?? "取得した表紙画像"}</p><p role="status">{selection.ready ? "選択済み（未保存）" : "画像を確認しています"}</p><button type="button" onClick={() => { onDirty?.(); clear(); setFailure(""); }}>画像を外す</button></div>
     </div> : <p>画像を選択していません</p>}
     {message && <p id={`${id}-error`} className={styles["SL-el_cover-picker__error"]} role="alert">{message}</p>}
   </div>;
