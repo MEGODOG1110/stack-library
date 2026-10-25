@@ -4,20 +4,20 @@ type Volume = { id?: string; volumeInfo?: { title?: string; authors?: string[]; 
 export async function probeGoogleBooks(isbn: string, signal: AbortSignal) {
   const key = process.env.GOOGLE_BOOKS_API_KEY ?? "";
   const results = [];
-  for (const mode of ["query", "header"] as const) {
-    const url = new URL("https://www.googleapis.com/books/v1/volumes");
+  for (const host of ["www.googleapis.com", "books.googleapis.com"] as const) {
+    const url = new URL(`https://${host}/books/v1/volumes`);
     url.searchParams.set("q", `isbn:${isbn}`); url.searchParams.set("maxResults", "20");
-    if (mode === "query") url.searchParams.set("key", key);
-    const response = await fetch(url, { headers: mode === "header" ? { "X-Goog-Api-Key": key.trim() } : {}, signal, cache: "no-store" });
+    const response = await fetch(url, { headers: { "X-Goog-Api-Key": key.trim() }, signal, cache: "no-store" });
     const json = await response.json().catch(() => null);
-    results.push({ mode, status: response.status, count: typeof json?.totalItems === "number" ? json.totalItems : null, errorStatus: ["UNAVAILABLE", "PERMISSION_DENIED", "INVALID_ARGUMENT", "RESOURCE_EXHAUSTED", "UNAUTHENTICATED"].includes(json?.error?.status) ? json.error.status : null, json: !!json });
+    const reason = json?.error?.errors?.[0]?.reason;
+    results.push({ host, status: response.status, count: typeof json?.totalItems === "number" ? json.totalItems : null, reason: ["backendError", "backendFailed", "rateLimitExceeded", "keyInvalid", "ipRefererBlocked", "accessNotConfigured"].includes(reason) ? reason : null, errorStatus: ["UNAVAILABLE", "PERMISSION_DENIED", "INVALID_ARGUMENT", "RESOURCE_EXHAUSTED", "UNAUTHENTICATED"].includes(json?.error?.status) ? json.error.status : null, json: !!json });
   }
   return { keyPresent: !!key, keyWhitespace: key !== key.trim(), results };
 }
 async function request(path: string, signal: AbortSignal) {
-  const url = new URL(`https://www.googleapis.com/books/v1/${path}`);
-  url.searchParams.set("key", process.env.GOOGLE_BOOKS_API_KEY!);
-  let response = await fetch(url, { signal, cache: "no-store" });
+  const url = new URL(`https://books.googleapis.com/books/v1/${path}`);
+  const headers = { "X-Goog-Api-Key": process.env.GOOGLE_BOOKS_API_KEY!.trim() };
+  let response = await fetch(url, { headers, signal, cache: "no-store" });
   // 読取りだけを再試行する。共通signalの20秒上限を超えず、認証・quotaエラーは再送しない。
   for (let attempt = 0; attempt < 2 && [500, 502, 503, 504].includes(response.status); attempt++) {
     await response.body?.cancel();
@@ -27,7 +27,7 @@ async function request(path: string, signal: AbortSignal) {
       const timer = setTimeout(() => { signal.removeEventListener("abort", abort); resolve(); }, 300 * 2 ** attempt);
       signal.addEventListener("abort", abort, { once: true });
     });
-    response = await fetch(url, { signal, cache: "no-store" });
+    response = await fetch(url, { headers, signal, cache: "no-store" });
   }
   if (!response.ok) {
     // 上流の本文・URLにはキーやIPが含まれ得るため記録しない。
