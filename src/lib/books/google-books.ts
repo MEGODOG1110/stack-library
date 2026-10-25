@@ -1,5 +1,19 @@
 import type { LookupBook } from "@/components/book-form/isbn-registration.types";
 type Volume = { id?: string; volumeInfo?: { title?: string; authors?: string[]; publisher?: string; publishedDate?: string; industryIdentifiers?: { type: string; identifier: string }[]; imageLinks?: Record<string, string> } };
+/** 本人限定の切り分け用。資格情報・URL・上流本文は返さない。 */
+export async function probeGoogleBooks(isbn: string, signal: AbortSignal) {
+  const key = process.env.GOOGLE_BOOKS_API_KEY ?? "";
+  const results = [];
+  for (const mode of ["query", "header"] as const) {
+    const url = new URL("https://www.googleapis.com/books/v1/volumes");
+    url.searchParams.set("q", `isbn:${isbn}`); url.searchParams.set("maxResults", "20");
+    if (mode === "query") url.searchParams.set("key", key);
+    const response = await fetch(url, { headers: mode === "header" ? { "X-Goog-Api-Key": key.trim() } : {}, signal, cache: "no-store" });
+    const json = await response.json().catch(() => null);
+    results.push({ mode, status: response.status, count: typeof json?.totalItems === "number" ? json.totalItems : null, errorStatus: ["UNAVAILABLE", "PERMISSION_DENIED", "INVALID_ARGUMENT", "RESOURCE_EXHAUSTED", "UNAUTHENTICATED"].includes(json?.error?.status) ? json.error.status : null, json: !!json });
+  }
+  return { keyPresent: !!key, keyWhitespace: key !== key.trim(), results };
+}
 async function request(path: string, signal: AbortSignal) {
   const url = new URL(`https://www.googleapis.com/books/v1/${path}`);
   url.searchParams.set("key", process.env.GOOGLE_BOOKS_API_KEY!);
