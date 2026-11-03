@@ -4,38 +4,42 @@
   "private": true,
   "packageManager": "pnpm@10.34.7",
   "engines": {
-    "node": ">=24 <25",
+    "node": ">=26.13.0 <27",
     "pnpm": ">=10.34.7 <11"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
       "esbuild",
       "unrs-resolver"
-    ]
+    ],
+    "overrides": {
+      "@joshwooding/vite-plugin-react-docgen-typescript>glob": "14.0.2",
+      "minimatch": "11.0.1",
+      "vite-plugin-storybook-nextjs>vite-tsconfig-paths": "7.0.0-alpha.3"
+    }
   },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --max-warnings=0",
+    "lint": "oxlint .",
     "typecheck": "next typegen && tsc --noEmit",
     "storybook": "storybook dev -p 6006 --no-open --disable-telemetry"
   },
   "dependencies": {
-    "next": "16.4.3",
+    "next": "16.4.4",
     "next-auth": "5.0.0-beta.32",
     "react": "19.3.1",
     "react-dom": "19.3.1"
   },
   "devDependencies": {
-    "@storybook/nextjs-vite": "10.6.3",
-    "@types/node": "24.19.2",
+    "@storybook/nextjs-vite": "10.6.5",
+    "@types/node": "26.6.6",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
-    "eslint": "9.39.5",
-    "eslint-config-next": "16.4.3",
-    "storybook": "10.6.3",
-    "typescript": "5.9.3",
+    "oxlint": "1.90.0",
+    "storybook": "10.6.5",
+    "typescript": "7.0.2",
     "vite": "8.3.5"
   }
 }
