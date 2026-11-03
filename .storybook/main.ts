@@ -5,6 +5,7 @@ const config: StorybookConfig = {
   staticDirs: ["../public"],
   framework: "@storybook/nextjs-vite",
   core: { disableTelemetry: true },
+  typescript: { reactDocgen: "react-docgen" },
   previewHead: (head) => `${head}<link rel="icon" href="data:,">`,
 };
 
