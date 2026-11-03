@@ -4,123 +4,47 @@ Stack Libraryの開発ワークフローです。人間、Codex、その他の�
 
 ## 基本方針
 
-- `main`は常に統合可能な状態に保つ
-- `main`へ直接コミットしない
-- 凍結Linear Issueを作業記録と仕様の正本にする。GitHub Issueは明示的に要求・同期された場合だけoptional mirrorとする
-- 1ブランチ、1目的とする
-- 短命な作業ブランチからPRを作る
-- merge方法は明示的なuser承認に従い、方法指定のない「マージ」はGitHub merge commitとする
-- 未完了の別作業を、無断で現在のブランチへ混ぜない
+一般的な作業の許可・停止条件は[AGENTS.md](../AGENTS.md)を優先します。この文書は実施する作業に必要な手順を参照するためのものです。
 
-長期の`develop`ブランチや、担当者・ツール名を表すブランチは作りません。
+- mainへ直接commitしません。1 branch・1目的を原則とします。
+- 明確に依頼されたローカル修正はIssueやrole割り当てなしで進められます。
+- 新機能、複数工程、複数人の作業は原則としてLinear Issueへ目的・範囲・完了条件を記録します。GitHub Issueは明示された場合だけmirrorにします。
+- 他人や所有者不明の変更を無断でstash、破棄、上書き、commitしません。
+- commit、push、PR、Ready、merge、公開はユーザーの承認範囲で行います。作業依頼だけから公開までの承認を推測しません。
 
 ## 作業開始
 
-最初に凍結Linear Issueを確認または作成し、目的、対応範囲、完了条件を記録します。GitHub Issueは明示的に要求・同期された場合だけ作成し、Linear ID/URLを紐付けます。
+開始時にrepository root、worktree、branch、dirty diffを確認します。差分が独立していれば作業を続けられます。重なる場合は所有者と依頼の範囲を確認します。
 
-Linear Issue確定後、作業ツリーがクリーンであることを確認してから、最新の`main`を起点にLinear IDを含むブランチを作ります。
-
-```bash
-git status --short --branch
-git switch main
-git pull --ff-only origin main
-git switch -c feature/meg-7-freeze
-```
-
-未コミット差分がある場合は、別作業か現在の作業かを確認します。判断できない差分をstash、破棄、コミットしてはいけません。
+ローカル修正のためにIssue作成、mainへの同期、branch切り替えを一律要求しません。新しいbranchが必要なら、既存差分を保護してbaseを確認してから作成します。最新mainが必要な作業では同期しますが、他作業を混ぜたり差分を上書きしたりしません。
 
 ## Codex chat lifecycleと引き継ぎ
 
-Codexによる変更は、原則として`1 Linear Issue / 1 coherent outcome / 1 parent Codex chat`で進めます。requirements、implementation、review、fix、delivery、mergeは職能ごとの別chatへ分断せず、同じLinear Issue、branch、outcomeを所有するparent chatで継続します。parent chatは必要な専門職をbounded internal subagentとして起動し、user-visible chatを職能ごとに増やしません。
+同じ成果に向けた調査、実装、review、修正は同じparent chatで継続できます。工程や職能ごとに新しいchatを要求しません。別の成果へ移る場合も、ユーザーの希望と文脈量から判断します。chatの作成・archiveはユーザーの依頼に従います。
 
-| 状況 | Chatの扱い |
-|---|---|
-| 同じIssue、branch、coherent outcomeを継続 | requirementsからmergeまで同じparent chatを使う |
-| 別のIssueまたは別のoutcome | 新しいparent chatを作る |
-| shared contextからgenuine alternativeを比較 | forkできる。単なる工程分割、職能分割、引き継ぎには使わない |
-| 軽量なread-only question、説明、state check、report | Issueを省略できる。mutation開始前にLinear Issue、outcome、branch、ownershipを確定する |
-| merge後のfollow-up change | 完了したparent chatをarchive candidateとし、通常は新しいIssueとparent chatを使う |
+単独作業ではparent agentが実装・検証・承認済みの公開操作を担当できます。specialistを明示的に割り当てる場合だけ[Agent Organization](./AGENT_ORGANIZATION.md)のrole契約とownershipを適用します。同じtracked fileや外部targetへの並行writeは禁止します。
 
-同じ論理作業でreview findingやvalidation failureが出ても、新しいparent chatへ移さず、findingを元writerへ返して同じparent chat内のFix Waveで解消します。publication authorizationは、承認済みpathのstage、commit、push、Draft PRの作成・更新の許可であり、Ready-only変更やmerge authorizationを含みません。対象PR/revisionへの明示的なmerge approvalがある場合、その承認は必要なDraftからReadyへの遷移を包含します。
-
-| 状態 | 記録と意味 |
-|---|---|
-| PR作成・更新 | publication authorizationによりDraft PRを作成または更新できる |
-| DraftからReadyへの変更 | Ready-only変更ではPR作成とは別の明示的authorizationを必要とする。対象PR/revisionへの明示的なmerge approvalがある場合は、そのapprovalに包含される |
-| merge authorization | userが対象PRのmerge実行を明示的に承認し、`development_lead`が対象PR/revisionへ束縛して記録する。Draftの場合は必要なReady遷移も同じapprovalに含める |
-| recorded merge_method | 方法指定のない明示的な「マージ」承認は`development_lead`が`merge_method=merge`へ正規化する。SquashまたはRebaseはuserがその方法を明示した場合だけ`merge_method=squash|rebase`と記録する |
-
-`release_manager`はpublication authorizationとmerge authorizationを統合または推測せず、merge authorization、必要なReady承認またはそれを包含するmerge approval、記録済み`merge_method`、authorized/frozen `expected_head_sha`が揃った場合だけ実行します。
-
-新しいparent chatは、root `AGENTS.md`と`.codex/config.toml`をdiscoverできるよう、同じlocal projectを開き、primary repositoryのproject rootから開始します。tracked fileへの並行writeは禁止し、別Issueや別outcomeへ移る場合も正のworktreeを一つだけ使って順次handoffします。同じbranchまたは同じpathへ複数chatから書いてはいけません。read-only chatも追加worktreeを作成せず、正のworktreeまたは既存の履歴をread-onlyで確認します。開始時とbranch変更の前後に `git rev-parse --show-toplevel` と `git worktree list --porcelain` を確認し、指定rootと正のworktree一件だけに一致しない場合は停止します。
+通常は現在のprimary worktreeを使います。追加worktreeはユーザーが明示的に依頼した場合だけ作成します。開始時とbranch変更前後に作業場所と差分を確認します。worktreeが複数存在するという理由だけで、独立したread-only調査を停止しません。
 
 ### New-chat handoff packet
 
-別Issue、別outcome、または環境上の理由で新しいparent chatへ移るときは、会話履歴だけに依存せず、次のpacketを渡します。値がない項目も省略せず`none`または`absent`と記録します。
+引き継ぎでは次を必要な範囲で伝えます。存在しないIssueやcontractの作成を引き継ぎ条件にしません。
 
-- Linear Issue ID/URLとfrozen updated revision（同期GitHub Issueが明示割当された場合はそのID/URLも記録）
-- branch、base commit、head commit
-- dirty diffの有無、exact changed paths、各diffのowner
-- exact scope、coherent outcome、non-goals
-- owner、allowed write surfaces、forbidden write surfaces、path単位のownership ledgerとそのrevision
-- frozen Acceptance Matrix、Design Brief、Component Contract、Design Contract、Design Critic Approval、Technical Planなど、適用するcontractとrevision
-- 完了済みvalidation、validation input revision、結果、再利用条件とinvalidation conditions
-- Figma file/node ID、対象file、theme、viewport、state
-- publication authorization、Ready-only時のDraftからReadyへのauthorization、merge authorization（DraftならReady遷移を包含）、`merge_method=merge|squash|rebase`、authorized/frozen `expected_head_sha=<40-character SHA>|absent`の各状態
-- 既存Draft PRのURL/numberと状態
-- 次のdownstream handoff、未解決finding、stop condition
+- 目的、対象、完了条件、未解決の判断
+- branch、head、変更path、既存差分のowner
+- 適用するIssue・仕様・Figma target（ある場合）
+- 完了した検証、その入力、再利用条件
+- 外部操作の承認範囲、既存PR、次の作業
 
-`head commit`はpacket作成時に観測したbranchの状態です。`expected_head_sha`はそれとは独立して`development_lead`がmerge authorizationへ束縛し、MCP merge mutationへそのまま渡すexact SHAです。merge対象を凍結するまでは`expected_head_sha=absent`とし、観測したheadから暗黙に補完しません。
+明示的なspecialist間のhandoffや独立reviewで必要な場合は、ownership ledger、input revision、file hash、frozen diff identityなどを追加します。後述の詳細な証拠schemaは、この厳密な受け渡しを指定した作業にだけ適用します。通常のローカル修正では差分と検証結果の報告で十分です。
 
-受け取ったparent chatは、branch、base/head、dirty diff、ownership ledger、frozen input revisionがpacketと一致することをread-onlyで確認してから作業を続けます。不一致、同じbranch/pathへの別chatのwrite、凍結入力の更新があれば停止し、`development_lead`へ返します。
+公開操作では対象と承認範囲を記録します。mergeには対象PR/revisionへの明示的な承認が必要です。同じPR/revisionのmerge承認は必要なReady遷移を含みます。Readyだけの変更はその操作への承認を確認します。承認済み操作について再承認を要求しません。
 
-ChatGPT、Codex Local、Codex Cloudは、会話履歴や未共有のファイルを自動的には引き継ぎません。このrepositoryではCodex Worktreeを使用せず、会話を正本にせず、Linear IssueとDraft PRを共有状態として使用します。GitHub Issueは明示的に同期された場合だけ補助参照です。
-
-明示的な同期GitHub Issueまたは外部協業用mirrorが必要な場合だけ`.github/ISSUE_TEMPLATE/task.yml`を使用します。通常の作業仕様はLinear Issueを正本として、以下を記録します。
-
-- 背景と解決する問題
-- 完了時のゴール
-- 対応範囲と対象外
-- 客観的な完了条件
-- 実行環境
-- 制約と変更してはいけないもの
-- 検証計画
-- 参照資料と引き継ぎ元
-- 未確定事項
-
-通常の実装は`Codex Local`を選択します。別環境を使う場合も、追加worktreeを作成せず正のworktree一つを作業場所とし、ローカルにしか存在しないファイルや未pushコミットを前提にせず、必要な入力と成果物の受け渡し方法をLinear Issueへ記録します。
-
-推奨する流れ:
-
-```txt
-ChatGPTで要件を整理
-  -> Linear Issueを凍結
-  -> CodexがLinear ID付きブランチで実装
-  -> 早い段階でDraft PRを作成
-  -> コミット、検証結果、残課題をDraft PRへ反映
-  -> ChatGPTまたは人間がIssueとDraft PRを確認
-  -> 明示的な承認後にマージ
-```
-
-Linear Issueは「なぜ、何を、どこまで行うか」の正本です。Draft PRは「現在どのコードがあり、何を検証し、何が残っているか」の共有状態です。作業中に決まった重要事項は、会話だけに残さずLinear Issueの決定ログまたはDraft PR本文へ反映します。
+`expected_head_sha`はmerge直前に確認した対象headを承認範囲へ束縛します。headが変わり承認済み差分と異なる場合は影響を確認し、範囲外なら再確認します。方法指定のない「マージ」は`merge_method=merge`、明示的なSquash／Rebase指定は該当methodとして記録します。実行するagentはmethodとexpected headをMCP merge操作に渡します。
 
 ## ブランチ命名
 
-形式は`<category>/<linear-id>-<short-summary>`です。`linear-id`には起点となるLinear IDを小文字化して使い、`short-summary`は英小文字とハイフンで簡潔に記述します。
-
-| Category | 用途 | 例 |
-|---|---|---|
-| `feature/` | 利用者に見える機能追加 | `feature/12-book-form` |
-| `fix/` | 不具合修正 | `fix/18-theme-focus-ring` |
-| `docs/` | ドキュメントだけの変更 | `docs/23-repository-workflow` |
-| `refactor/` | 振る舞いを変えない構造改善 | `refactor/27-book-normalizer` |
-| `test/` | テストの追加・修正 | `test/31-book-card-stories` |
-| `chore/` | 依存更新や保守作業 | `chore/35-update-next` |
-| `ci/` | CI/CDの変更 | `ci/42-add-quality-checks` |
-
-Codexや自動化による作業でも`agent/`は使いません。誰が作業したかではなく、何を変更するかを名前にします。
-
-緊急修正も通常は`fix/`を使います。運用上必要になるまでは`hotfix/`、`release/`、`develop`を増やしません。
+新しいbranchは`codex/<linear-id>-<short-summary>`、Issueがなければ`codex/<short-summary>`を使います。例は`codex/meg-43-update-next`、`codex/relax-agent-workflow`です。既存branchの改名は要求しません。mainへの直接commitは禁止です。
 
 ## コミット
 
@@ -168,7 +92,7 @@ PR本文には最低限、以下を記載します。
 
 - 変更内容
 - 変更理由
-- 凍結Linear IssueのID/URL
+- 対象Linear IssueのID/URL（ある場合）
 - 影響範囲
 - 確認方法と結果
 - UI変更がある場合は対象画面と表示条件
@@ -188,7 +112,7 @@ Stacked PRは、2つ以上の依存順を持つ変更を、小さく独立して
 | layerの作業単位 | 各layerに別のLinear Issue、coherent outcome、branch、PR、parent Codex chat（parent task）を割り当てる |
 | layerにしないもの | 同じoutcome内のrequirements、専門職、Wave、review、fix、deliveryなどの工程分割 |
 | 実装に伴う文書更新 | 対応するcode layerへ同梱し、docs-only layerを作らない |
-| 独立した文書変更 | Stacked PRを使わない通常のdocs-only Issue、branch、PRとして扱える |
+| 独立した文書変更 | Stacked PRを使わない通常のdocs-only変更として扱える。Issueは必要な場合だけ作る |
 | base branch | 最下層は`main`、上層は直下layerのbranch |
 | PR状態 | stack構築中は各PRをDraftに保ち、layerごとに検証とreviewが完了したものだけ個別にReadyへ変更する |
 | merge | stack全体または複数layerの一括mergeを禁止する。常に最下層の1 PRだけを承認・mergeし、残りもbottom-upで1 PRずつ進める |
@@ -223,16 +147,16 @@ Vercel Preview DeploymentとVercel Agent Code Reviewは別の処理です。Prev
 
 PR作成、Ready-only時のDraftからReadyへの変更、merge authorization、development leadが記録したmerge_methodは記録します。対象PR/revisionへの明示的merge approvalがある場合はDraftからReadyへの遷移を同じapprovalに包含します。PRの存在、Ready状態、repository設定、GitHub UI、過去の履歴からmerge承認や方法を推測しません。
 
-| Userの明示的な承認 | `development_lead`の記録 | `release_manager`がMCP merge mutationへ渡す方法 |
+| Userの明示的な承認 | `development_lead`の記録 | 公開担当agentがMCP merge mutationへ渡す方法 |
 |---|---|---|
 | 「マージ」など、方法を限定しないmerge承認 | `merge_method=merge` | `merge`（GitHub merge commit） |
 | Squashを指定したmerge承認 | `merge_method=squash` | `squash` |
 | Rebaseを指定したmerge承認 | `merge_method=rebase` | `rebase`（GitHub Rebase merge） |
 | 承認なし、方法が曖昧、または承認と記録が不一致 | 記録不可または要訂正 | 実行せず`BLOCKED` |
 
-`release_manager`は承認・記録された値だけを使用し、MCP merge mutationのmerge method parameterと、別途authorizationへ束縛された`expected_head_sha`を省略しません。方法指定のない承認を`merge_method=merge`へ正規化するのは`development_lead`であり、`release_manager`による推測ではありません。
+公開担当agentは承認・記録された値だけを使用し、MCP merge mutationのmerge method parameterと、別途authorizationへ束縛された`expected_head_sha`を省略しません。方法指定のない承認を`merge_method=merge`へ正規化するのは`development_lead`であり、公開担当agentによる推測ではありません。
 
-既存履歴は保持し、amend、local rebase、force-push、その他のhistory rewriteを行いません。表中のRebaseはGitHubがPRを統合する名前付き方法であり、既存のlocal/remote履歴を書き換える許可ではありません。
+既存履歴は保持します。amend、local rebase、force-pushなどのhistory rewriteは明示的な承認なしで行いません。表中のRebaseはGitHubがPRを統合する名前付き方法であり、既存のlocal/remote履歴を書き換える許可ではありません。
 
 ### GitとGitHub serviceの操作境界
 
@@ -252,6 +176,8 @@ GitHub MCPで必要なGitHub service操作がcallableなら、GitHub CLI（`gh`�
 検証は変更量ではなく、失敗した場合の影響範囲で選びます。途中の高速フィードバックと、PR完成前の最終ゲートを分離します。
 
 ### 証拠の同一性（frozen evidence）
+
+以下の詳細schemaは、明示的なspecialistへの委任、独立review、監査でfrozen evidenceが指定された場合に適用します。通常の単独作業にhash計算やmanifest作成を一律要求しません。通常は変更path、差分、検証コマンドと結果を記録します。
 
 検証、review、Ready、mergeの判断は、対象revisionに束縛した証拠だけを使用します。frozen diffには少なくとも次を記録します。
 
@@ -282,6 +208,8 @@ working-tree sourceでは、tracked patchだけではuntrackedな追加ファイ
 
 ### 検証コマンドによる汚染と証拠のfreshness
 
+以下のsnapshot・分類schemaも厳密な証拠管理を指定した作業が対象です。通常作業では検証前後の差分を確認し、予期しない生成物や既存変更を無断で削除しません。
+
 ファイル、index、branch/HEAD、cache、generatorを変更し得るコマンドの前後で、OS一時領域へ次をsnapshotし、command logとともに比較します。
 
 - branch/HEAD
@@ -295,28 +223,27 @@ working-tree sourceでは、tracked patchだけではuntrackedな追加ファイ
 
 このfreshness契約はpublication、Ready-only時のDraftからReady、mergeのauthorizationを与えたり省略したりしません。明示的merge approvalがReady遷移を包含する場合も、各mutation直前に対象PRのstate、draft、base/head、expected SHA、checks、mergeabilityを再取得し、authorizationへ束縛された値と一致しない場合は停止します。
 
+### リスク別の検証
+
+この表は通常作業にも適用します。文書・agent設定だけの変更は区分Aとし、設定変更がアプリの実行やbuildへ影響する場合は区分Cとして扱います。
+
 | 区分 | 主な変更 | 作業中の必須確認 | PR完成前の追加確認 |
 |---|---|---|---|
 | A: 軽微 | 文書、文言、命名、Story階層、挙動を変えない移動 | 差分、参照切れ、リンク、用語・見出し構造 | コードを含まなければbuild不要 |
-| B: 局所 | Primitive、単一コンポーネント、局所CSS、Story | `npm run lint`、`npx tsc --noEmit`、対象Storyまたは対象Figmaノード | コードを含むPRとして`npm run build`を一度実行 |
-| C: 画面・基盤 | ページ、主要レイアウト、ルーティング、データモデル、microCMS、依存・設定 | `npm run lint`、`npm run build`、影響する統合状態 | 最終差分で影響画面とアクセシビリティを再確認 |
+| B: 局所 | Primitive、単一コンポーネント、局所CSS、Story | `pnpm lint`、`pnpm exec tsc --noEmit`、対象Story。Figmaが正本なら対象ノードも確認 | 影響範囲やCI要件に応じてbuildを追加 |
+| C: 画面・基盤 | ページ、主要レイアウト、ルーティング、データモデル、microCMS、依存、アプリ実行・buildへ影響する設定 | `pnpm lint`、`pnpm build`、影響する統合状態 | 最終差分で影響画面とアクセシビリティを再確認 |
 
-区分AでもTypeScriptのimportやファイル配置を変更した場合は、参照切れを検出するため`npx tsc --noEmit`を実行します。
+区分AでもTypeScriptのimportやファイル配置を変更した場合は、参照切れを検出するため`pnpm exec tsc --noEmit`を実行します。
 
-`next build`はTypeScript検査を含みます。同じ差分に対して`npx tsc --noEmit`と`npm run build`を連続して実行せず、前者は作業中、後者はPR完成前または区分Cの確認に使います。
+`next build`はTypeScript検査を含みます。同じ差分に対して`pnpm exec tsc --noEmit`と`pnpm build`を連続して実行せず、前者は作業中、後者はPR完成前または区分Cの確認に使います。
 
-コードを含むPRは、Ready化またはマージ前の最終差分に対して以下を一度実行します。
-
-```bash
-npm run lint
-npm run build
-```
+全体buildや広範囲のテストは、影響範囲、失敗の兆候、適用されるCI・branch protection要件に応じて実行します。局所変更に全体buildを一律要求しません。必要なcheckを未実行のまま成功扱いにせず、完了報告に制約を記載します。
 
 ### UI確認の選び方
 
 画面・ページ領域・レスポンシブレイアウトを変更した場合は、影響するDesktop / Mobile・Light / Darkを確認します。
 
-独立したPrimitiveや単一コンポーネントでは、対象Storyと対象Figmaノードを確認します。theme・viewportに依存しないことをCSS、Auto Layout、semantic variable bindingなどの構造で確認できる場合、同じ表示を機械的に4通り取得しません。
+独立したPrimitiveや単一コンポーネントでは対象Storyを確認します。Figmaとの一致が完了条件の場合だけ対象ノードも確認します。theme・viewportに依存しないことをCSS、Auto Layout、semantic variable bindingなどの構造で確認できる場合、同じ表示を機械的に4通り取得しません。
 
 変更の性質に応じて、以下から影響する項目だけを選びます。
 
@@ -328,14 +255,14 @@ npm run build
 - 色以外でも理解できる状態表現
 - 読み込み中、0件、取得失敗
 
-approved exact Figma targetが割り当てられた変更だけは、そのtargetをvisual authorityとして扱い、複数の関連変更を最後の関連変更後、PR完成前に`figma_design_qa`で一括監査します。割り当てがないFigmaはevidenceに限り、visual authorityとはみなしません。画面全体、主要レイアウト、高リスクなアクセシビリティ変更、または明示的に指定された監査は変更時点で実施します。監査後に対象へ影響する変更がなければ再監査しません。
+approved exact Figma targetが割り当てられた変更だけは、そのtargetをvisual authorityとして扱い、複数の関連変更を最後の関連変更後、PR完成前に一括確認します。独立監査が必要な場合だけ`figma_design_qa`を割り当てます。割り当てがないFigmaはevidenceに限り、visual authorityとはみなしません。画面全体、主要レイアウト、高リスクなアクセシビリティ変更、または明示的に指定された監査は変更時点で実施します。監査後に対象へ影響する変更がなければ再監査しません。
 
 Storybook導入後は、再利用コンポーネントの変更に対応するStoryと必要なinteraction testを含めます。テーマはglobal、画面幅はviewportまたはcontainerで検証し、見た目の違いだけをComponent propsへ増やしません。
 
 Storybookのローカル確認には開発サーバーを使います。
 
 ```bash
-npm run storybook
+pnpm storybook
 ```
 
 Storybookは公開・配布せず、静的ビルド用スクリプトや生成物を標準検証へ含めません。
@@ -354,7 +281,7 @@ Storyは`Foundations / Components / Patterns`の責務に沿って配置しま�
 
 条件を満たさなくなった場合も、すべてをやり直さず、影響する検証だけを再実行します。`git diff --check`、同じスクリーンショット取得、同じlintなどを、根拠なく途中で反復しません。
 
-ドキュメントだけの変更では、リンク、用語、見出し構造、他文書との矛盾を確認します。class命名やagent契約を含む場合は、class命名監査、名前空間・状態表現・legacy移行境界、関連TOMLの整合も確認します。コードへ影響しない場合、`npm run lint`と`npm run build`は必須ではありません。docs/config-only変更はRisk Aとし、TOML parse、30 canonical specialist roster、親MCPの接続設定、親MCPのtool数やallowlistを固定要件にしていないこと、全30 custom agentのmicroCMS disabled override、createのprompt approval、secret literal不在、diff scope、links、用語整合を優先します。これらの静的チェックは、Codex実行時のeffective tool inventory、host secret non-visibility、実際のmutation approval/read-backを証明しません。live MCP操作はこの検証では実施せず、アプリlint/build、UI/Figma確認も対象外です。
+ドキュメントだけの変更では、リンク、用語、見出し構造、他文書との矛盾を確認します。class命名やagent契約を含む場合は、class命名監査、名前空間・状態表現・legacy移行境界、関連TOMLの整合も確認します。コードへ影響しない場合、`pnpm lint`と`pnpm build`は必須ではありません。docs/config-only変更はRisk Aとします。agentやMCP設定を変更した場合だけ、TOML parse、30 canonical specialist roster、親MCPの接続設定、親MCPのtool数やallowlistを固定要件にしていないこと、全30 custom agentのmicroCMS disabled override、createのprompt approval、secret literal不在、diff scope、links、用語整合を優先します。これらの静的チェックは、Codex実行時のeffective tool inventory、host secret non-visibility、実際のmutation approval/read-backを証明しません。live MCP操作はこの検証では実施せず、アプリlint/build、UI/Figma確認も対象外です。
 
 ## ドキュメントの責務
 
@@ -369,7 +296,7 @@ Storyは`Foundations / Components / Patterns`の責務に沿って配置しま�
 
 ## Repository writerの所有権
 
-tracked fileの内容は、team packetでexact pathを割り当てられた次のwriterだけが編集します。
+通常の単独作業では依頼を受けたagentが必要な関連ファイルを編集できます。以下の所有権と詳細handoffは、specialistへ明示的に委任した作業に適用します。担当範囲の追加・変更は親agentが調整し、他担当の変更を上書きしません。
 
 | Writer | 標準所有範囲 |
 |---|---|
@@ -391,6 +318,19 @@ tracked fileの内容は、team packetでexact pathを割り当てられた次�
 - 実際のdownstream contractと無効化条件
 - findingを返す`FINDING_RETURN_WRITER`
 
-Git index/historyとpush、およびGitHub上のDraft PR metadataは、publication authorizationを受けた`release_manager`だけが変更します。前者はlocal `git`、後者は上記のGitHub service規則に従います。
+Git index/historyとpush、およびGitHub上のDraft PR metadataは、承認範囲内で公開担当agentが変更します。単独作業ではparent agent、specialistへ委任した作業ではrelease_managerが担当できます。local repositoryとGit transportにはlocal `git`、GitHub上の対象には上記のGitHub service規則を使います。
 
 再構築中のarchitecture、content model、routingの仕様はREADMEから対象Linear Issueを確認します。旧実装の資料は撤去済みで、Git履歴から仕様を復活させません。
+
+## 運用方針で参照した公開事例
+
+以下はルール設計の参考であり、このrepositoryへ各事例の契約全体を適用しません。
+
+| 事例 | 判断 | 採用する点・採用しない点 |
+|---|---|---|
+| [Excalidraw](https://github.com/excalidraw/excalidraw/blob/master/AGENTS.md) | Adapt | 常設ルールをプロジェクト固有の注意点へ絞る。短さだけを目標にしない |
+| [uv](https://github.com/astral-sh/uv/blob/main/AGENTS.md) | Adapt | 必須・禁止と推奨を分け、対象検証を優先する。Rust固有の指示は転用しない |
+| [Zed](https://github.com/zed-industries/zed/blob/main/AGENTS.md) | Adapt | 新ルールは自明でなく、繰り返し起き、具体的なものに限定する。READMEへの確認行追加は採用しない |
+| [TanStack Query](https://github.com/TanStack/query/blob/main/AGENTS.md) | Adapt | 共通の開発ルールを参照し、AI専用の重複契約を減らす |
+| [Next.js](https://github.com/vercel/next.js/blob/canary/AGENTS.md) | Adapt | 変更内容に応じて検証を分岐し、深い手順は必要な作業だけで読む |
+| [AGENTS.md公開サイト](https://github.com/agentsmd/agents.md/blob/main/AGENTS.md) | Adapt | 操作と理由を具体的に示す。agent session中のbuild禁止は転用しない |
