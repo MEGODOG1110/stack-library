@@ -9,8 +9,8 @@ Stack Libraryは、積読の技術書を覚えきれず、書店・ネット通�
 | 役割 | 技術 | 用途 |
 |---|---|---|
 | 画面・アプリ基盤 | React 19 / Next.js 16 App Router | 画面とサーバー処理 |
-| 言語 | TypeScript 5.9（strict） | アプリ・設定の型検査 |
-| 実行環境 | Node.js 24 | ローカルとサーバーの基準 |
+| 言語 | TypeScript 7（strict） | アプリ・設定の型検査 |
+| 実行環境 | Node.js 26 LTS | ローカルとサーバーの基準 |
 | パッケージ管理 | pnpm 10.34.7 | 依存関係とlockfileの管理 |
 | UI開発 | Storybook 10 / Next.js Vite framework | 部品と状態のローカル確認 |
 | スタイル | CSS Modules / 共通CSS変数 | モックに沿った画面と部品のスタイル |
@@ -140,7 +140,7 @@ typecheckはNext.jsのroute型を生成してからTypeScriptを検査します�
 
 本棚・詳細の実画面にはmicroCMSの設定が必要です。通常のStorybookはAPIキーなしのfixtureで動作し、Live Lookupだけは起動中のアプリを経由して実取得します。.env.localはGit管理外で保持し、秘密値をクライアントやStoryへ渡しません。
 
-Next.jsのagentRulesはfalseにし、開発サーバーがプロジェクトのAGENTS.mdを自動変更しないようにしています。ESLintはNext.jsのReact関連プラグインが宣言する互換範囲に合わせて9系を使用しています。
+Next.jsのagentRulesはfalseにし、開発サーバーがプロジェクトのAGENTS.mdを自動変更しないようにしています。lintにはBiomeを使用し、formatterは無効のままNext.js・React向けの推奨ルールを適用しています。
 
 ## 現在の正本
 
