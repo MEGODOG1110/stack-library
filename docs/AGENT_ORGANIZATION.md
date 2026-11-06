@@ -1,18 +1,18 @@
 # Agent Organization
 
-Stack Libraryの開発組織は、外部の親エージェント`development_lead`と、`.codex/config.toml`へ明示登録した30 canonical specialistsで構成します。専門職は常設の判断能力であり、30職能を同時に起動するものではありません。runtimeの最大値にかかわらず、同時稼働は親`development_lead`とassigned specialists最大3名です。Waveまたは担当の完了ごとにslotを解放し、順次handoffで再利用します。
+この文書はspecialistを明示的に割り当てる場合の組織・role契約です。通常の単独作業にIssue、team packet、role切り替え、全Waveの実施を要求しません。一般的な許可・停止条件は[AGENTS.md](../AGENTS.md)を優先します。
 
-`.codex/agents/<group>/`の8グループは、人間が責務、上流入力、下流handoffを理解するための組織図です。ファイルシステムの階層自体は、指揮命令、起動順、権限、承認、継承を強制しません。実際の登録は`.codex/config.toml`、実行制御は`development_lead`のteam packet、各職能の責務はTOML内の`ORGANIZATION CONTRACT`を正本とします。
+親development_leadと`.codex/config.toml`に登録した30 canonical specialistsを利用できます。同時稼働は親とspecialists最大3名です。登録だけを起動理由にせず、現在のユーザー指示と実行環境の制約に従います。
 
 ## Parent chat and internal specialists
 
-組織の実行単位は、`1 Linear Issue / 1 coherent outcome / 1 parent Codex chat`です。`development_lead`であるparent chatが、同じLinear Issue、branch、outcomeをrequirements、implementation、review、fix、delivery、mergeまで保持します。同期GitHub Issueは明示的に割り当てられた場合だけsecondary contextです。既存30 canonical roleはbounded internal subagentであり、職能ごとのuser-visible chatではありません。全30 custom agent TOMLはmicroCMS serverを明示的に無効化します。live microCMS MCP操作はsubagentへ委譲せず、親の`development_lead`だけが公式リモートMCPへ直接接続します。詳細は[AGENTS.md](../AGENTS.md)を正本とします。
+同じ成果の調査・実装・review・修正は同じparent chatで継続できます。新しいchat、Issue、archiveは機械的に要求しません。引き継ぎは[Development](./DEVELOPMENT.md#new-chat-handoff-packet)を参照します。
 
-別Issueまたは別outcomeは新しいparent chatを使います。forkはshared contextからgenuine alternativeが分岐する場合だけに限定し、role、Wave、reviewの分割には使いません。軽量なread-only question、説明、state check、reportはIssueなしで開始できますが、mutation前にIssue、outcome、branch、ownershipを確定します。merge後はparent chatをcompleteかつarchive candidateとし、通常のfollow-up changeは新しいIssueとparent chatへ分けます。
+単独作業ではparent agentが実装・検証・承認済み公開操作を担当できます。以下のrole別exclusive authority、exact-path ledger、frozen input、詳細schemaは、該当roleを明示的に割り当てた場合に適用します。担当範囲の変更は親agentが調整します。通常作業へ読み替えて適用しません。
 
-複数のparent chatによるtracked fileへのparallel writeは禁止します。同じIssueまたは別Issueにかかわらず、正のworktreeを一つだけ使い、parent chat間はhandoffして順次作業します。同じbranchまたは同じpathを複数chatで編集してはいけません。read-onlyのreviewや検証を並行する場合も、追加worktreeを作成せず、tracked fileを変更しないことを条件とします。
+同じtracked fileや外部targetへの並行writeは禁止します。specialistのwriteは現在のprimary worktreeで順次handoffすることを原則とし、追加worktreeはユーザーが明示的に依頼した場合だけ作成します。
 
-新しいparent chatは、root `AGENTS.md`と`.codex/config.toml`をdiscoverできるよう、同じlocal projectを開き、primary repositoryのproject rootから開始します。引き継ぎにはIssue URL/revision、branch/base/head、dirty diff/owner、scope/non-goals、allowed/forbidden surfacesとownership ledger、frozen contracts、validation revisionsとinvalidation、Figma targets、publication、Ready-only時のDraftからReady、mergeの各authorization、`merge_method`、authorized/frozen `expected_head_sha`、既存Draft PR、downstream handoff/stop conditionを含むpacketを使います。対象PR/revisionへの明示的merge approvalがある場合はDraftからReadyへの遷移を同じ承認に含めます。`expected_head_sha`はbranch/head観測値ではなくmerge mutation authorizationへ束縛するexact SHAであり、未割り当て時は`absent`です。packetの完全なschemaと確認手順は[Development](./DEVELOPMENT.md#new-chat-handoff-packet)を参照してください。
+`.codex/agents/<group>/`の8グループは責務を整理するための分類です。固定の起動順や承認会議ではありません。必要なroleのTOMLだけを読みます。全30 custom agentのmicroCMS server無効化を維持し、公式remote MCPは親development_leadだけが扱います。
 
 ## Group map
 
@@ -147,6 +147,8 @@ development_lead
 
 ## Exclusive authority
 
+以下は明示的にspecialistを割り当てた作業の権限分担です。単独作業のparent agentにはAGENTS.mdの承認境界を適用します。
+
 - Issue title、body、scope、Acceptance Criteria、priority、decision history、labelのmutationは、明示的にauthorizedされた`product_owner`だけが行います。
 - Figma mutationは、exact file/nodeを割り当てられた`figma_designer`だけが行います。
 - tracked repository fileの内容は、ownership ledgerでexact pathを割り当てられた5 writerだけが編集します。
@@ -154,6 +156,8 @@ development_lead
 - 既存30 canonical roleのうち新設された12職能はすべてread-only advisory roleであり、repository、Issue、Figma、Git、PR、permission、external serviceのmutation authorityを持ちません。live microCMS MCP操作はこの組織外の親`development_lead`がAGENTS.mdの規則に従って直接実行します。
 
 ## MCP evidence
+
+以下の詳細schemaとno-call entryは、Issueまたは明示的なrole契約で要求された場合だけ使います。通常のread-only調査では出典・取得できなかった情報の報告で十分です。外部変更の承認と同じserviceでのread-backは全作業に必要です。
 
 live GitHub/Figma accessのavailability、invocation、access、read、mutation request、mutation verificationは[AGENTS.md](../AGENTS.md)のshared `MCP_EVIDENCE` semanticsを正本とします。plugin、skill、schema、tool capabilityの存在だけをinvocation evidenceにせず、実際に呼んだfully qualified tool identifier、provenance/server、exact target、operation、permission result、result/errorを記録します。
 
