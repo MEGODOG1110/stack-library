@@ -140,7 +140,7 @@ typecheckはNext.jsのroute型を生成してからTypeScriptを検査します�
 
 本棚・詳細の実画面にはmicroCMSの設定が必要です。通常のStorybookはAPIキーなしのfixtureで動作し、Live Lookupだけは起動中のアプリを経由して実取得します。.env.localはGit管理外で保持し、秘密値をクライアントやStoryへ渡しません。
 
-Next.jsのagentRulesはfalseにし、開発サーバーがプロジェクトのAGENTS.mdを自動変更しないようにしています。lintにはBiomeを使用し、formatterは無効のままNext.js・React向けの推奨ルールを適用しています。
+Next.jsのagentRulesはfalseにし、開発サーバーがプロジェクトのAGENTS.mdを自動変更しないようにしています。lintにはOxlintを使用し、TypeScript・React・アクセシビリティ・Next.js向けのルールを適用しています。
 
 ## 現在の正本
 
