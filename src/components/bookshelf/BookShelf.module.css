@@ -11,7 +11,7 @@
   font-weight: 400;
   line-height: 28px;
 }
-.SL-ly_book-shelf__header span { font-size: 12px; white-space: nowrap; }
+.SL-ly_book-shelf__header span { font-size: 14px; color: var(--sl-color-text); white-space: nowrap; }
 .SL-ly_book-shelf__books {
   --sl-shelf-cover-width: min(104px, calc((100cqi - 16px) / 3));
   --sl-shelf-column-gap: max(

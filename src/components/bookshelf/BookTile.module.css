@@ -8,8 +8,29 @@
   cursor: pointer;
 }
 
-@media (hover: hover) {
-  .SL-el_book-tile:hover:not(:focus-visible) {
-    outline: 1px solid var(--sl-shelf-accent);
+.SL-el_book-tile:focus-visible {
+  outline-color: var(--sl-shelf-accent);
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .SL-el_book-tile > [data-size="shelf"][data-state="ready"] > img {
+    transform-origin: center bottom;
+    transition: scale 140ms ease-out;
   }
+
+  .SL-el_book-tile:hover:not(:focus-visible) > [data-size="shelf"][data-state="ready"] > img {
+    scale: 1.02;
+  }
+}
+
+.SL-ly_book-tile { position: relative; inline-size: fit-content; max-inline-size: 100%; }
+.SL-el_book-tile__loading:not(:empty) {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 4px;
+  background: var(--sl-shelf-background);
+  color: var(--sl-color-text);
+  font-size: 12px;
+  text-align: center;
+  pointer-events: none;
 }
