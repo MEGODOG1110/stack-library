@@ -25,9 +25,9 @@ export const TitleSortedShelves: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const expectedShelves = [
-      { label: "フロントエンド棚", ids: ["react", "css-design", "ui-ideas"] },
-      { label: "デザイン棚", ids: ["web-design", "figma-design-system"] },
-      { label: "AI・開発支援棚", ids: ["ai-dialogue", "ai-documents", "codex", "figma-mcp"] },
+      { label: "フロントエンド", ids: ["react", "css-design", "ui-ideas"] },
+      { label: "デザイン", ids: ["web-design", "figma-design-system"] },
+      { label: "AI・開発支援", ids: ["ai-dialogue", "ai-documents", "codex", "figma-mcp"] },
     ];
     for (const shelf of expectedShelves) {
       const section = canvas.getByRole("heading", { name: shelf.label }).closest("section")!;
@@ -60,6 +60,8 @@ export const NavigationPreservesConditions: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByRole("status")).toHaveTextContent("2冊");
+    const menu = canvas.queryByRole("button", { name: "メニュー" });
+    if (menu) await userEvent.click(menu);
     await userEvent.click(canvas.getByRole("button", { name: "検索" }));
     const input = canvas.getByRole("searchbox", { name: "キーワード" });
     await expect(input).toHaveValue("CSS");
@@ -67,6 +69,7 @@ export const NavigationPreservesConditions: Story = {
     await userEvent.type(input, "未適用の入力");
     await userEvent.click(canvas.getByRole("button", { name: "本棚" }));
     await expect(canvas.getByRole("status")).toHaveTextContent("2冊");
+    if (menu) await userEvent.click(menu);
     await userEvent.click(canvas.getByRole("button", { name: "検索" }));
     await expect(canvas.getByRole("searchbox", { name: "キーワード" })).toHaveValue("CSS");
     await userEvent.click(canvas.getByRole("button", { name: "本棚に戻る" }));
@@ -82,3 +85,18 @@ export const Empty: Story = { args: { books: [] } };
 export const NoResults: Story = { args: { initialKeyword: "該当なし" } };
 export const Filtered: Story = { args: { initialFilters: { areaIds: ["frontend", "design"], tagIds: ["css", "react"] } } };
 export const LoadError: Story = { args: { error: "本棚を読み込めませんでした。" } };
+
+const figmaBookOrder = ["react", "css-design", "ui-ideas", "ai-dialogue", "ai-documents", "codex", "figma-mcp", "web-design", "figma-design-system"];
+const figmaShelf = {
+  books: shelfBooks.map((book) => ({ ...book, titleReading: String(figmaBookOrder.indexOf(book.id)) })),
+  areas: [
+    { id: "frontend", label: "Web・アプリ開発" },
+    { id: "ai-development", label: "AI" },
+    { id: "design", label: "デザイン" },
+  ],
+  onAddBook: () => undefined,
+};
+export const MobileLight: Story = { args: figmaShelf, globals: { ...Mobile.globals, theme: "light" } };
+export const MobileDark: Story = { args: figmaShelf, globals: { ...Mobile.globals, theme: "dark" } };
+export const DesktopLight: Story = { args: figmaShelf, globals: { ...Desktop.globals, theme: "light" } };
+export const DesktopDark: Story = { args: figmaShelf, globals: { ...Desktop.globals, theme: "dark" } };

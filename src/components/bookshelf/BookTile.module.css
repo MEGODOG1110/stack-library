@@ -7,3 +7,9 @@
   background: transparent;
   cursor: pointer;
 }
+
+@media (hover: hover) {
+  .SL-el_book-tile:hover:not(:focus-visible) {
+    outline: 1px solid var(--sl-shelf-accent);
+  }
+}

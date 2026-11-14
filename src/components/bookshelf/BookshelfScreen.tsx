@@ -31,10 +31,13 @@ export function compareBooksByTitle(a: ShelfBook, b: ShelfBook) {
 }
 
 function Icon({ name }: { name: string }) {
-  const size = name === "filter" ? 16 : 20;
-  if (name === "close") return <Image className="SL-ut_theme-icon" src="/mockups/bookshelf/close.svg" width={20} height={20} alt="" unoptimized />;
-  if (name === "back") return <Image className="SL-ut_theme-icon" src="/mockups/bookshelf/back.svg" width={20} height={20} alt="" unoptimized />;
-  return <><Image className={`${styles["SL-el_bookshelf__mobile-icon"]} SL-ut_theme-icon`} src={`/mockups/bookshelf/${name}.svg`} width={size} height={size} alt="" unoptimized /><Image className={`${styles["SL-el_bookshelf__desktop-icon"]} SL-ut_theme-icon`} src={`/mockups/bookshelf/desktop/${name}.svg`} width={20} height={20} alt="" unoptimized /></>;
+  const icons: Record<string, string> = {
+    search: "search", filter: "desktop/filter", sort: "sort", add: "add",
+    home: "v2/bookshelf", price: "v2/currency-yen", menu: "v2/menu",
+  };
+  const asset = icons[name];
+  if (!asset) return <Image className="SL-ut_theme-icon" src={`/mockups/bookshelf/${name}.svg`} width={20} height={20} alt="" unoptimized />;
+  return <span aria-hidden="true" className={styles["SL-el_bookshelf__icon"]} style={{ maskImage: `url(/mockups/bookshelf/${asset}.svg)` }} />;
 }
 
 export function BookshelfScreen({ books, areas, tags, initialKeyword = "", initialFilters, initialView = "shelf", error, onRetry, onSelectBook, onAddBook }: Props) {
@@ -44,6 +47,9 @@ export function BookshelfScreen({ books, areas, tags, initialKeyword = "", initi
   const [draftKeyword, setDraftKeyword] = useState(initialKeyword);
   const [view, setView] = useState(initialView);
   const [selected, setSelected] = useState<ShelfBook>();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navigation = useRef<HTMLElement>(null);
+  const menuButton = useRef<HTMLButtonElement>(null);
   const filterDialog = useRef<HTMLDialogElement>(null);
   const sortDialog = useRef<HTMLDialogElement>(null);
   const bookDialog = useRef<HTMLDialogElement>(null);
@@ -56,10 +62,31 @@ export function BookshelfScreen({ books, areas, tags, initialKeyword = "", initi
       window.scrollTo(0, 0);
       searchFormInput.current?.focus();
     } else if (openedSearch.current) {
-      searchTab.current?.focus({ preventScroll: true });
+      const trigger = menuButton.current?.getClientRects().length ? menuButton.current : searchTab.current;
+      trigger?.focus({ preventScroll: true });
       window.scrollTo(0, shelfScroll.current);
     }
   }, [view]);
+  useEffect(() => {
+    if (!menuOpen) return;
+    const desktop = window.matchMedia("(min-width: 1000px)");
+    navigation.current?.querySelector<HTMLButtonElement>("button[aria-current]")?.focus({ preventScroll: true });
+    function closeMenu(event: KeyboardEvent) {
+      if (event.key !== "Escape" || document.querySelector("dialog[open]")) return;
+      event.preventDefault();
+      setMenuOpen(false);
+      menuButton.current?.focus();
+    }
+    function closeOnDesktop(event: MediaQueryListEvent) {
+      if (event.matches) setMenuOpen(false);
+    }
+    window.addEventListener("keydown", closeMenu);
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => {
+      window.removeEventListener("keydown", closeMenu);
+      desktop.removeEventListener("change", closeOnDesktop);
+    };
+  }, [menuOpen]);
   const filtered = keyword.trim() !== "" || filters.areaIds.length > 0 || filters.tagIds.length > 0;
   function filterBooks(query: string, conditions: ShelfFilters) {
     const terms = normalize(query).trim().split(/\s+/).filter(Boolean);
@@ -78,6 +105,7 @@ export function BookshelfScreen({ books, areas, tags, initialKeyword = "", initi
   function clear() { setKeyword(""); setFilters(emptyFilters()); }
   function openSearch() {
     if (view === "search") return;
+    setMenuOpen(false);
     shelfScroll.current = window.scrollY;
     openedSearch.current = true;
     setDraft({ areaIds: [...filters.areaIds], tagIds: [...filters.tagIds] });
@@ -122,21 +150,23 @@ export function BookshelfScreen({ books, areas, tags, initialKeyword = "", initi
         <label className={styles["SL-el_bookshelf__search"]}>
           <Icon name="search" />
           <span className={styles["SL-ut_visually-hidden"]}>タイトル・著者・ISBNで検索</span>
-          <input type="search" placeholder="タイトル・著者・ISBN" value={keyword} onChange={(event) => setKeyword(event.target.value)} />
+          <input type="search" placeholder="タイトル・著者で検索" value={keyword} onChange={(event) => setKeyword(event.target.value)} />
         </label>
-        <button type="button" aria-label="絞り込み条件" onClick={() => filterDialog.current?.showModal()}><Icon name="filter" /></button>
-        <button type="button" aria-label="並び替え" onClick={() => sortDialog.current?.showModal()}><Icon name="sort" /></button>
+        <button ref={menuButton} type="button" data-tool="menu" aria-label="メニュー" aria-expanded={menuOpen} aria-controls="bookshelf-navigation" onClick={() => setMenuOpen(!menuOpen)}><Icon name="menu" /></button>
+        <button type="button" data-tool="filter" aria-label="絞り込み条件" onClick={() => filterDialog.current?.showModal()}><Icon name="filter" />絞り込み</button>
+        <button type="button" data-tool="sort" aria-label="並び替え" onClick={() => sortDialog.current?.showModal()}><Icon name="sort" />並び替え</button>
+        <button type="button" data-tool="add" aria-label="本を追加" onClick={onAddBook} disabled={!onAddBook}><Icon name="add" /></button>
       </div>
       {activeLabels.length > 0 && <ul className={styles["SL-ly_bookshelf__chips"]} aria-label="適用中の条件">{activeLabels.map((option, index) => <li key={`${option.id}-${index}`}>{option.label}</li>)}</ul>}
       <div className={styles["SL-ly_bookshelf__content"]}>
         {error ? <div className={styles["SL-el_bookshelf__message"]} role="alert"><p>{error}</p><button type="button" onClick={onRetry} disabled={!onRetry}>再読み込み</button></div>
           : books.length === 0 ? <div className={styles["SL-el_bookshelf__message"]}><p>まだ本がありません</p><button type="button" onClick={onAddBook} disabled={!onAddBook}>本を追加{!onAddBook && "（準備中）"}</button></div>
           : filtered ? <>{matches.length ? <BookShelf label="検索結果" books={matches} onSelect={select} announceCount /> : <div className={styles["SL-el_bookshelf__message"]}><p role="status">0冊</p><p>条件に合う本がありません</p><button type="button" onClick={clear}>条件をクリア</button></div>}</>
-          : <>{areas.map((area) => { const shelf = matches.filter((book) => book.areaIds.find((id) => areas.some((option) => option.id === id)) === area.id); return shelf.length > 0 && <BookShelf key={area.id} label={`${area.label}棚`} books={shelf} onSelect={select} />; })}{matches.some((book) => !book.areaIds.some((id) => areas.some((area) => area.id === id))) && <BookShelf label="未分類棚" books={matches.filter((book) => !book.areaIds.some((id) => areas.some((area) => area.id === id)))} onSelect={select} />}</>}
+          : <>{areas.map((area) => { const shelf = matches.filter((book) => book.areaIds.find((id) => areas.some((option) => option.id === id)) === area.id); return shelf.length > 0 && <BookShelf key={area.id} label={area.label} books={shelf} onSelect={select} />; })}{matches.some((book) => !book.areaIds.some((id) => areas.some((area) => area.id === id))) && <BookShelf label="未分類" books={matches.filter((book) => !book.areaIds.some((id) => areas.some((area) => area.id === id)))} onSelect={select} />}</>}
       </div>
       </div>
-      <nav className={styles["SL-ly_bookshelf__navigation"]} aria-label="メインナビゲーション">
-        <button type="button" aria-current={view === "shelf" ? "page" : undefined} onClick={() => setView("shelf")}><Icon name="home" /><span>本棚</span></button>
+      <nav ref={navigation} id="bookshelf-navigation" data-open={menuOpen} data-search={view === "search"} className={styles["SL-ly_bookshelf__navigation"]} aria-label="メインナビゲーション">
+        <button type="button" aria-current={view === "shelf" ? "page" : undefined} onClick={() => { setView("shelf"); setMenuOpen(false); menuButton.current?.focus(); }}><Icon name="home" /><span>本棚</span></button>
         <button ref={searchTab} type="button" aria-current={view === "search" ? "page" : undefined} onClick={openSearch}><Icon name="search" /><span>検索</span></button>
         <button type="button" onClick={onAddBook} disabled={!onAddBook} aria-label={onAddBook ? "本を追加" : "本を追加（準備中）"}><Icon name="add" /><span>追加{!onAddBook && <small>準備中</small>}</span></button>
         <button type="button" disabled aria-label="蔵書金額（準備中）"><Icon name="price" /><span>金額<small>準備中</small></span></button>

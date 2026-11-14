@@ -51,3 +51,16 @@ button {
   outline: 2px solid var(--sl-color-focus);
   outline-offset: 4px;
 }
+
+:root {
+  --sl-shelf-background: light-dark(#f7f9fc, #121619);
+  --sl-shelf-accent: light-dark(#2457d6, #d8f66f);
+  --sl-shelf-on-accent: light-dark(#fff, #121619);
+  --sl-shelf-nav: light-dark(#e6ecf8, #0a0d0c);
+  --sl-shelf-menu: light-dark(#becdee, #181c19);
+  --sl-shelf-tool: light-dark(color-mix(in srgb, #becdee 42%, #f7f9fc), #181c19);
+  --sl-shelf-search: light-dark(color-mix(in srgb, #becdee 34%, #f7f9fc), #121614);
+  --sl-shelf-menu-trigger: light-dark(color-mix(in srgb, #becdee 72%, #f7f9fc), #181c19);
+  --sl-shelf-search-icon: light-dark(#2457d6, #eef1ea);
+  --sl-shelf-placeholder: light-dark(#475b7a, #eef1ea);
+}
