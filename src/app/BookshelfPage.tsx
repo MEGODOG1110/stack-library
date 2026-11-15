@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { normalizeIsbn } from "@/components/book-form/book-form.validation";
 import { useRouter } from "next/navigation";
 import { BookshelfScreen } from "@/components/bookshelf/BookshelfScreen";
@@ -8,6 +8,17 @@ import type { ShelfBook, ShelfOption, ShelfFilters } from "@/components/bookshel
 
 export function BookshelfPage({ keyword, filters, view, books, areas, tags, error }: { keyword: string; filters: ShelfFilters; view: "shelf" | "search"; books: ShelfBook[]; areas: ShelfOption[]; tags: ShelfOption[]; error?: string }) {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [selectedBookId, setSelectedBookId] = useState<string>();
+  const [showLoading, setShowLoading] = useState(false);
+  useEffect(() => {
+    if (!isPending) return;
+    const timer = window.setTimeout(() => setShowLoading(true), 300);
+    return () => {
+      window.clearTimeout(timer);
+      setShowLoading(false);
+    };
+  }, [isPending]);
   useEffect(() => {
     try {
       const raw = sessionStorage.getItem("sl-shelf-return-v1");
@@ -27,8 +38,10 @@ export function BookshelfPage({ keyword, filters, view, books, areas, tags, erro
     } catch { /* 一時storageが使えなくてもURLの検索条件は利用できる。 */ }
   }, [books]);
   return <BookshelfScreen books={books} areas={areas} tags={tags} error={error} onRetry={()=>router.refresh()} initialKeyword={keyword} initialFilters={filters} initialView={view}
+    loadingBookId={isPending && showLoading ? selectedBookId : undefined}
     onAddBook={() => router.push("/books/new")}
     onSelectBook={(book, context) => {
+      if (isPending) return;
       const query = new URLSearchParams();
       if (context.keyword) query.set("q", context.keyword);
       context.filters.areaIds.forEach((id) => query.append("area", id));
@@ -36,6 +49,7 @@ export function BookshelfPage({ keyword, filters, view, books, areas, tags, erro
       const returnTo = query.size ? `/?${query}` : "/";
       try { sessionStorage.setItem("sl-shelf-return-v1", JSON.stringify({ href: returnTo, scrollY: window.scrollY, bookId: book.id })); } catch { /* URLで条件は保持。 */ }
       window.history.replaceState(window.history.state, "", returnTo);
-      router.push(`/books/${normalizeIsbn(book.isbn ?? "")}?from=${encodeURIComponent(returnTo)}`);
+      setSelectedBookId(book.id);
+      startTransition(() => router.push(`/books/${normalizeIsbn(book.isbn ?? "")}?from=${encodeURIComponent(returnTo)}`));
     }} />;
 }

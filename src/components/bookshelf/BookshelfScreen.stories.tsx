@@ -25,9 +25,9 @@ export const TitleSortedShelves: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const expectedShelves = [
-      { label: "フロントエンド棚", ids: ["react", "css-design", "ui-ideas"] },
-      { label: "デザイン棚", ids: ["web-design", "figma-design-system"] },
-      { label: "AI・開発支援棚", ids: ["ai-dialogue", "ai-documents", "codex", "figma-mcp"] },
+      { label: "フロントエンド", ids: ["react", "css-design", "ui-ideas"] },
+      { label: "デザイン", ids: ["web-design", "figma-design-system"] },
+      { label: "AI・開発支援", ids: ["ai-dialogue", "ai-documents", "codex", "figma-mcp"] },
     ];
     for (const shelf of expectedShelves) {
       const section = canvas.getByRole("heading", { name: shelf.label }).closest("section")!;
@@ -56,20 +56,16 @@ export const Desktop: Story = { globals: { viewport: { value: "desktopMock", isR
 export const MobileSearch: Story = { args: { initialView: "search" }, globals: { viewport: { value: "mobileMock", isRotated: false } } };
 export const DesktopSearch: Story = { args: { initialView: "search" }, globals: { viewport: { value: "desktopMock", isRotated: false } } };
 export const NavigationPreservesConditions: Story = {
-  args: { initialKeyword: "CSS", initialFilters: { areaIds: ["frontend"], tagIds: ["css"] } },
+  args: { initialView: "search", initialKeyword: "CSS", initialFilters: { areaIds: ["frontend"], tagIds: ["css"] } },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByRole("status")).toHaveTextContent("2冊");
-    await userEvent.click(canvas.getByRole("button", { name: "検索" }));
     const input = canvas.getByRole("searchbox", { name: "キーワード" });
     await expect(input).toHaveValue("CSS");
     await userEvent.clear(input);
     await userEvent.type(input, "未適用の入力");
-    await userEvent.click(canvas.getByRole("button", { name: "本棚" }));
-    await expect(canvas.getByRole("status")).toHaveTextContent("2冊");
-    await userEvent.click(canvas.getByRole("button", { name: "検索" }));
-    await expect(canvas.getByRole("searchbox", { name: "キーワード" })).toHaveValue("CSS");
     await userEvent.click(canvas.getByRole("button", { name: "本棚に戻る" }));
+    await expect(canvas.getByRole("searchbox")).toHaveValue("CSS");
+    await expect(canvas.getByRole("status")).toHaveTextContent("2冊");
   },
 };
 export const DesktopManyBooks: Story = {
@@ -82,3 +78,58 @@ export const Empty: Story = { args: { books: [] } };
 export const NoResults: Story = { args: { initialKeyword: "該当なし" } };
 export const Filtered: Story = { args: { initialFilters: { areaIds: ["frontend", "design"], tagIds: ["css", "react"] } } };
 export const LoadError: Story = { args: { error: "本棚を読み込めませんでした。" } };
+
+const figmaBookOrder = ["react", "css-design", "ui-ideas", "ai-dialogue", "ai-documents", "codex", "figma-mcp", "web-design", "figma-design-system"];
+const figmaShelf = {
+  books: shelfBooks.map((book) => ({ ...book, titleReading: String(figmaBookOrder.indexOf(book.id)) })),
+  areas: [
+    { id: "frontend", label: "Web・アプリ開発" },
+    { id: "ai-development", label: "AI" },
+    { id: "design", label: "デザイン" },
+  ],
+  onAddBook: () => undefined,
+};
+export const MobileLight: Story = { args: figmaShelf, globals: { ...Mobile.globals, theme: "light" } };
+export const MobileDark: Story = { args: figmaShelf, globals: { ...Mobile.globals, theme: "dark" } };
+export const DesktopLight: Story = { args: figmaShelf, globals: { ...Desktop.globals, theme: "light" } };
+export const DesktopDark: Story = { args: figmaShelf, globals: { ...Desktop.globals, theme: "dark" } };
+
+const twelveKeywords = [
+  { id: "css", label: "CSS" },
+  { id: "react", label: "React" },
+  ...["TypeScript", "Next.js", "アクセシビリティ", "デザインシステム", "テスト", "パフォーマンス", "Git", "SQL", "Docker", "ネットワーク"]
+    .map((label) => ({ id: label, label })),
+];
+const keywordFilterStory: Story = {
+  args: { ...figmaShelf, tags: twelveKeywords },
+  play: async ({ canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole("button", { name: /^絞り込み$/ }));
+  },
+};
+export const MobileTwelveKeywords: Story = { ...keywordFilterStory, globals: MobileDark.globals };
+export const DesktopTwelveKeywords: Story = { ...keywordFilterStory, globals: DesktopLight.globals };
+
+const resultArgs = {
+  ...figmaShelf,
+  tags: twelveKeywords,
+};
+const fewConditions = { ...resultArgs, initialFilters: { areaIds: ["frontend"], tagIds: ["css"] } };
+const manyConditions = {
+  ...resultArgs,
+  books: resultArgs.books.map((book) => {
+    if (book.areaIds.includes("design")) return { ...book, tagIds: ["design"] };
+    if (book.areaIds.includes("ai-development")) return { ...book, tagIds: [...book.tagIds, "TypeScript"] };
+    return book;
+  }),
+  initialFilters: {
+    areaIds: ["frontend", "ai-development", "design"],
+    tagIds: ["css", "react", "TypeScript", "アクセシビリティ", "デザインシステム"],
+  },
+};
+const zeroResults = { ...resultArgs, initialFilters: { areaIds: ["design"], tagIds: ["Docker"] } };
+export const MobileResultsFew: Story = { args: fewConditions, globals: MobileDark.globals };
+export const MobileResultsMany: Story = { args: manyConditions, globals: MobileDark.globals };
+export const MobileResultsZero: Story = { args: zeroResults, globals: MobileDark.globals };
+export const DesktopResultsFew: Story = { args: fewConditions, globals: DesktopLight.globals };
+export const DesktopResultsMany: Story = { args: manyConditions, globals: DesktopLight.globals };
+export const DesktopResultsZero: Story = { args: zeroResults, globals: DesktopLight.globals };

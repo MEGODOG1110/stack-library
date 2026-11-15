@@ -2,11 +2,11 @@
   display: block;
   width: 104px;
   max-width: 100%;
-  aspect-ratio: 104 / 156.9;
+  aspect-ratio: 104 / 160;
 }
 
 @media (min-width: 1000px) {
-  .SL-el_book-cover { width: 128px; height: 193.108px; }
+  .SL-el_book-cover { width: var(--sl-shelf-cover-width, 144px); height: var(--sl-shelf-cover-height, 220px); }
 }
 
 .SL-el_book-cover > img {

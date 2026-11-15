@@ -1,4 +1,5 @@
 "use client";
+import { MainNavigation } from "@/components/navigation/MainNavigation";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -24,12 +25,7 @@ export function BookFormScreen({ tags, initialValues, onExit, children, hasUnsav
     else if (onExit) { event.preventDefault(); onExit(href); }
   }
   return <div className={styles["SL-ly_book-form-screen"]}>
-    <nav className={styles["SL-ly_book-form-screen__navigation"]} aria-label="メインナビゲーション">
-      <Link href="/" onClick={(event) => navigate(event, "/")}><Image className="SL-ut_theme-icon" src="/mockups/bookshelf/desktop/home.svg" width={20} height={20} alt="" unoptimized />本棚</Link>
-      <Link href="/?view=search" onClick={(event) => navigate(event, "/?view=search")}><Image className="SL-ut_theme-icon" src="/mockups/bookshelf/desktop/search.svg" width={20} height={20} alt="" unoptimized />検索</Link>
-      <span aria-current="page"><Image className="SL-ut_theme-icon" src="/mockups/bookshelf/desktop/add.svg" width={20} height={20} alt="" unoptimized />追加</span>
-      <button disabled><Image className="SL-ut_theme-icon" src="/mockups/bookshelf/desktop/price.svg" width={20} height={20} alt="" unoptimized /><span>金額<small>準備中</small></span></button>
-    </nav>
+    <MainNavigation current="add" onShelfClick={(event) => navigate(event, "/")} />
     <header className={styles["SL-ly_book-form-screen__header"]}>
       <Link href="/" aria-label="本棚に戻る" onClick={(event) => navigate(event, "/")}><Image className="SL-ut_theme-icon" src="/mockups/bookshelf/back.svg" width={20} height={20} alt="" unoptimized /></Link><h1>本を追加</h1>
     </header>

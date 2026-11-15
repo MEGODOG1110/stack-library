@@ -1,0 +1,11 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="custom/bookshelf_rounded">
+<path id="Rectangle" d="M3 2.75H3.5C4.4665 2.75 5.25 3.5335 5.25 4.5V13.5C5.25 14.4665 4.4665 15.25 3.5 15.25H3C2.0335 15.25 1.25 14.4665 1.25 13.5V4.5C1.25 3.5335 2.0335 2.75 3 2.75Z" stroke-width="1.5" stroke="#D8F66F"/>
+<path id="Rectangle_2" d="M8.75 0.75H9.25C10.2165 0.75 11 1.5335 11 2.5V13.5C11 14.4665 10.2165 15.25 9.25 15.25H8.75C7.7835 15.25 7 14.4665 7 13.5V2.5C7 1.5335 7.7835 0.75 8.75 0.75Z" stroke-width="1.5" stroke="#D8F66F"/>
+<path id="Rectangle_3" d="M14.5 3.25H15C15.9665 3.25 16.75 4.0335 16.75 5V13.5C16.75 14.4665 15.9665 15.25 15 15.25H14.5C13.5335 15.25 12.75 14.4665 12.75 13.5V5C12.75 4.0335 13.5335 3.25 14.5 3.25Z" stroke-width="1.5" stroke="#D8F66F"/>
+<path id="Line" d="M0.75 15.25H17.25" stroke-width="1.5" stroke-linecap="round" stroke="#D8F66F"/>
+<path id="Line_2" d="M2.875 5.375H3.625" stroke-width="1.25" stroke-linecap="round" stroke="#D8F66F"/>
+<path id="Line_3" d="M8.625 4.125H9.375" stroke-width="1.25" stroke-linecap="round" stroke="#D8F66F"/>
+<path id="Line_4" d="M14.375 5.875H15.125" stroke-width="1.25" stroke-linecap="round" stroke="#D8F66F"/>
+</g>
+</svg>

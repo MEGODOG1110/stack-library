@@ -1,9 +1,39 @@
-.SL-ly_book-shelf__header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
-.SL-ly_book-shelf__header h2 { margin: 0; font-size: 14px; }
-.SL-ly_book-shelf__header span { font-size: 12px; white-space: nowrap; }
-.SL-ly_book-shelf__books { display: grid; grid-template-columns: repeat(3, minmax(0, 104px)); justify-content: space-between; gap: 16px 8px; margin: 0; padding: 0; list-style: none; }
+.SL-ly_book-shelf { container: book-shelf / inline-size; }
+
+.SL-ly_book-shelf__header { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 16px; }
+.SL-ly_book-shelf__header h2 {
+  margin: 0 0 0 calc(-1 * var(--sl-shelf-gutter, 0px));
+  padding: 4px 18px;
+  border-radius: 0 18px 18px 0;
+  background: var(--sl-shelf-accent);
+  color: var(--sl-shelf-on-accent);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 28px;
+}
+.SL-ly_book-shelf__header span { font-size: 14px; color: var(--sl-color-text); white-space: nowrap; }
+.SL-ly_book-shelf__books {
+  --sl-shelf-cover-width: min(104px, calc((100cqi - 16px) / 3));
+  --sl-shelf-column-gap: max(
+    clamp(8px, calc((100cqi - 312px) / 2), 23px),
+    clamp(8px, calc(6cqi - 13px), 44px)
+  );
+  display: grid;
+  grid-template-columns: repeat(auto-fill, var(--sl-shelf-cover-width));
+  justify-content: start;
+  align-items: end;
+  gap: 28px var(--sl-shelf-column-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 
 @media (min-width: 1000px) {
-  .SL-ly_book-shelf__header { justify-content: flex-start; gap: 8px; margin-bottom: 16px; }
-  .SL-ly_book-shelf__books { grid-template-columns: repeat(auto-fill, 128px); justify-content: start; gap: 8px; }
+  .SL-ly_book-shelf__header h2 { padding: 6px 32px; border-radius: 0 20px 20px 0; }
+  .SL-ly_book-shelf__books {
+    --sl-shelf-cover-width: clamp(104px, calc(104px + (100cqi - 752px) * 40 / 272), 144px);
+    --sl-shelf-cover-height: clamp(160px, calc(160px + (100cqi - 752px) * 60 / 272), 220px);
+    --sl-shelf-column-gap: clamp(44px, calc(44px + (100cqi - 752px) * 8 / 272), 52px);
+    row-gap: clamp(16px, calc(28px - (100cqi - 752px) * 12 / 272), 28px);
+  }
 }

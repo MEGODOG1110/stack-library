@@ -1,3 +1,5 @@
+import { MainNavigation } from "@/components/navigation/MainNavigation";
+import navigationStyles from "@/components/navigation/MainNavigation.module.css";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth, signIn } from "@/auth";
@@ -9,7 +11,8 @@ export default async function SignInPage({ searchParams }: {
   const configured = authConfigured();
   if (configured && isOwner((await auth())?.user?.id)) redirect("/books/new");
   const { error } = await searchParams;
-  return <main>
+  return <main className={navigationStyles["SL-ly_main-navigation-page"]}>
+    <MainNavigation current="add" />
     <h1>本を登録するにはログインしてください</h1>
     <p>書籍の登録は、この本棚の所有者だけが利用できます。</p>
     {error && <p role="alert">ログインできませんでした。本棚の所有者のGitHubアカウントで再度お試しください。</p>}
