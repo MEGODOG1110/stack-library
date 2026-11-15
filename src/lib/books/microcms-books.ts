@@ -2,7 +2,7 @@ import { normalizeIsbn, isValidIsbn } from "@/components/book-form/book-form.val
 import { bookAreas, areaIds, splitKeywords } from "./classification";
 import type { ShelfBook, ShelfOption } from "@/components/bookshelf/bookshelf.types";
 import type { BookDetail } from "@/components/book-detail/book-detail.types";
-type RawBook = { id: string; title: string; titleReading?: string; authors: string; createdAt: string; cover?: { url?: string }; technicalAreas?: string[]; keywords?: string; description?: string; publication?: { isbn?: string; publisher?: string; price?: number }; reading?: { status?: string[] } };
+type RawBook = { id: string; title: string; subtitle?: string; titleReading?: string; authors: string; createdAt: string; cover?: { url?: string }; technicalAreas?: string[]; keywords?: string; description?: string; publication?: { isbn?: string; publisher?: string; price?: number }; reading?: { status?: string[] } };
 async function get(path: string) {
   const service = process.env.MICROCMS_SERVICE_DOMAIN; const key = process.env.MICROCMS_API_KEY;
   if (service !== "stack-library" || !key) throw new Error("microCMS接続設定を確認してください");
@@ -34,7 +34,7 @@ export async function getCmsShelf(): Promise<{ books: ShelfBook[]; areas: ShelfO
 export async function getCmsBook(id: string): Promise<BookDetail | null> {
   const result = await get(`/${encodeURIComponent(id)}`); if (!result) return null;
   const book = checked(result); const status = book.reading?.status?.[0];
-  return { id: book.id, title: book.title, authors: authors(book), coverSrc: cover(book), isbn: book.publication?.isbn ? normalizeIsbn(book.publication.isbn) : undefined, publisher: book.publication?.publisher, registeredPrice: book.publication?.price, tags: tags(book).map(label=>({id:label,label})), readingStatus: status === "積読" ? "tsundoku" : status === "読書中" ? "reading" : status === "読了" ? "read" : undefined, summary: book.description };
+  return { id: book.id, title: book.title, subtitle: typeof book.subtitle === "string" ? book.subtitle.trim() || undefined : undefined, authors: authors(book), coverSrc: cover(book), isbn: book.publication?.isbn ? normalizeIsbn(book.publication.isbn) : undefined, publisher: book.publication?.publisher, registeredPrice: book.publication?.price, tags: tags(book).map(label=>({id:label,label})), readingStatus: status === "積読" ? "tsundoku" : status === "読書中" ? "reading" : status === "読了" ? "read" : undefined, summary: book.description };
 }
 
 export async function getCmsBookByIsbn(isbn: string): Promise<BookDetail | null> {

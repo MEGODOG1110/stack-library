@@ -1,21 +1,94 @@
-.SL-ly_book-detail { position: relative; min-height: 100dvh; background: var(--sl-color-background); color: var(--sl-color-text); color-scheme: inherit; }
-.SL-ly_book-detail a { color: inherit; text-decoration: none; }
-.SL-ly_book-detail button { color: inherit; font: inherit; }
-.SL-ly_book-detail button:disabled { cursor: default; color: var(--sl-color-muted); }
-.SL-ly_book-detail__body { display: flex; flex-direction: column; gap: 20px; padding: 16px; }
-.SL-ly_book-detail__toolbar { min-height: 52px; }
-.SL-ly_book-detail__toolbar a, .SL-ly_book-detail__toolbar button { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; background: transparent; }
-.SL-ly_book-detail__content { display: grid; gap: 20px; border-top: 1px solid var(--sl-color-border-subtle); padding-top: 20px; }
-.SL-ly_book-detail__ledger { display: grid; align-content: start; gap: 20px; min-width: 0; }
-.SL-el_book-detail__surface { padding: 12px; background: var(--sl-color-surface); overflow-wrap: anywhere; }
-.SL-ly_book-detail h2 { margin: 0 0 12px; font-size: 14px; }
-.SL-el_book-detail__overview { min-width: 0; }
-.SL-el_book-detail__overview p { margin: 0; white-space: pre-wrap; font-size: 14px; line-height: 1.6; }
-.SL-el_book-detail__status-action { margin-top: 16px; padding: 0; border: 0; background: transparent; font-size: 12px !important; }
+.SL-ly_book-detail {
+  position: relative;
+  min-block-size: 100dvh;
+  background: var(--sl-shelf-background);
+  color: var(--sl-color-text);
+}
+
+.SL-ly_book-detail__body { padding: 16px; }
+
+.SL-ly_book-detail__toolbar { margin-block-end: 24px; }
+
+.SL-ly_book-detail__toolbar a,
+.SL-ly_book-detail__toolbar button {
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+
+.SL-ly_book-detail__layout { display: grid; gap: 20px; }
+
+.SL-ly_book-detail__cover {
+  inline-size: min(224px, 100%);
+  justify-self: center;
+}
+
+/* Keep the screen dimensions when the shared cover CSS loads after this module. */
+.SL-ly_book-detail__layout .SL-ly_book-detail__cover > [data-size="detail"] {
+  inline-size: 100%;
+  block-size: auto;
+  aspect-ratio: 224 / 283;
+}
+
+.SL-ly_book-detail__information { min-inline-size: 0; overflow-wrap: anywhere; }
+
+.SL-ly_book-detail__holdings {
+  margin-block-start: 12px;
+  padding-block: 8px 20px;
+  border-block: 1px solid var(--sl-color-border-subtle);
+}
+
+.SL-ly_book-detail__tags,
+.SL-el_book-detail__overview { margin-block-start: 16px; }
+
+.SL-ly_book-detail__information h2 { margin: 0 0 8px; font-size: 14px; }
+
+.SL-el_book-detail__overview p {
+  margin: 0;
+  white-space: pre-wrap;
+  color: var(--sl-color-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
 @media (min-width: 1000px) {
-  .SL-ly_book-detail { padding-left: 184px; }
-  .SL-ly_book-detail__body { height: 100dvh; gap: 24px; padding: 32px; }
-  .SL-ly_book-detail__body > header, .SL-ly_book-detail__toolbar { flex-shrink: 0; }
-  .SL-ly_book-detail__content { grid-template-columns: minmax(0,360px) minmax(0,1fr); gap: 32px; min-height: 0; overflow: auto; padding-top: 0; border-top: 0; }
-  .SL-el_book-detail__surface { padding: 20px; }
+  .SL-ly_book-detail { padding-inline-start: 184px; }
+
+  .SL-ly_book-detail__body {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    block-size: 100dvh;
+    padding: 32px;
+  }
+
+  .SL-ly_book-detail__toolbar { margin-block-end: 12px; }
+
+  .SL-ly_book-detail__layout {
+    /* Match the shelf's usable width and scale its 104–144px cover by 224/104. */
+    --sl-detail-shelf-width: calc(100vw - 216px - clamp(32px, calc(8.11vw - 49px), 56px));
+    --sl-detail-cover-width: calc(clamp(104px, calc(104px + (var(--sl-detail-shelf-width) - 752px) * 40 / 272), 144px) * 224 / 104);
+    grid-template-columns: var(--sl-detail-cover-width) minmax(0, 1fr);
+    align-items: start;
+    gap: 48px;
+    inline-size: min(880px, 100%);
+    margin-inline: auto;
+  }
+
+  .SL-ly_book-detail__cover { inline-size: 100%; }
+
+  .SL-ly_book-detail__layout .SL-ly_book-detail__cover > [data-size="detail"] {
+    max-block-size: max(0px, calc(100dvh - 120px));
+  }
+
+  .SL-ly_book-detail__information {
+    align-self: stretch;
+    min-block-size: 0;
+    overflow: auto;
+    overscroll-behavior-y: contain;
+  }
 }

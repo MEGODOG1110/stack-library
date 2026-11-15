@@ -1,0 +1,28 @@
+.SL-ly_search-term-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: var(--sl-search-term-list-offset, 0px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.SL-ly_search-term-tags li { max-inline-size: 100%; }
+
+.SL-ly_search-term-tags .SL-el_search-term-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-block-size: 44px;
+  max-inline-size: 100%;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: light-dark(#e9eef8, #202622);
+  color: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: start;
+}
+
+.SL-el_search-term-tag > span { min-inline-size: 0; overflow-wrap: anywhere; }

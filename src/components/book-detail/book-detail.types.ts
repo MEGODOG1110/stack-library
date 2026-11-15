@@ -2,6 +2,7 @@
 export type BookDetail = {
   id: string;
   title: string;
+  subtitle?: string;
   authors: readonly string[];
   coverSrc: string;
   isbn?: string;
