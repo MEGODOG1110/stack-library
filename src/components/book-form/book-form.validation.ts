@@ -1,6 +1,6 @@
 import type { BookFormDraft, BookFormErrors, CheckedBookInput } from "./book-form.types";
 
-export const emptyBookDraft: BookFormDraft = { title: "", authors: "", isbn: "", publisher: "", areaIds: [], keywords: "", price: "" };
+export const emptyBookDraft: BookFormDraft = { title: "", subtitle: "", authors: "", isbn: "", publisher: "", areaIds: [], keywords: "", price: "" };
 export const normalizeIsbn = (value: string) => value.normalize("NFKC").replace(/[-\s]/g, "");
 export function isValidIsbn(value: string) {
   return /^(978|979)\d{10}$/.test(value) && [...value].reduce((sum, digit, index) => sum + Number(digit) * (index % 2 ? 3 : 1), 0) % 10 === 0;
@@ -18,5 +18,5 @@ export function checkBookInput(draft: BookFormDraft, cover?: File | string): { e
   if (!cover) errors.cover = "表紙画像を選択し、プレビューを確認してください";
   if (price !== undefined && (!Number.isFinite(price) || price < 0)) errors.price = "税込価格は0以上の数値を入力してください";
   if (Object.keys(errors).length || !cover) return { errors };
-  return { errors, value: { title, authors, isbn, publisher: draft.publisher.trim() || undefined, areaIds: [...draft.areaIds], keywords: draft.keywords.trim(), registeredPrice: price, cover } };
+  return { errors, value: { title, subtitle: draft.subtitle?.trim() || undefined, authors, isbn, publisher: draft.publisher.trim() || undefined, areaIds: [...draft.areaIds], keywords: draft.keywords.trim(), registeredPrice: price, cover } };
 }

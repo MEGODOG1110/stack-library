@@ -9,13 +9,13 @@ export const Default: Story = {};
 export const RequiredErrors: Story = { play: async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   await userEvent.click(canvas.getByRole("button", { name: "入力内容を確認" }));
-  await expect(canvas.getByRole("textbox", { name: "書名（必須）" })).toHaveFocus();
+  await expect(canvas.getByRole("textbox", { name: "書名" })).toHaveFocus();
   await expect(canvas.getByText("著者を1名以上入力してください")).toBeVisible();
   await expect(canvas.getByText("表紙画像を選択し、プレビューを確認してください")).toBeInTheDocument();
 } };
 export const ValidWithZeroPrice: Story = { args: { initialValues: sampleBookDraft }, play: async ({ canvasElement, args }) => {
   const canvas = within(canvasElement);
-  await userEvent.upload(canvas.getByLabelText("表紙画像（必須）"), await makeSampleCover());
+  await userEvent.upload(canvas.getByLabelText("表紙画像"), await makeSampleCover());
   await waitFor(() => expect(canvas.getByText("選択済み（未保存）")).toBeVisible());
   await userEvent.click(canvas.getByRole("button", { name: "入力内容を確認" }));
   await expect(args.onCheck).toHaveBeenCalledWith(expect.objectContaining({ registeredPrice: 0, areaIds: ["web"], keywords: "React", authors: ["サンプル著者A", "サンプル著者B"], isbn: "9784815636623" }));

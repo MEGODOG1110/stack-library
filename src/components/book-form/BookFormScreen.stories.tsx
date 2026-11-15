@@ -15,11 +15,11 @@ export const Mobile: Story = { globals: { viewport: { value: "mobileMock", isRot
 export const Desktop: Story = { globals: { viewport: { value: "desktopMock", isRotated: false } } };
 export const LeaveConfirmation: Story = { play: async ({ canvasElement, args }) => {
   const canvas = within(canvasElement);
-  await userEvent.type(canvas.getByRole("textbox", { name: "書名（必須）" }), "入力途中の本");
+  await userEvent.type(canvas.getByRole("textbox", { name: "書名" }), "入力途中の本");
   await userEvent.click(canvas.getByRole("link", { name: "本棚に戻る" }));
   await expect(canvas.getByRole("dialog")).toBeVisible();
   await userEvent.click(canvas.getByRole("button", { name: "入力を続ける" }));
-  await expect(canvas.getByRole("textbox", { name: "書名（必須）" })).toHaveValue("入力途中の本");
+  await expect(canvas.getByRole("textbox", { name: "書名" })).toHaveValue("入力途中の本");
   await expect(args.onExit).not.toHaveBeenCalled();
   await userEvent.click(canvas.getByRole("link", { name: "本棚に戻る" }));
   await userEvent.click(canvas.getByRole("button", { name: "破棄して戻る" }));

@@ -1,25 +1,228 @@
-.SL-ly_isbn-registration { display: flex; flex: 1; flex-direction: column; min-height: 0; }
-.SL-ly_isbn-registration h2 { margin: 0 0 16px; padding: 0; font-size: 20px; }
-.SL-ly_isbn-registration > h2 { margin: 0; padding: 0 16px; }
-.SL-ly_isbn-registration button { min-height: 44px; padding: 8px 14px; border: 1px solid var(--sl-color-border-strong); background: var(--sl-color-background); color: var(--sl-color-text); font: inherit; cursor: pointer; }
-.SL-ly_isbn-registration button:disabled { opacity: .55; cursor: default; }
-.SL-ly_isbn-registration input[type="checkbox"] { margin-right: 8px; }
-.SL-ly_isbn-registration__steps { display: flex; flex-wrap: wrap; gap: 16px; margin: 0; padding: 16px 16px 8px; list-style-position: inside; font-size: 12px; }
-.SL-ly_isbn-registration__steps [aria-current] { font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
-.SL-el_isbn-registration__notice { margin: 0; padding: 8px 16px 16px; color: var(--sl-color-muted); font-size: 12px; }
-.SL-ly_isbn-registration__viewport { padding: 0 16px 24px; overflow: auto; }
-.SL-ly_isbn-registration__viewport > form { max-width: 36rem; margin-bottom: 20px; }
-.SL-ly_isbn-registration fieldset { display: grid; gap: 16px; min-width: 0; margin: 0; padding: 0; border: 0; }
-.SL-ly_isbn-registration__identity { display: grid; grid-template-columns: 73px minmax(0,1fr); align-items: start; gap: 16px; margin-bottom: 24px; }
-.SL-ly_isbn-registration__identity h3 { margin: 0 0 16px; font-size: 18px; overflow-wrap: anywhere; }
-.SL-el_isbn-registration__cover { width: 73px; height: 110px; }
+.SL-ly_isbn-registration {
+  --sl-registration-width: 680px;
+  --sl-registration-isbn-width: 480px;
+  --sl-registration-surface: light-dark(#e9eef8, #202622);
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  padding: 24px 16px 0;
+}
+
+.SL-ly_isbn-registration__steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  flex: none;
+  align-self: center;
+  inline-size: min(100%, var(--sl-registration-isbn-width));
+  margin: 0;
+  padding: 0 0 3px;
+  list-style: none;
+}
+
+.SL-ly_isbn-registration__steps li {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+  color: var(--sl-color-text);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.SL-ly_isbn-registration__steps li:not(:last-child)::after {
+  position: absolute;
+  inset-block-start: 14px;
+  inset-inline-start: calc(50% + 17px);
+  inline-size: calc(100% - 34px);
+  block-size: 1px;
+  background: var(--sl-color-border-strong);
+  content: "";
+}
+
+.SL-ly_isbn-registration__steps li[data-step="complete"]::after { background: var(--sl-shelf-accent); }
+.SL-ly_isbn-registration__steps li[data-step="current"] { font-weight: 700; }
+.SL-ly_isbn-registration__steps li[data-step="pending"] { color: var(--sl-color-muted); }
+
+.SL-el_isbn-registration__marker {
+  display: grid;
+  place-items: center;
+  inline-size: 28px;
+  block-size: 28px;
+  border: 1px solid var(--sl-color-border-strong);
+  border-radius: 50%;
+  font-weight: 700;
+}
+
+[data-step="current"] > .SL-el_isbn-registration__marker {
+  border: 2px solid var(--sl-shelf-accent);
+  background: var(--sl-shelf-accent);
+  color: var(--sl-shelf-on-accent);
+  box-shadow: inset 0 0 0 2px var(--sl-shelf-background);
+}
+
+[data-step="complete"] > .SL-el_isbn-registration__marker {
+  border-color: transparent;
+  background: var(--sl-registration-surface);
+  color: var(--sl-shelf-accent);
+}
+
+.SL-ut_visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.SL-ly_isbn-registration__viewport {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  inline-size: min(100%, var(--sl-registration-width));
+  min-block-size: 0;
+  margin: 20px auto 0;
+  padding-block-end: max(16px, env(safe-area-inset-bottom));
+  overflow: auto;
+  scrollbar-width: thin;
+}
+
+.SL-ly_isbn-registration__viewport[data-layout="isbn"] {
+  inline-size: min(100%, var(--sl-registration-isbn-width));
+  padding-block-start: 12px;
+}
+
+.SL-ly_isbn-registration__viewport > h2 { margin: 0 0 24px; font-size: 22px; line-height: 32px; }
+.SL-ly_isbn-registration__viewport > h2:focus { outline: none; }
+
+.SL-el_isbn-registration__notice {
+  inline-size: min(100%, var(--sl-registration-width));
+  margin: 8px auto 0;
+  color: var(--sl-color-muted);
+  font-size: 12px;
+}
+
+.SL-ly_isbn-registration__isbn-form fieldset { min-inline-size: 0; margin: 0; padding: 0; border: 0; }
+.SL-ly_isbn-registration__isbn-form input { background: var(--sl-registration-surface); }
+.SL-ly_isbn-registration__isbn-form input::placeholder { color: var(--sl-color-muted); }
+.SL-ly_isbn-registration__isbn-actions { display: grid; gap: 12px; margin-block-start: 20px; }
+
+.SL-ly_isbn-registration [data-variant],
+.SL-ly_isbn-registration__viewport[data-layout="manual"] button[type="submit"] {
+  display: grid;
+  place-items: center;
+  min-block-size: 48px;
+  min-inline-size: 0;
+  padding: 8px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--sl-shelf-accent);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.SL-ly_isbn-registration [data-variant="primary"],
+.SL-ly_isbn-registration__viewport[data-layout="manual"] button[type="submit"] { background: var(--sl-shelf-accent); color: var(--sl-shelf-on-accent); }
+.SL-ly_isbn-registration [data-variant="secondary"] { border-color: var(--sl-shelf-accent); }
+.SL-ly_isbn-registration [data-variant="neutral"] { border-color: var(--sl-color-border-strong); color: var(--sl-color-text); }
+.SL-ly_isbn-registration [data-variant]:disabled { opacity: .68; cursor: default; }
+.SL-ly_isbn-registration :is(button, a, input, textarea):focus-visible { outline-color: var(--sl-shelf-accent); }
+
+.SL-ly_isbn-registration__preview {
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr);
+  grid-template-areas: "cover identity" "metadata metadata" "actions actions";
+  align-items: start;
+  gap: 16px;
+}
+
+.SL-ly_isbn-registration__compact {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  grid-template-areas: "cover identity";
+  align-items: start;
+  gap: 16px;
+}
+
+.SL-el_isbn-registration__cover { grid-area: cover; aspect-ratio: 144 / 182; }
+.SL-el_isbn-registration__no-cover { display: grid; place-items: center; height: 100%; border-radius: 6px; background: var(--sl-registration-surface); color: var(--sl-color-muted); font-size: 12px; }
 .SL-el_isbn-registration__cover > img { display: block; width: 100%; height: 100%; object-fit: contain; }
-.SL-ly_isbn-registration__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
-.SL-ly_isbn-registration [role="alert"] { padding: 12px; border: 1px solid var(--sl-color-border-strong); font-size: 14px; overflow-wrap: anywhere; }
+.SL-ly_isbn-registration__identity { grid-area: identity; display: grid; gap: 10px; overflow-wrap: anywhere; }
+.SL-ly_isbn-registration__titles { display: grid; gap: 4px; }
+.SL-ly_isbn-registration__titles h3 { margin: 0; font-size: 20px; line-height: 30px; }
+.SL-el_isbn-registration__subtitle { margin: 0; font-size: 15px; line-height: 23px; }
+.SL-el_isbn-registration__authors { margin: 0; color: var(--sl-color-muted); font-size: 14px; line-height: 21px; }
+
+.SL-ly_isbn-registration__metadata { grid-area: metadata; padding-block-start: 12px; border-top: 1px solid var(--sl-color-border-subtle); }
+.SL-ly_isbn-registration__metadata dl { gap: 10px; }
+.SL-ly_isbn-registration__metadata dt { flex-shrink: 0; }
+.SL-ly_isbn-registration__metadata :is(dt, dd) { font-size: 14px; }
+.SL-ly_isbn-registration__metadata dd { font-weight: 400; }
+
+.SL-el_isbn-registration__feedback { margin: 16px 0 0; color: var(--sl-color-muted); font-size: 14px; }
+.SL-ly_isbn-registration [role="alert"] { color: var(--sl-color-error); font-size: 14px; overflow-wrap: anywhere; }
+.SL-ly_isbn-registration [role="alert"] a { color: inherit; text-decoration: underline; }
+
+.SL-ly_isbn-registration__actions,
+.SL-ly_isbn-registration__outcome {
+  display: grid;
+  gap: 8px;
+  padding-block-start: 16px;
+  border-top: 1px solid var(--sl-color-border-subtle);
+}
+
+.SL-ly_isbn-registration__actions { grid-area: actions; }
+.SL-ly_isbn-registration__outcome { margin-block-start: 16px; }
+.SL-ly_isbn-registration__viewport[data-layout="manual"] form > div { padding-inline: 0; }
+.SL-ly_isbn-registration__viewport[data-layout="manual"] footer {
+  align-items: stretch;
+  padding: 16px 0 0;
+  background: transparent;
+}
+.SL-ly_isbn-registration__viewport[data-layout="manual"] footer > div {
+  display: grid;
+  gap: 8px;
+}
+.SL-ly_isbn-registration__viewport input[type="checkbox"] { margin-inline-end: 8px; }
+
 @media (min-width: 1000px) {
-  .SL-ly_isbn-registration__steps { padding-inline: 32px; }
-  .SL-el_isbn-registration__notice { padding-inline: 32px; }
-  .SL-ly_isbn-registration__viewport { padding-inline: 32px; }
-  .SL-ly_isbn-registration__identity { max-width: 56rem; grid-template-columns: 146px minmax(0,1fr); gap: 24px; }
-  .SL-el_isbn-registration__cover { width: 146px; height: 220px; }
+  .SL-ly_isbn-registration { padding-inline: 32px; }
+  .SL-ly_isbn-registration__isbn-actions,
+  .SL-ly_isbn-registration__outcome,
+  .SL-ly_isbn-registration__viewport[data-layout="manual"] footer > div { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .SL-ly_isbn-registration__preview {
+    grid-template-columns: 144px minmax(0, 1fr);
+    grid-template-areas: "cover identity" "cover metadata" "actions actions";
+    column-gap: 24px;
+    row-gap: 12px;
+  }
+  .SL-ly_isbn-registration__compact { column-gap: 24px; }
+  .SL-ly_isbn-registration__identity { gap: 12px; }
+  .SL-ly_isbn-registration__titles h3 { font-size: 28px; line-height: 42px; }
+  .SL-ly_isbn-registration__actions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    padding: 0;
+    border: 0;
+  }
+  .SL-ly_isbn-registration__outcome {
+    margin-block-start: 24px;
+    padding: 0;
+    border: 0;
+  }
+  .SL-ly_isbn-registration__outcome > :only-child { grid-column: 1 / -1; }
+}
+
+.SL-ly_isbn-registration .SL-el_isbn-registration__feedback a {
+  color: var(--sl-shelf-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }

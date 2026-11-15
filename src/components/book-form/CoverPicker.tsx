@@ -1,9 +1,16 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { FieldRequirement } from "./FormField";
 import styles from "./CoverPicker.module.css";
 
 const acceptedTypes = ["image/jpeg", "image/png", "image/webp"];
+export function validateCoverFile(file: File) {
+  if (!acceptedTypes.includes(file.type)) return "JPEG・PNG・WebPの画像を選択してください";
+  if (file.size > 5 * 1024 * 1024) return "5MB以下の画像を選択してください";
+  return "";
+}
+
 export function CoverPicker({ id, error, onChange, onDirty, initialSrc }: { id: string; error?: string; onChange: (file?: File | string) => void; onDirty?: () => void; initialSrc?: string }) {
   const [selection, setSelection] = useState<{ file?: File; url: string; ready: boolean } | undefined>(() => initialSrc ? { url: initialSrc, ready: false } : undefined);
   const [failure, setFailure] = useState("");
@@ -20,13 +27,13 @@ export function CoverPicker({ id, error, onChange, onDirty, initialSrc }: { id: 
   }
   const message = failure || error;
   return <div className={styles["SL-el_cover-picker"]}>
-    <label htmlFor={id}>表紙画像（必須）</label>
-    <input ref={input} id={id} name="cover" type="file" accept={acceptedTypes.join(",")} aria-invalid={message ? true : undefined} aria-describedby={`${id}-hint${message ? ` ${id}-error` : ""}`} onChange={(event) => {
+    <label htmlFor={id}>表紙画像<FieldRequirement required /></label>
+    <input ref={input} id={id} name="cover" type="file" required accept={acceptedTypes.join(",")} aria-invalid={message ? true : undefined} aria-describedby={`${id}-hint${selection ? ` ${id}-status` : ""}${message ? ` ${id}-error` : ""}`} onChange={(event) => {
       const file = event.target.files?.[0];
       if (!file) return;
       onDirty?.(); clear(false); setFailure("");
-      if (!acceptedTypes.includes(file.type)) { event.currentTarget.value = ""; setFailure("JPEG・PNG・WebPの画像を選択してください"); return; }
-      if (file.size > 5 * 1024 * 1024) { event.currentTarget.value = ""; setFailure("5MB以下の画像を選択してください"); return; }
+      const validation = validateCoverFile(file);
+      if (validation) { event.currentTarget.value = ""; setFailure(validation); return; }
       const url = URL.createObjectURL(file); urlRef.current = url; ownedUrlRef.current = url;
       setSelection({ file, url, ready: false });
     }} />
@@ -36,8 +43,14 @@ export function CoverPicker({ id, error, onChange, onDirty, initialSrc }: { id: 
         if (urlRef.current !== selection.url) return;
         setSelection({ ...selection, ready: true }); onChange(selection.file ?? selection.url);
       }} onError={() => { if (urlRef.current !== selection.url) return; clear(); setFailure("画像を読み込めませんでした。別の画像を選択してください"); }} />
-      <div><p>{selection.file?.name ?? "取得した表紙画像"}</p><p role="status">{selection.ready ? "選択済み（未保存）" : "画像を確認しています"}</p><button type="button" onClick={() => { onDirty?.(); clear(); setFailure(""); }}>画像を外す</button></div>
-    </div> : <p>画像を選択していません</p>}
+      <div>
+        <p id={`${id}-filename`}>{selection.file?.name ?? "取得した表紙画像"}</p>
+        <p id={`${id}-status`} role="status">{selection.ready ? "選択済み（未保存）" : "画像を確認しています"}</p>
+      </div>
+      <button type="button" aria-label="画像を外す" aria-describedby={`${id}-filename`} onClick={() => { onDirty?.(); clear(); setFailure(""); input.current?.focus(); }}>
+        <span aria-hidden="true">×</span>
+      </button>
+    </div> : !message && <p>画像を選択していません</p>}
     {message && <p id={`${id}-error`} className={styles["SL-el_cover-picker__error"]} role="alert">{message}</p>}
   </div>;
 }

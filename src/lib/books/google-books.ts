@@ -1,5 +1,5 @@
 import type { LookupBook } from "@/components/book-form/isbn-registration.types";
-type Volume = { id?: string; volumeInfo?: { title?: string; authors?: string[]; publisher?: string; publishedDate?: string; industryIdentifiers?: { type: string; identifier: string }[]; imageLinks?: Record<string, string> } };
+type Volume = { id?: string; volumeInfo?: { title?: string; subtitle?: string; authors?: string[]; publisher?: string; publishedDate?: string; industryIdentifiers?: { type: string; identifier: string }[]; imageLinks?: Record<string, string> } };
 async function request(path: string, signal: AbortSignal) {
   const url = new URL(`https://www.googleapis.com/books/v1/${path}`);
   const headers = { "X-Goog-Api-Key": process.env.GOOGLE_BOOKS_API_KEY!.trim() };
@@ -49,6 +49,6 @@ export async function lookupGoogleBooks(isbn: string, queries: string[], signal:
         coverSrc = url.href;
       }
     }
-    return { isbn, title: value.title, authors: value.authors ?? [], publisher: value.publisher, editionPublicationText: value.publishedDate, coverSrc };
+    return { isbn, title: value.title, subtitle: typeof value.subtitle === "string" ? value.subtitle.trim() || undefined : undefined, authors: value.authors ?? [], publisher: value.publisher, editionPublicationText: value.publishedDate, coverSrc };
   }
 }

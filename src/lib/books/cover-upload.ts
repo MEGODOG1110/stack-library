@@ -1,3 +1,4 @@
+import { isOreillyCover } from "./publisher-cover";
 import { RegistrationError } from "./microcms-registration";
 const max = 5 * 1024 * 1024;
 async function bounded(response: Response) {
@@ -17,7 +18,7 @@ export async function uploadCover(cover: File | string, isbn: string): Promise<s
     const signal = AbortSignal.timeout(10000);
     let response: Response | undefined;
     for (let hop = 0; hop < 4; hop++) {
-      if (url.protocol !== "https:" || !["books.google.com", "books.googleusercontent.com"].includes(url.hostname) || url.username || url.password || url.port) throw new RegistrationError("cover-source-invalid", 422);
+      if (url.protocol !== "https:" || (!["books.google.com", "books.googleusercontent.com"].includes(url.hostname) && !isOreillyCover(url, isbn)) || url.username || url.password || url.port) throw new RegistrationError("cover-source-invalid", 422);
       try { response = await fetch(url, { cache: "no-store", redirect: "manual", signal }); }
       catch { throw new RegistrationError("cover-download-failed", 422); }
       if (![301,302,303,307,308].includes(response.status)) break;

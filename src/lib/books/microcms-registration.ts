@@ -8,6 +8,7 @@ export function toBooksPayload(input: unknown) {
   const value = input as Record<string, unknown>;
   const text = (key: string) => typeof value[key] === "string" ? (value[key] as string).trim() : "";
   const title = text("title");
+  const subtitle = text("subtitle");
   const authors = Array.isArray(value.authors) ? value.authors.filter((x): x is string => typeof x === "string").map(x => x.trim()).filter(Boolean) : [];
   if (!title || !authors.length) throw new RegistrationError("title-authors-required", 400);
   const isbn = text("isbn").normalize("NFKC").replace(/[-\s]/g, "");
@@ -21,7 +22,7 @@ export function toBooksPayload(input: unknown) {
   const keywords = splitKeywords(text("keywords")).join("\n");
   const price = value.registeredPrice;
   if (price !== undefined && (typeof price !== "number" || !Number.isFinite(price) || price < 0)) throw new RegistrationError("invalid-price", 400);
-  return { ...(ids.length ? { technicalAreas: bookAreas.filter(area=>ids.includes(area.id)).map(area=>area.label) } : {}), ...(keywords ? { keywords } : {}), title, authors: authors.join("\n"), cover: cover.href, publication: { fieldId: "publication", isbn, ...(text("publisher") ? { publisher: text("publisher") } : {}), ...(price !== undefined ? { price } : {}) }, reading: { fieldId: "reading", status: ["積読"], favorite: false } };
+  return { ...(ids.length ? { technicalAreas: bookAreas.filter(area=>ids.includes(area.id)).map(area=>area.label) } : {}), ...(keywords ? { keywords } : {}), title, ...(subtitle ? { subtitle } : {}), authors: authors.join("\n"), cover: cover.href, publication: { fieldId: "publication", isbn, ...(text("publisher") ? { publisher: text("publisher") } : {}), ...(price !== undefined ? { price } : {}) }, reading: { fieldId: "reading", status: ["積読"], favorite: false } };
 }
 
 export async function registerInMicrocms(input: unknown, resolveCover?: (isbn: string) => Promise<string>) {
@@ -58,7 +59,7 @@ export async function registerInMicrocms(input: unknown, resolveCover?: (isbn: s
     const check = await fetch(`${base}/${encodeURIComponent(contentId)}`, { headers, cache: "no-store", signal: AbortSignal.timeout(8000) });
     if (!check.ok) throw new Error("readback");
     const saved = await check.json();
-    if ((saved.keywords ?? "") !== (payload.keywords ?? "") || JSON.stringify([...(saved.technicalAreas ?? [])].sort()) !== JSON.stringify([...(payload.technicalAreas ?? [])].sort()) || saved.title !== payload.title || saved.authors !== payload.authors || saved.cover?.url !== payload.cover || (saved.publication?.isbn ?? "") !== (payload.publication.isbn ?? "") || (saved.publication?.publisher ?? "") !== (payload.publication.publisher ?? "") || (saved.publication?.price ?? undefined) !== payload.publication.price || !saved.reading?.status?.includes("積読")) throw new Error("mismatch");
+    if ((saved.keywords ?? "") !== (payload.keywords ?? "") || JSON.stringify([...(saved.technicalAreas ?? [])].sort()) !== JSON.stringify([...(payload.technicalAreas ?? [])].sort()) || saved.title !== payload.title || (saved.subtitle ?? "") !== (payload.subtitle ?? "") || saved.authors !== payload.authors || saved.cover?.url !== payload.cover || (saved.publication?.isbn ?? "") !== (payload.publication.isbn ?? "") || (saved.publication?.publisher ?? "") !== (payload.publication.publisher ?? "") || (saved.publication?.price ?? undefined) !== payload.publication.price || !saved.reading?.status?.includes("積読")) throw new Error("mismatch");
     return { contentId };
   } catch { throw new RegistrationError("registration-unknown", 503); }
 }

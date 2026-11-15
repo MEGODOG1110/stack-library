@@ -10,11 +10,11 @@ const found: IsbnLookup = async () => ({ status: "found", book: candidate });
 const meta = { title: "BookForm/IsbnRegistration", component: IsbnRegistration, args: { tags: sampleFormTags, lookup: found, register: fn(async () => ({ contentId: "sample" })), ownedBooks: [], onExit: fn() }, parameters: { layout: "fullscreen" } } satisfies Meta<typeof IsbnRegistration>;
 export default meta;
 type Story = StoryObj<typeof meta>;
-async function lookup(canvasElement: HTMLElement) {
+async function lookup(canvasElement: HTMLElement, heading = "この本を登録しますか？") {
   const canvas = within(canvasElement);
   await userEvent.type(canvas.getByRole("textbox", { name: "ISBN" }), candidate.isbn);
   await userEvent.click(canvas.getByRole("button", { name: "本の情報を取得" }));
-  await expect(await canvas.findByRole("heading", { name: "この本で間違いありませんか？" })).toBeVisible();
+  await expect(await canvas.findByRole("heading", { name: heading })).toBeVisible();
   return canvas;
 }
 export const Light: Story = { globals: { theme: "light" } };
@@ -49,15 +49,15 @@ export const ManualFallback: Story = { args: { lookup: async () => ({ status: "n
   await userEvent.type(canvas.getByRole("textbox", { name: "ISBN" }), candidate.isbn);
   await userEvent.click(canvas.getByRole("button", { name: "本の情報を取得" }));
   await expect(await canvas.findByRole("status")).toHaveTextContent("見つかりませんでした");
-  await userEvent.click(canvas.getByRole("button", { name: "情報を取得できない場合は手入力" }));
+  await userEvent.click(canvas.getByRole("button", { name: "手入力で追加" }));
   await expect(canvas.getByRole("textbox", { name: "ISBN" })).toHaveValue(candidate.isbn);
-  await userEvent.type(canvas.getByRole("textbox", { name: "書名（必須）" }), candidate.title);
-  await userEvent.type(canvas.getByRole("textbox", { name: "著者（必須）" }), candidate.authors[0]);
-  await userEvent.upload(canvas.getByLabelText("表紙画像（必須）"), await makeSampleCover());
+  await userEvent.type(canvas.getByRole("textbox", { name: "書名" }), candidate.title);
+  await userEvent.type(canvas.getByRole("textbox", { name: "著者" }), candidate.authors[0]);
+  await userEvent.upload(canvas.getByLabelText("表紙画像"), await makeSampleCover());
   await waitFor(() => expect(canvas.getByText("選択済み（未保存）")).toBeVisible());
   await userEvent.click(canvas.getByRole("button", { name: "プレビューへ" }));
   await expect(await canvas.findByRole("heading", { name: candidate.title })).toBeVisible();
-  await userEvent.click(canvas.getByRole("button", { name: "不足情報の入力・修正" }));
+  await userEvent.click(canvas.getByRole("button", { name: "書籍情報を修正" }));
   await waitFor(() => expect(canvas.getByText("選択済み（未保存）")).toBeVisible());
   await userEvent.click(canvas.getByRole("button", { name: "プレビューへ" }));
   await waitFor(() => expect(canvas.getByRole("button", { name: "登録する（サンプル）" })).toBeEnabled());
@@ -78,9 +78,9 @@ export const SaveFailure: Story = { args: { register: fn(async () => { throw new
   await expect(canvas.getByRole("heading", { name: candidate.title })).toBeVisible();
 } };
 export const MissingCover: Story = { args: { lookup: async () => ({ status: "found", book: { ...candidate, coverSrc: undefined } }) }, play: async ({ canvasElement }) => {
-  const canvas = await lookup(canvasElement);
-  await expect(canvas.getByRole("alert")).toHaveTextContent("表紙画像：取得できませんでした");
-  await expect(canvas.getByRole("button", { name: "登録する（サンプル）" })).toBeDisabled();
+  const canvas = await lookup(canvasElement, "書影を追加してください");
+  await expect(canvas.getByRole("alert")).toHaveTextContent("表紙画像を取得できませんでした");
+  await expect(canvas.getByRole("button", { name: "書影を選ぶ" })).toBeEnabled();
 } };
 export const TitleConfirmation: Story = { args: { ownedBooks: [{ id: "same-title", title: candidate.title }] }, play: async ({ canvasElement }) => {
   const canvas = await lookup(canvasElement);
@@ -98,7 +98,7 @@ export const InvalidIsbn: Story = { play: async ({ canvasElement }) => {
 export const PrintPriceAutofill: Story = { args: { lookup: async () => ({ status: "found", book: { ...candidate, registeredPrice: 2860, priceNote: "税込定価補完の表示確認用サンプルです。" } }) }, play: async ({ canvasElement }) => {
   const canvas = await lookup(canvasElement);
   await expect(canvas.getByText("2860円")).toBeVisible();
-  await userEvent.click(canvas.getByRole("button", { name: "不足情報の入力・修正" }));
+  await userEvent.click(canvas.getByRole("button", { name: "書籍情報を修正" }));
   await expect(canvas.getByRole("textbox", { name: "税込価格" })).toHaveValue("2860");
 } };
 export const CancelStaleLookup: Story = { args: { lookup: async () => { await new Promise((resolve) => setTimeout(resolve, 500)); return { status: "found", book: candidate }; } }, play: async ({ canvasElement }) => {
@@ -108,5 +108,5 @@ export const CancelStaleLookup: Story = { args: { lookup: async () => { await ne
   await userEvent.click(await canvas.findByRole("button", { name: "取得を中止" }));
   await new Promise((resolve) => setTimeout(resolve, 600));
   await expect(canvas.getByRole("textbox", { name: "ISBN" })).toHaveValue(candidate.isbn);
-  await expect(canvas.queryByRole("heading", { name: "この本で間違いありませんか？" })).not.toBeInTheDocument();
+  await expect(canvas.queryByRole("heading", { name: "この本を登録しますか？" })).not.toBeInTheDocument();
 } };
