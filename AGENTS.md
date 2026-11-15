@@ -88,7 +88,7 @@ merge前には対象PR、head、merge方法を確認します。詳細な公開�
 
 秘密値をshell出力、チャット、repository、Issue、ログ、handoffへ出しません。app runtimeとdevelopment MCPを分離します。
 
-外部サービスの読み取りは依頼に必要な範囲で行えます。書き込みはユーザーが承認した対象・操作・内容に限定し、同じサービスのMCP read-backで結果を確認します。
+外部サービスの読み取りは依頼に必要な範囲で行えます。書き込みはユーザーが承認した対象・操作・内容に限定し、同じサービスのMCP read-backで結果を確認します。microCMSの既存書籍の項目更新は下記の確認方法を適用します。
 
 - 既存の承認が十分なら再確認しません。
 - 結果が不明な書き込みを重複実行のおそれがある状態でretryしません。
@@ -104,10 +104,10 @@ Issueや明示的なrole契約で`MCP_EVIDENCE`が要求された場合だけ詳
 ### microCMSのlive変更
 
 - 公式remote MCPを扱うのは親development_leadだけです。credentialはhost/user environment variableから供給します。
-- live変更はbooks APIのcreateだけです。exact target、payload digest、expected state、明示的なone-shot user authorizationを揃え、一回だけ実行します。
-- update、delete、draft、status、reservation、media、Management、member、bulk、unknown toolは禁止します。
-- timeoutや結果不明の後はretryしません。CLI、browser、direct HTTP、local MCPへのfallbackやsubagent委譲もしません。
-- 同じserviceのMCP read-backがexpected stateと一致した場合だけverifiedとします。
+- books APIの新規登録は、exact target、payload digest、expected state、明示的なone-shot user authorizationを揃え、公式remote MCPで一回だけ実行します。同じサービスのMCP read-backが一致した場合だけverifiedとします。代替経路やsubagentへの委譲は行いません。
+- 既存の公開済み書籍は、ユーザーが明示的に承認したコンテンツ・項目・変更値だけ更新できます。ISBN等で対象を特定し、更新前の値を確認します。更新経路は公式remote MCP、編集権限のあるmicroCMS管理画面のコンテンツ編集、または対象APIに限定したPATCH権限を持つキーによる公式Content APIの部分更新です。APIキーはサーバー側でのみ扱い、権限設定の変更は別途ユーザーが承認した場合だけ行います。
+- 既存書籍は1件ずつ更新し、承認対象外の項目を保持します。microCMSの再取得または保存後の管理画面で更新値を照合し、本番表示への反映が依頼された場合は、該当する書籍詳細でも確認します。
+- delete、draft、公開状態の変更、reservation、media、Management API、member、bulk、unknown toolは禁止します。公開済みコンテンツの承認済み項目を同じ公開状態で保存する操作は可能です。timeoutや結果不明の後は状態を読み取り、書き込みを重複実行しません。
 
 ## Validation and completion
 
