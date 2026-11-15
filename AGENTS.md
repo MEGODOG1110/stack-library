@@ -2,63 +2,126 @@
 
 ## Project identity
 
-Stack Library は、技術書の蔵書を探し、確認し、登録する日本語ファーストの個人用ライブラリアプリです。一般的な読書レビューではなく、Technical Archive × Developer Observatory を目指します。
+Stack Libraryは技術書の蔵書を探し、確認し、登録する日本語ファーストの個人用ライブラリアプリです。Technical Archive × Developer Observatoryを目指します。
 
-MVP は /（Book List）、/books/[contentId]（Book Detail）、/bank（Library Bank）、/books/new（Book Form）の4画面です。topics、notes、knowledge map、学習ルート、ログイン、AI推薦、外部サービス連携はMVP対象外です。Next.js App Router、TypeScript、microCMSを使い、APIキーはサーバー側だけで扱います。
+MVPの基本画面は`/`（Book List）、`/books/[contentId]`（Book Detail）、`/bank`（Library Bank）、`/books/new`（Book Form）です。現在のURLや採用済み機能は[README.md](README.md)と対象Issueを確認します。topics、notes、knowledge map、学習ルート、汎用ログイン、AI推薦は新たに追加しません。本人限定登録や書誌補完といった採用済みの認証・外部連携をこの対象外指定から削除しないでください。
 
-UIは日本語ファースト、静かな暗色ベース、細い罫線、精密なメタデータ、読みやすい本文を基本とします。Booklog、Notion、一般的なSaaS、派手なSF、和風・古書店風には寄せません。見出し階層、明確なフォーカス、キーボード操作、テキストを含む状態表示、色に依存しない情報伝達を守ります。
+Next.js App Router、TypeScript、microCMSを使い、APIキーはサーバー側だけで扱います。UIは日本語ファースト、静かな暗色を基調とし、採用済みのLight / Darkにも対応します。細い罫線、精密なメタデータ、読みやすい本文を基本とし、Booklog、Notion、一般的なSaaS、派手なSF、和風・古書店風に寄せません。見出し階層、明確なフォーカス、キーボード操作、テキストを含む状態表示、色に依存しない情報伝達を守ります。
 
-## Decision and completion boundaries
+## Working approach
 
-read-onlyの質問・説明・報告はIssueなしで進められます。repository、Issue、Figma、Git、PR、外部サービスを変更する場合は、Issue、owner、exact scope、必要なauthorizationを確定してから開始します。依頼されたローカル変更は、割り当て範囲内で実装し、対象検証を行い、変更起因の失敗を元writerへ返すところまで継続します。
+ユーザーの依頼を起点に調査・実装・対象検証・結果報告まで進めます。作業の規模とリスクに応じて手順を選びます。
 
-判断のauthority orderは、現在のuser instruction → 凍結Linear Issue → 承認済みRough → 記録済みReference decisions → 承認済みWireframeです。旧実装・旧仕様資料は撤去済みです。旧FigmaとGit履歴は現在の仕様ではなく、明示的な採用判断なしに仕様の補完へ使いません。承認済みWireframeまでは新しいvisual component、decoration、token expansionを追加せず、既存挙動と削除影響の調査だけを許可します。Figmaはapproved exact targetが割り当てられた場合だけnormativeです。
+- 質問、調査、説明にはIssueを要求しません。
+- 明確に依頼されたローカル修正はIssueやroleの事前割り当てがなくても進められます。
+- 修正に必要な関連ファイルも対象にできます。無関係な整理や機能追加は混ぜません。
+- 小さく元に戻せる実装上の判断は既存の設計に沿って進めます。結果に影響する仮定は報告します。
+- 新機能、複数工程にまたがる変更、複数人の作業は原則としてIssueに目的・対象・完了条件をまとめます。Issue作成自体が外部変更なら、その承認範囲も確認します。
+- すでに得た承認を繰り返し求めません。
 
-破壊的操作、未承認の外部mutation、未解決のproduct choiceまたは仕様矛盾、required authority/tool/evidenceの不足、dirty diffやownership mismatch、manifest外の変更、unsafe stateでは停止します。状態値は0、missing、unknown、unavailable、error、not-applicableを区別し、外部reference decisionはAdopt/Adapt/Rejectのいずれかを記録します。詳細なIssue・handoff・validationはDevelopmentが正本です。
+次の場合は影響する操作を止めてユーザーに確認します。独立した調査や検証は続けられます。
 
-## Deterministic task router
+- ユーザーの意図や承認済み仕様を変える必要がある
+- 他人の変更との衝突を解消できない
+- データ削除、履歴の書き換えなど、取り返しのつきにくい操作が必要になる
+- 必要な権限や接続がなく、結果を確認できない
+- 公開、送信、外部サービスへの書き込みが既存の承認範囲を超える
 
-常にこのファイルを不変条件の基準として読み、担当するIssue・contract・handoff・evidenceと、主張に直接関係する資料だけを読みます。既読文書はrevisionや対象範囲が変わらない限り再読しません。agent TOMLは担当roleの契約だけを読みます。
+確認時は不足している判断と推奨案を具体的に示します。
 
-| Task surface | Source of truth |
+## Sources of truth
+
+判断の優先順位は現在のユーザー指示 → 対象の凍結Linear Issue → 承認済みRough → 記録済みReference decisions → 承認済みWireframeです。対象に適用される資料だけを使います。旧実装、旧仕様、旧Figma、Git履歴は調査の参考にできますが、明示的な採用判断なしに現在の仕様として扱いません。
+
+対象仕様が矛盾する場合は独自に折衷せず、矛盾する箇所と影響を示して確認します。このファイルと詳細文書・role TOMLで一般的な作業の許可や停止条件が衝突する場合はこのファイルを優先します。明示的な個別担当の制約はその担当に適用します。
+
+| 必要な情報 | 参照先 |
 |---|---|
-| product identity, MVP, setup, current routes | [README.md](README.md) |
-| Git, branch, PR, release, handoff, validation | [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) |
-| component, software boundary, Storybook mapping | [README.md](README.md)から対象の凍結Linear Issue・新契約へ進む |
-| role activation, authority, ownership, waves | [docs/AGENT_ORGANIZATION.md](docs/AGENT_ORGANIZATION.md) |
-| CSS, class, naming, state, shared style | [docs/CODING_GUIDELINE.md](docs/CODING_GUIDELINE.md) |
-| pages, URLs, static generation | [README.md](README.md)と対象の凍結Linear Issue |
-| microCMS, types, queries, fixtures, Server Actions | [README.md](README.md)からMEG-34と対象の凍結Linear Issueへ進む |
-| Figma/design source | applicable Figma skill, exact node, and role TOML |
-| assigned role behavior | that role's .codex/agents/**/*.toml |
-| external mutation, secret, trust boundary | this contract plus Development authorization/evidence rules |
+| プロダクト、MVP、セットアップ、現在のルート | [README.md](README.md) |
+| Git、PR、公開、handoff、検証手順 | [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) |
+| 複数agentの役割、担当範囲、受け渡し | [docs/AGENT_ORGANIZATION.md](docs/AGENT_ORGANIZATION.md) |
+| CSS、命名、状態、共通スタイル | [docs/CODING_GUIDELINE.md](docs/CODING_GUIDELINE.md) |
+| 個別の機能・データ仕様 | READMEから対象のLinear Issue・契約へ進む |
+| Figmaを使う作業 | applicable skillと対象node |
+| 明示的に割り当てられたroleの契約 | 対象の`.codex/agents/**/*.toml` |
 
-## Repository and Git safety
+必要な資料だけを読みます。関連資料の一括読込や、revision・対象が変わっていない文書の再読は原則不要です。
 
-作業場所は指定されたprimary repositoryの正のworktree一つだけです。git rev-parse --show-toplevelとgit worktree list --porcelainで、正のworktree一件を開始時とbranch変更前後に確認します。追加worktree、parallel write、agent/ branchは禁止です。
+## Repository and Git
 
-ユーザーの未完了または所有者不明のdirty diffをstash、reset、checkout、削除、上書き、無断commitしません。変更時は凍結Linear Issueを起点に最新mainを確認し、Linear ID付きbranchを使い、mainへ直接commitしません。GitHub Issueは明示的に要求・同期された場合だけoptional mirrorです。local Gitはrepository stateとhistoryを扱い、GitHub serviceのPR/review/check/release/mergeはcallableなGitHub MCP-backed toolでexact targetへ扱います。publication authorizationは別に必要です。DraftからReadyへの独立承認はReady-only変更では必要ですが、同一PR/revisionへの明示的merge approvalは必要なReady遷移を包含します。merge methodとexpected_head_shaは別途凍結します。詳細とPR運用は Development が正本です。
+指定されたprimary repositoryで作業します。開始時に`git rev-parse --show-toplevel`、`git worktree list --porcelain`、branch、dirty diffを確認します。
 
-tracked fileの内容はteam packetのexact pathを割り当てられたwriterだけが編集します。Issue specificationはauthorized product_owner、Figma nodeはassigned figma_designer、Git index/history・push・PR metadataはpublication authorization後のrelease_managerだけが変更します。reviewer、tester、debuggerはtracked fileを変更しません。
+- ユーザーや所有者不明の変更を無断でstash、reset、削除、上書き、commitしません。
+- dirty diffがあっても今回の対象と独立していれば続けられます。重なる場合は変更内容と所有者を確認し、今回の依頼に属すると確認できれば続けます。
+- 原則として現在のworktreeを使います。追加worktreeは明示的に依頼された場合だけ作成します。branch変更の前後は作業場所と差分を再確認します。
+- 新しいbranchが必要な場合は`codex/`を使い、IssueがあればLinear IDを含めます。mainへ直接commitしません。
+- 調査やローカル修正のために不要なbranch変更やmainへの同期を行いません。
+- commit、push、PR作成、Readyへの変更、merge、公開はユーザーの依頼または既存の明示的な承認範囲で行います。
+- GitHub上のPR、review、check、release、mergeは利用可能なGitHub MCP-backed toolで扱います。
 
-## Figma and design verification
+merge前には対象PR、head、merge方法を確認します。詳細な公開手順はDevelopmentを参照します。
 
-Figmaが視覚仕様の正本なら、Issue文だけからUIを推論せず、対象frame/nodeとIssueの矛盾を確認します。implementation-parityでは変更後のfresh final application renderとfresh Figma node/structure evidenceを比較します。Figma-library-onlyではfresh Figma specimen/structure evidenceを確認し、application renderは要求しません。
+## Design and implementation
 
-対象theme、viewport、state、測定、render、read-backの詳細はfigma_design_qa TOML、Architecture、Developmentに委譲します。未確認項目や矛盾があれば完了扱いにせず停止します。
+既存の仕様・デザイン・コンポーネントを優先し、依頼に必要な範囲で変更します。
 
-## Agent organization and concurrency
+- 既存UIの不具合修正、アクセシビリティ改善、文言調整、挙動を変えない整理にWireframe承認を一律要求しません。
+- 新しい画面構成や主要操作など、プロダクトの判断が必要な変更は実装前に案を示します。具体案が承認済みなら再確認は不要です。
+- 新しい装飾やtokenは必要性を説明できる場合に限定します。
+- Figmaは対象作業の正本として指定された場合だけ規範にします。該当nodeを読み、Issueとの矛盾を確認します。
+- Figmaとの一致が完了条件の場合は対象theme・viewport・stateのfresh evidenceで比較します。implementation-parityでは変更後のapplication renderとFigma node/structure、Figma-library-onlyではspecimen/structureを確認します。
 
-runtimeの最大値にかかわらず、同時稼働は親development_leadと最大3名のassigned specialistsです。完了したspecialistはslotを解放し、順次handoffで再利用します。職能はActivation Gateを満たす場合だけ起動し、同じtracked pathまたはexternal targetのwriterを並行起動しません。30 roleの一覧、Wave、handoff、exclusive authority、ownership ledgerは Agent Organization と各role TOMLが正本です。
+未確認の一致条件を確認済みとして扱いません。状態値は0、missing、unknown、unavailable、error、not-applicableを必要に応じて区別します。
 
-## External services, secrets, and MCP evidence
+## Agents and ownership
 
-秘密値をshell、model context、repository、Issue、ログ、handoffへ出力・記録しません。app runtimeとdevelopment MCPを分離します。公式microCMS remote MCPへ接続できるのは親development_leadだけで、credentialはhost/user environment variableから供給します。live mutationはbooks APIのcreateだけを、exact target、payload digest、expected state、明示的なone-shot user authorizationが揃った時に一回だけ実行します。update、delete、draft、status、reservation、media、Management、member、bulk、unknown toolは禁止です。timeout/unknown response後のretry、CLI・browser・direct HTTP・local MCP fallback、subagent委譲はしません。create後は同じserviceのMCP read-backがexpected stateとMATCHした場合だけverifiedです。
+単独で完結する作業にroleの切り替えやteam packetは必須ではありません。依頼を受けたagentが実装と検証を担当できます。
 
-GitHub/Figmaなどのlive operationは割り当てられたownerがcallableなMCP-backed toolでexact targetを扱います。実際のtool identifier、provenance/server、target、operation、permission result、result/errorを記録し、availability、invocation、access、read、mutation_requested、mutation_verifiedの6状態を付けます。呼ばなかった場合もinvocation=NOT_INVOKEDのno-call entryを残します。required MCPがunavailable、undiscoverable、denied、失敗の場合はnon-MCPへfallbackせずBLOCKEDです。live mutationは同じserviceのMCP read-backでexpected/observed stateがMATCHした場合だけ完了です。詳細なschemaと例はDevelopmentとAgent Organizationへ委譲します。
+複数agentを使う場合は親development_leadと最大3名のspecialistsまでとし、目的・編集対象・完了条件を明確にします。同じtracked fileや外部targetへの並行writeは禁止します。
 
-## Validation
+- 明示的な担当割り当てがある場合はそのownershipを守ります。範囲変更は親agentが調整します。
+- reviewer、tester、debuggerとして割り当てられたagentはtracked fileを編集せず、結果をwriterへ返します。
+- role TOMLのexact-path、frozen contract、handoff schemaなどは、そのroleを明示的に使う作業に適用します。通常の単独作業へ拡張しません。
+- subagentを起動するかは現在のユーザー指示と実行環境の制約に従います。roleの登録だけを起動理由にしません。
 
-検証は変更リスクに応じたtargeted validationとし、成功済み検証は入力が変わらない限り再利用します。docs/config-only変更ではMarkdown link/heading、routing、TOML parse、roster、microCMS override、secret-literal heuristic、git diff --checkを確認し、app lint/buildやlive service callを要求しません。コード、画面、Figmaの検証行列は Development と該当role TOMLが正本です。
+## External services and secrets
 
-この契約と詳細文書またはfrozen contractが衝突した場合は独自に折衷せず、作業を止めてdevelopment_leadへ返します。
+秘密値をshell出力、チャット、repository、Issue、ログ、handoffへ出しません。app runtimeとdevelopment MCPを分離します。
+
+外部サービスの読み取りは依頼に必要な範囲で行えます。書き込みはユーザーが承認した対象・操作・内容に限定し、同じサービスのMCP read-backで結果を確認します。
+
+- 既存の承認が十分なら再確認しません。
+- 結果が不明な書き込みを重複実行のおそれがある状態でretryしません。
+- 必須MCPが使えない場合は該当操作をBLOCKEDとします。未承認の別経路へ切り替えません。
+- 通常のread-only調査では重要な出典と取得できなかった情報を報告します。呼ばなかったtoolのno-call entryは不要です。
+- 外部変更ではservice、target、operation、承認範囲、実行tool、実行結果、read-backのexpected/observed stateと一致結果を記録します。結果不明や不一致はverifiedにしません。
+- 外部事例を仕様へ採用する際はAdopt／Adapt／Rejectと理由を残します。
+
+### 詳細なMCP evidenceを要求する作業
+
+Issueや明示的なrole契約で`MCP_EVIDENCE`が要求された場合だけ詳細schemaを使います。fully qualified tool identifier、provenance/server、target、operation、permission result、result/errorと、availability、invocation、access、read、mutation_requested、mutation_verifiedの6状態を記録します。toolの存在をinvocationの証拠にしません。no-call時は`invocation=NOT_INVOKED`、`access=UNKNOWN`、`read=NOT_REQUESTED`、`mutation_requested=NO`、`mutation_verified=NOT_REQUESTED`とします。mutationの検証には同じserviceのread-back tool、target、revisionまたは取得時刻、expected/observed state、`comparison result=MATCH`が必要です。
+
+### microCMSのlive変更
+
+- 公式remote MCPを扱うのは親development_leadだけです。credentialはhost/user environment variableから供給します。
+- live変更はbooks APIのcreateだけです。exact target、payload digest、expected state、明示的なone-shot user authorizationを揃え、一回だけ実行します。
+- update、delete、draft、status、reservation、media、Management、member、bulk、unknown toolは禁止します。
+- timeoutや結果不明の後はretryしません。CLI、browser、direct HTTP、local MCPへのfallbackやsubagent委譲もしません。
+- 同じserviceのMCP read-backがexpected stateと一致した場合だけverifiedとします。
+
+## Validation and completion
+
+検証は変更内容と影響範囲に応じて選びます。
+
+- docs/config-onlyではリンク、構文、参照先、関連設定の整合性、`git diff --check`を確認します。app lint/buildやlive service callは原則不要です。
+- コード変更では対象の型検査、lint、テストを必要に応じて実行します。
+- 画面や操作の変更では影響する表示・状態・操作を確認します。
+- 全体buildや広範囲のテストは影響範囲、失敗の兆候、適用されるCI要件に応じて追加します。
+- 成功した検証は入力が変わらなければ再利用します。
+- 変更起因の失敗は修正します。別writerが担当している場合は再現条件と証拠を返します。
+
+完了報告には変更内容、実行した検証、残る制約を簡潔に記載します。実行していない検証や未確認の外部操作を成功扱いにしません。
+
+## Maintaining these instructions
+
+新ルールは「繰り返し起きる」「コードや既存資料だけでは分かりにくい」「具体的な行動として書ける」を基準に追加します。自動チェックや局所的な資料で解決できるなら、そちらを優先します。一度だけの失敗を理由に全作業へ承認手順を追加しません。特定機能やroleだけのルールは対象の資料に置きます。
