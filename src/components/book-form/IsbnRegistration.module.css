@@ -152,6 +152,8 @@
   gap: 16px;
 }
 
+.SL-ly_isbn-registration__compact[data-complete] { grid-template-columns: 96px minmax(0, 1fr); }
+
 .SL-el_isbn-registration__cover { grid-area: cover; aspect-ratio: 144 / 182; }
 .SL-el_isbn-registration__no-cover { display: grid; place-items: center; height: 100%; border-radius: 6px; background: var(--sl-registration-surface); color: var(--sl-color-muted); font-size: 12px; }
 .SL-el_isbn-registration__cover > img { display: block; width: 100%; height: 100%; object-fit: contain; }
@@ -205,6 +207,7 @@
     row-gap: 12px;
   }
   .SL-ly_isbn-registration__compact { column-gap: 24px; }
+  .SL-ly_isbn-registration__compact[data-complete] { grid-template-columns: 112px minmax(0, 1fr); }
   .SL-ly_isbn-registration__identity { gap: 12px; }
   .SL-ly_isbn-registration__titles h3 { font-size: 28px; line-height: 42px; }
   .SL-ly_isbn-registration__actions {

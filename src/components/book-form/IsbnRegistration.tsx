@@ -321,8 +321,8 @@ export function IsbnRegistration({ lookup, register, ownedBooks = [], tags, onEx
           {stage === "complete" && book && (
             <>
               <h2 ref={heading} tabIndex={-1}>{sampleRegistration ? "登録完了（サンプル）" : "登録しました"}</h2>
-              <div className={styles["SL-ly_isbn-registration__compact"]}>
-                <div className={styles["SL-el_isbn-registration__cover"]}><Image src={previewSrc} width={64} height={81} alt="登録した表紙" unoptimized /></div>
+              <div className={styles["SL-ly_isbn-registration__compact"]} data-complete>
+                <div className={styles["SL-el_isbn-registration__cover"]}><Image src={previewSrc} width={112} height={142} alt="登録した表紙" unoptimized /></div>
                 <RegistrationIdentity {...book} />
               </div>
               <div className={styles["SL-ly_isbn-registration__outcome"]}>
