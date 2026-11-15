@@ -24,13 +24,43 @@
 }
 
 .SL-ly_book-tile { position: relative; inline-size: fit-content; max-inline-size: 100%; }
-.SL-el_book-tile__loading:not(:empty) {
+.SL-el_book-tile__loading {
   position: absolute;
-  inset: auto 0 0;
-  padding: 4px;
+  inset-block-end: 6px;
+  inset-inline-end: 6px;
+  display: grid;
+  place-items: center;
+  inline-size: 24px;
+  block-size: 24px;
+  border-radius: 50%;
   background: var(--sl-shelf-background);
   color: var(--sl-color-text);
-  font-size: 12px;
-  text-align: center;
   pointer-events: none;
 }
+
+.SL-el_book-tile__loading::before {
+  content: "";
+  inline-size: 12px;
+  block-size: 12px;
+  border: 2px solid currentColor;
+  border-inline-end-color: transparent;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.SL-ut_visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .SL-el_book-tile__loading::before {
+    animation: sl-book-tile-loading 850ms linear infinite;
+  }
+}
+
+@keyframes sl-book-tile-loading { to { transform: rotate(1turn); } }

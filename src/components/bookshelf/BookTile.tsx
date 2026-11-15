@@ -11,16 +11,17 @@ type BookTileProps = {
 export function BookTile({ book, onSelect, loading = false }: BookTileProps) {
   return (
     <div className={styles["SL-ly_book-tile"]}>
-    <button
-      className={styles["SL-el_book-tile"]}
-      type="button"
-      aria-label={`${book.title} / ${book.authors.join("・")} / 書籍を確認`}
-      aria-busy={loading || undefined}
-      onClick={() => onSelect(book)}
-    >
-      <BookCover src={book.coverSrc} />
-    </button>
-    <span className={styles["SL-el_book-tile__loading"]} aria-live="polite">{loading ? "読み込み中" : ""}</span>
+      <button
+        className={styles["SL-el_book-tile"]}
+        type="button"
+        aria-label={`${book.title} / ${book.authors.join("・")} / 書籍を確認`}
+        aria-busy={loading || undefined}
+        onClick={() => onSelect(book)}
+      >
+        <BookCover src={book.coverSrc} transitionBookId={book.id} />
+      </button>
+      {loading && <span className={styles["SL-el_book-tile__loading"]} aria-hidden="true" />}
+      <span className={styles["SL-ut_visually-hidden"]} role="status">{loading ? "読み込み中" : ""}</span>
     </div>
   );
 }

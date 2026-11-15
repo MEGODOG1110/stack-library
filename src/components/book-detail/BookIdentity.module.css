@@ -1,11 +1,15 @@
 .SL-ly_book-identity { display: flex; align-items: flex-start; gap: 16px; }
-.SL-ly_book-identity__body { display: grid; gap: 6px; min-width: 0; overflow-wrap: anywhere; }
-.SL-ly_book-identity__body h1 { margin: 0; font-size: 18px; line-height: 1.5; }
+.SL-ly_book-identity__body { display: grid; gap: 10px; min-width: 0; overflow-wrap: anywhere; }
+.SL-ly_book-identity__title { display: grid; gap: 4px; }
+.SL-ly_book-identity__metadata { display: grid; gap: 6px; }
+.SL-ly_book-identity__body h1 { margin: 0; font-size: 20px; line-height: 1.5; }
 .SL-ly_book-identity__body p { margin: 0; color: var(--sl-color-muted); font-size: 13px; }
+.SL-ly_book-identity__body .SL-el_book-identity__subtitle { color: var(--sl-color-text); font-size: 15px; line-height: 23px; }
 .SL-ly_book-identity__body .SL-el_book-identity__isbn { font-size: 12px; }
 @media (min-width: 1000px) {
   .SL-ly_book-identity { gap: 24px; }
-  .SL-ly_book-identity__body { gap: 8px; }
-  .SL-ly_book-identity__body h1 { font-size: 24px; }
+  .SL-ly_book-identity__body { gap: 12px; }
+  .SL-ly_book-identity__metadata { gap: 8px; }
+  .SL-ly_book-identity__body h1 { font-size: 28px; }
   .SL-ly_book-identity__body p { font-size: 14px; }
 }

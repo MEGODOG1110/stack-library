@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { BookShelf } from "./BookShelf";
 import type { ShelfBook, ShelfFilters, ShelfOption } from "./bookshelf.types";
 import styles from "./BookshelfScreen.module.css";
+import tagStyles from "./SearchTermTag.module.css";
 
 type Props = {
   books: readonly ShelfBook[];
@@ -198,10 +199,10 @@ export function BookshelfScreen({ books, areas, tags, initialKeyword = "", initi
         </footer>
       </form>
       </div>
-      {activeLabels.length > 0 && <ul ref={chips} className={styles["SL-ly_bookshelf__chips"]} aria-label="適用中の条件">
+      {activeLabels.length > 0 && <ul ref={chips} className={`${styles["SL-ly_bookshelf__chips"]} ${tagStyles["SL-ly_search-term-tags"]}`} aria-label="適用中の条件">
         {activeLabels.map(({ key, group, id, label }, index) => (
           <li key={`${key}-${id}`}>
-            <button type="button" aria-label={`${label} の絞り込みを解除（${group}）`} onClick={() => {
+            <button type="button" className={tagStyles["SL-el_search-term-tag"]} aria-label={`${label} の絞り込みを解除（${group}）`} onClick={() => {
               chipFocus.current = index;
               setFilters((current) => ({ ...current, [key]: current[key].filter((value) => value !== id) }));
             }}>

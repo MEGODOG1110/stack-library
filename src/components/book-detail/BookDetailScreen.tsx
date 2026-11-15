@@ -1,3 +1,4 @@
+import { BookCover } from "@/components/bookshelf/BookCover";
 import { MainNavigation } from "@/components/navigation/MainNavigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,21 +19,38 @@ export function BookDetailScreen({ book, backControl, shelfHref }: {
 }) {
   const price = book.registeredPrice;
   const priceLabel = price === undefined ? undefined : Number.isFinite(price) && price >= 0 ? yen.format(price) : "価格を表示できません";
-  return <div className={styles["SL-ly_book-detail"]}>
-    <MainNavigation current="shelf" shelfHref={shelfHref} />
-    <div className={styles["SL-ly_book-detail__body"]}>
-      <div className={styles["SL-ly_book-detail__toolbar"]}>{backControl ?? <Link href="/" aria-label="本棚に戻る"><Image className="SL-ut_theme-icon" src="/mockups/bookshelf/back.svg" width={20} height={20} alt="" unoptimized /></Link>}</div>
-      <BookIdentity book={book} />
-      <div className={styles["SL-ly_book-detail__content"]} tabIndex={0} role="region" aria-label="書籍の補足情報">
-        <div className={styles["SL-ly_book-detail__ledger"]}>
-          <section className={styles["SL-el_book-detail__surface"]} aria-labelledby="detail-tags"><h2 id="detail-tags">検索語</h2><BookTags tags={book.tags} /></section>
-          <section className={styles["SL-el_book-detail__surface"]} aria-labelledby="detail-ledger"><h2 id="detail-ledger">蔵書情報</h2>
-            <BookMetadata items={[{ label: "登録価格（税込）", value: priceLabel }, { label: "読書状況", value: book.readingStatus ? statusLabels[book.readingStatus] : undefined }]} />
-            <button disabled className={styles["SL-el_book-detail__status-action"]}>読書状況の変更（準備中）</button>
+
+  return (
+    <div className={styles["SL-ly_book-detail"]}>
+      <MainNavigation current="shelf" shelfHref={shelfHref} />
+      <div className={styles["SL-ly_book-detail__body"]}>
+        <div className={styles["SL-ly_book-detail__toolbar"]}>
+          {backControl ?? <Link href="/" aria-label="本棚に戻る"><Image className="SL-ut_theme-icon" src="/mockups/bookshelf/back.svg" width={20} height={20} alt="" unoptimized /></Link>}
+        </div>
+        <div className={styles["SL-ly_book-detail__layout"]}>
+          <div className={styles["SL-ly_book-detail__cover"]}>
+            <BookCover src={book.coverSrc} size="detail" transitionBookId={book.id} />
+          </div>
+          <section className={styles["SL-ly_book-detail__information"]} tabIndex={0} aria-label="書籍情報">
+            <BookIdentity book={book} showCover={false} />
+            <section className={styles["SL-ly_book-detail__holdings"]} aria-labelledby="detail-ledger">
+              <h2 id="detail-ledger">蔵書情報</h2>
+              <BookMetadata items={[
+                { label: "登録価格（税込）", value: priceLabel },
+                { label: "読書状況", value: book.readingStatus ? statusLabels[book.readingStatus] : undefined },
+              ]} />
+            </section>
+            <section className={styles["SL-ly_book-detail__tags"]} aria-labelledby="detail-tags">
+              <h2 id="detail-tags">検索語</h2>
+              <BookTags tags={book.tags} />
+            </section>
+            <section className={styles["SL-el_book-detail__overview"]} aria-labelledby="detail-summary">
+              <h2 id="detail-summary">概要</h2>
+              <p>{book.summary?.trim() ? book.summary : "未登録"}</p>
+            </section>
           </section>
         </div>
-        <section className={styles["SL-el_book-detail__overview"]} aria-labelledby="detail-summary"><h2 id="detail-summary">概要</h2><p className={styles["SL-el_book-detail__surface"]}>{book.summary?.trim() ? book.summary : "未登録"}</p></section>
       </div>
     </div>
-  </div>;
+  );
 }

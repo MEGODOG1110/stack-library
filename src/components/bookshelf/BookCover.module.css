@@ -21,3 +21,15 @@
 @media (min-width: 1000px) {
   .SL-el_book-cover[data-size="detail"] { width: 146px; height: 220px; }
 }
+
+.SL-el_book-cover[data-fitted] {
+  display: grid;
+  place-items: end center;
+  container-type: size;
+}
+
+.SL-el_book-cover[data-fitted] > img {
+  inline-size: min(100%, calc(100cqh * var(--sl-cover-ratio)));
+  block-size: auto;
+  aspect-ratio: var(--sl-cover-ratio);
+}

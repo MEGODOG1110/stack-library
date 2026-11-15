@@ -50,6 +50,6 @@ export function BookshelfPage({ keyword, filters, view, books, areas, tags, erro
       try { sessionStorage.setItem("sl-shelf-return-v1", JSON.stringify({ href: returnTo, scrollY: window.scrollY, bookId: book.id })); } catch { /* URLで条件は保持。 */ }
       window.history.replaceState(window.history.state, "", returnTo);
       setSelectedBookId(book.id);
-      startTransition(() => router.push(`/books/${normalizeIsbn(book.isbn ?? "")}?from=${encodeURIComponent(returnTo)}`));
+      startTransition(() => router.push(`/books/${normalizeIsbn(book.isbn ?? "")}?from=${encodeURIComponent(returnTo)}`, { transitionTypes: ["book-detail"] }));
     }} />;
 }

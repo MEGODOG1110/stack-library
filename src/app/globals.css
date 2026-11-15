@@ -64,3 +64,37 @@ button {
   --sl-shelf-search-icon: light-dark(#2457d6, #eef1ea);
   --sl-shelf-placeholder: light-dark(#475b7a, #eef1ea);
 }
+
+/* The matched book cover moves while the rest of the route changes immediately. */
+:root:active-view-transition-type(book-detail)::view-transition-old(root) {
+  display: none;
+}
+
+:root:active-view-transition-type(book-detail)::view-transition-new(root) {
+  animation: none;
+}
+
+::view-transition-group(.sl-book-cover-motion) {
+  animation-duration: 240ms;
+}
+
+::view-transition-old(.sl-book-cover-motion) {
+  opacity: 0;
+  animation: none;
+}
+
+::view-transition-new(.sl-book-cover-motion) {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root:active-view-transition-type(book-detail)::view-transition-group(*),
+  :root:active-view-transition-type(book-detail)::view-transition-old(*),
+  :root:active-view-transition-type(book-detail)::view-transition-new(*) {
+    animation: none;
+  }
+}
