@@ -4,6 +4,12 @@
 
 Stack Libraryは、積読の技術書を覚えきれず、書店・ネット通販で同じ本を買ってしまうことを防ぐ、日本語ファーストの個人用蔵書管理Webアプリです。購入前に表紙・タイトルから所蔵を確認でき、自宅の蔵書を少ない手間で登録できることを目指します。
 
+## システム構成
+
+![Stack Libraryのシステム構成図。蔵書の閲覧、ISBN補完、書籍登録の通信経路を示す](docs/architecture/stack-library-dark.png)
+
+[編集用のdraw.ioファイル](docs/architecture/stack-library.drawio) · [SVG版](docs/architecture/stack-library-dark.svg)
+
 ## 採用技術
 
 | 役割 | 技術 | 用途 |

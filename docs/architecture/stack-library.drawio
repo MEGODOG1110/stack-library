@@ -1,0 +1,234 @@
+<mxfile>
+  <diagram id="stack-library" name="Stack Library｜クラウド構成">
+    <mxGraphModel adaptiveColors="auto">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" style="text;align=left;verticalAlign=middle;whiteSpace=wrap;spacing=0;fontSize=26;fontColor=#25364D;html=1;" vertex="1" parent="1" value="&lt;b&gt;Stack Library｜クラウド構成&lt;/b&gt;">
+          <mxGeometry x="22" y="10" width="730" height="39" as="geometry" />
+        </mxCell>
+        <mxCell id="sub" style="text;align=left;verticalAlign=middle;whiteSpace=wrap;spacing=0;fontSize=13;fontColor=#25364D;html=1;" vertex="1" parent="1" value="現行リポジトリの実装・設定">
+          <mxGeometry x="22" y="52" width="400" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="clients" style="swimlane;startSize=31;align=left;spacingLeft=11;fontStyle=1;fontSize=15;container=1;pointerEvents=0;collapsible=0;fillColor=#EFF3F8;swimlaneFillColor=#FFFFFF;strokeColor=#92A3B8;fontColor=#25364D;html=1;" vertex="1" parent="1" value="利用者の端末">
+          <mxGeometry x="0" y="292" width="172" height="156" as="geometry" />
+        </mxCell>
+        <mxCell id="cloud" style="swimlane;startSize=31;align=left;spacingLeft=74;fontStyle=1;fontSize=15;container=1;pointerEvents=0;collapsible=0;fillColor=light-dark(#192534,#18212A);swimlaneFillColor=#FFFFFF;strokeColor=#6286AF;fontColor=light-dark(#E7EDF4,#C2CCD9);html=1;" vertex="1" parent="1" value="Functions 東京 hnd1（設定）">
+          <mxGeometry x="220" y="167" width="540" height="462" as="geometry" />
+        </mxCell>
+        <mxCell id="vercelIcon" style="shape=image;html=1;imageAspect=1;pointerEvents=0;image=data:image/svg+xml,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNjEiIGhlaWdodD0iNTIiIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAyNjEgNTIiPjxwYXRoIGZpbGw9IndoaXRlIiBkPSJNNTkuOCA1MkgwTDI5LjkgMHptNjcuODItMzguNDVxNC45IDAgOC44MSAyLjEzYTE1LjUgMTUuNSAwIDAgMSA2LjIyIDYuMzJxMi4zIDQuMiAyLjM4IDEwLjI2djIuMDZoLTI2LjM1cS4yNyA0LjQgMi41OCA2LjkyIDIuMzggMi40NyA2LjM2IDIuNDdhOC40IDguNCAwIDAgMCA3Ljc2LTQuOTNsOS4xNi42N3EtMS42OCA0Ljk4LTYuMjkgNy45OXQtMTAuNjMgM3EtNS41MyAwLTkuNjQtMi4yN2ExNiAxNiAwIDAgMS02LjQzLTYuNDYgMjAgMjAgMCAwIDEtMi4zMS05LjcycTAtNS41MiAyLjMtOS43MmExNiAxNiAwIDAgMSA2LjQ0LTYuNDYgMjAgMjAgMCAwIDEgOS42NC0yLjI2bTYyLjU1IDBxNC40NyAwIDguMTggMS42NmExNS4zIDE1LjMgMCAwIDEgNi4xNSA0LjZxMi4zOCAzIDIuODcgNy4wNWwtOS4yMy40N2E4IDggMCAwIDAtMi44LTUgNy43IDcuNyAwIDAgMC01LjE3LTEuODZxLTQuMzMgMC02LjcgMy0yLjQgMy0yLjM5IDguNTJ0Mi4zOCA4LjUycTIuMzcgMyA2LjcxIDMgMy4xNSAwIDUuMzktMS44NyAyLjI0LTEuOTIgMi43Mi01LjQ2bDkuMy40YTE0LjcgMTQuNyAwIDAgMS0yLjg3IDcuMzMgMTYgMTYgMCAwIDEtNi4xNSA0Ljg2IDIxIDIxIDAgMCAxLTguMzkgMS42NnEtNS41MyAwLTkuNjQtMi4yNmExNiAxNiAwIDAgMS02LjQ0LTYuNDYgMjAgMjAgMCAwIDEtMi4zLTkuNzJxMC01LjUyIDIuMy05LjcyYTE2IDE2IDAgMCAxIDYuNDQtNi40NiAyMCAyMCAwIDAgMSA5LjY0LTIuMjZtMzguNjYgMHE0LjkgMCA4LjggMi4xM2ExNS41IDE1LjUgMCAwIDEgNi4yMiA2LjMycTIuMzEgNC4yIDIuMzggMTAuMjZ2Mi4wNmgtMjYuMzVxLjI4IDQuNCAyLjU4IDYuOTIgMi4zOCAyLjQ3IDYuMzYgMi40N2E4LjQgOC40IDAgMCAwIDcuNzctNC45M2w5LjE1LjY3cS0xLjY4IDUtNi4yOSA3Ljk5dC0xMC42MiAzcS01LjUzIDAtOS42NS0yLjI3YTE2IDE2IDAgMCAxLTYuNDMtNi40NiAyMCAyMCAwIDAgMS0yLjMxLTkuNzJxMC01LjUyIDIuMy05LjcyYTE2IDE2IDAgMCAxIDYuNDQtNi40NiAyMCAyMCAwIDAgMSA5LjY0LTIuMjZNODYuOSAzNi42OWwxNy4yNC0zNC4zM2gxMC44TDg5Ljk2IDQ5LjYzaC02LjEyTDU4Ljg1IDIuMzZoMTAuODF6bTcxLjYyLTE1LjU1YTExIDExIDAgMCAxIDIuNDctNC40OHEyLjI4LTIuMzEgNi4zOC0yLjMxaDMuNHY3LjI2aC0zLjQ3cS0yLjkxIDAtNC43OS44YTUuOCA1LjggMCAwIDAtMi43NyAyLjVxLS45IDEuNzItLjkgNC4zN3YyMC4zNWgtOC44OVYxNC4zNWg4LjMzem0xMDEuNzMgMjguNWgtOC45NVYyLjM1aDguOTV6TTEyNy42MiAyMC4yNnEtMy43IDAtNiAyLjItMi4zMiAyLjItMi44NyA2LjJoMTcuMDVxLS40OC00LjM0LTIuNzItNi4zM2E3LjggNy44IDAgMCAwLTUuNDYtMi4wN20xMDEuMiAwcS0zLjcgMC02IDIuMi0yLjMxIDIuMi0yLjg3IDYuMkgyMzdxLS41LTQuMzQtMi43My02LjMzYTcuOCA3LjggMCAwIDAtNS40Ni0yLjA3IiBzdHlsZT0iZmlsbDp3aGl0ZTtmaWxsLW9wYWNpdHk6MTsiLz48L3N2Zz4=;" vertex="1" connectable="0" parent="cloud" value="">
+          <mxGeometry x="12" y="10.75" width="47.68269230769231" height="9.5" as="geometry" />
+        </mxCell>
+        <mxCell id="next" style="swimlane;startSize=31;align=left;spacingLeft=88;fontStyle=1;fontSize=15;container=1;pointerEvents=0;collapsible=0;fillColor=light-dark(#182A22,#17231D);swimlaneFillColor=#FFFFFF;strokeColor=#5D987C;fontColor=light-dark(#E7EDF4,#C2CCD9);html=1;" vertex="1" parent="cloud" value="App Router">
+          <mxGeometry x="15" y="46" width="510" height="398" as="geometry" />
+        </mxCell>
+        <mxCell id="identity" style="swimlane;startSize=31;align=left;spacingLeft=82;fontStyle=1;fontSize=13;container=1;pointerEvents=0;collapsible=0;fillColor=light-dark(#282031,#201C29);swimlaneFillColor=#FFFFFF;strokeColor=#A28BB9;fontColor=light-dark(#E7EDF4,#C2CCD9);html=1;" vertex="1" parent="1" value="認証">
+          <mxGeometry x="0" y="126" width="172" height="116" as="geometry" />
+        </mxCell>
+        <mxCell id="catalog" style="swimlane;startSize=31;align=left;spacingLeft=11;fontStyle=1;fontSize=15;container=1;pointerEvents=0;collapsible=0;fillColor=#FFF0DB;swimlaneFillColor=#FFFFFF;strokeColor=#C19668;fontColor=#25364D;html=1;" vertex="1" parent="1" value="外部書誌（未登録時）">
+          <mxGeometry x="840" y="105" width="205" height="189" as="geometry" />
+        </mxCell>
+        <mxCell id="cms" style="swimlane;startSize=26;align=left;spacingLeft=34;fontStyle=1;fontSize=15;container=1;pointerEvents=0;collapsible=0;fillColor=light-dark(#282031,#201C29);swimlaneFillColor=#FFFFFF;strokeColor=#A28BB9;fontColor=light-dark(#E7EDF4,#C2CCD9);html=1;" vertex="1" parent="1" value="microCMS">
+          <mxGeometry x="840" y="326" width="205" height="302" as="geometry" />
+        </mxCell>
+        <mxCell id="browser" style="rounded=0;whiteSpace=wrap;align=left;spacingLeft=38;spacingRight=5;fontSize=15;fontColor=#25364D;fillColor=#F6F8FB;strokeColor=#25364D;strokeWidth=1.3;html=1;" vertex="1" parent="clients" value="&lt;b&gt;ブラウザ&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:12px&quot;&gt;PWA・蔵書の操作&lt;/span&gt;">
+          <mxGeometry x="12" y="48" width="148" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="browserIconTile" style="rounded=1;arcSize=18;html=1;strokeColor=none;fillColor=light-dark(#E6ECF4,#D1DBE7);pointerEvents=0;" vertex="1" connectable="0" parent="browser" value="">
+          <mxGeometry x="7" y="14" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="browserIcon" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=default;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/assets/tabler-outline/1/Device_Desktop.svg;pointerEvents=0;html=1;" vertex="1" parent="browser" value="">
+          <mxGeometry x="10" y="17" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="webapp" style="rounded=0;whiteSpace=wrap;align=left;spacingLeft=11;spacingRight=5;fontSize=15;fontColor=#25364D;fillColor=#F5F8FC;strokeColor=#25364D;strokeWidth=1.3;html=1;" vertex="1" parent="next" value="&lt;b&gt;Webアプリ&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:12px&quot;&gt;本棚・登録フォーム&lt;/span&gt;">
+          <mxGeometry x="20" y="127" width="186" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="webappIcon" style="shape=image;html=1;imageAspect=1;pointerEvents=0;image=data:image/svg+xml,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNzgiIGhlaWdodD0iNTYiIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAyNzggNTYiPjxwYXRoIGZpbGw9IndoaXRlIiBkPSJNMTg0LjY1LjAyaDQ4LjM5djguOTNoLTE5LjJ2NDYuOThoLTkuNlY4Ljk1aC0xOS41OXpNMTA1LjA4LjAydjguOTNINjYuM3YxNC4zN2gzMS4xOXY4LjkzSDY2LjNWNDdoMzguNzh2OC45M0g1Ni43Vi4wMnpNMTI5LjI0LjA1aC0xMi41Nmw0NC45OCA1NS45aDEyLjZsLTIyLjUtMjcuOTNMMTc0LjI0LjEgMTYxLjY3LjFsLTE2LjIgMjAuMXpNMTQyLjEzIDM5Ljk4bC02LjMtNy44MkwxMTYuNjYgNTZoMTIuNnoiIHN0eWxlPSJmaWxsOndoaXRlO2ZpbGwtb3BhY2l0eToxOyIvPjxwYXRoIGZpbGw9IndoaXRlIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik01Ny4wNCA1NS45MyAxMiAwSDB2NTUuOTFoOS42VjExLjk1bDM1LjM4IDQzLjk4eiIgY2xpcC1ydWxlPSJldmVub2RkIiBzdHlsZT0iZmlsbDp3aGl0ZTtmaWxsLW9wYWNpdHk6MTsiLz48cGF0aCBmaWxsPSJ3aGl0ZSIgZD0iTTIzNS4yIDU1LjZxLTEuMDUgMC0xLjgtLjc0YTIuNCAyLjQgMCAwIDEtLjc1LTEuNzdxMC0xLjAyLjc0LTEuNzUuNzUtLjczIDEuOC0uNzMgMS4wMiAwIDEuNzcuNzNhMi40IDIuNCAwIDAgMSAuNDEgMyAyLjYgMi42IDAgMCAxLTIuMTggMS4yNU0yNTEuNTcgMzIuMDRoNC4yNXYxNi4zOHEwIDIuMjUtLjk2IDMuODhhNi41IDYuNSAwIDAgMS0yLjY4IDIuNSA5IDkgMCAwIDEtMy45OS44NiA5IDkgMCAwIDEtMy43My0uNzMgNiA2IDAgMCAxLTIuNjMtMi4xOCA2LjMgNi4zIDAgMCAxLS45Ny0zLjZoNC4yNnEwIC45NS40MiAxLjYzLjQyLjY5IDEuMTQgMS4wNGE0IDQgMCAwIDAgMS42Ny4zNyAzLjMgMy4zIDAgMCAwIDEuNzUtLjQzcS43MS0uNDIgMS4wOS0xLjI3YTUgNSAwIDAgMCAuMzgtMi4wN3pNMjczLjMyIDM4LjQ1YTMuMSAzLjEgMCAwIDAtMS4zNS0yLjMyIDUuMyA1LjMgMCAwIDAtMy4xLS44NHEtMS4zNSAwLTIuMy40dC0xLjQ3IDEuMDhxLS41LjY5LS41MiAxLjU2IDAgLjczLjM1IDEuMjYuMzQuNTQuOTMuOS41OC4zOCAxLjMuNjMuNzIuMjQgMS40NC40MmwyLjIyLjU1cTEuMzMuMyAyLjU4LjgzIDEuMjQuNTIgMi4yMyAxLjMyYTUuNzEgNS43MSAwIDAgMSAyLjE0IDQuNTZxMCAyLjA1LTEuMDYgMy42YTcgNyAwIDAgMS0zLjA3IDIuNDJxLTIgLjg4LTQuODQuODgtMi43NiAwLTQuNzgtLjg1YTcgNyAwIDAgMS0zLjE3LTIuNDUgNyA3IDAgMCAxLTEuMjMtMy45NGg0LjIyYTMuNSAzLjUgMCAwIDAgMi41IDMuMjNxMS4wOS40IDIuNDIuNCAxLjQgMCAyLjQ2LS40MiAxLjA2LS40IDEuNjUtMS4xNi42LS43NC42Mi0xLjc0LS4wMi0uOTItLjU0LTEuNTEtLjU0LS42LTEuNDktMXQtMi4yMi0uNzNsLTIuNy0uNjhhMTEgMTEgMCAwIDEtNC42LTIuMjUgNS4xIDUuMSAwIDAgMS0xLjctNHEwLTIuMDcgMS4xNC0zLjYxYTcuNCA3LjQgMCAwIDEgMy4xLTIuNHExLjk3LS44NyA0LjQ1LS44NyAyLjUxIDAgNC40MS44NmE3IDcgMCAwIDEgMi45OSAyLjM4IDYgNiAwIDAgMSAxLjEyIDMuNDl6IiBzdHlsZT0iZmlsbDp3aGl0ZTtmaWxsLW9wYWNpdHk6MTsiLz48L3N2Zz4=;" vertex="1" parent="next" value="">
+          <mxGeometry x="12" y="9" width="64.53571428571429" height="13" as="geometry" />
+        </mxCell>
+        <mxCell id="auth" style="rounded=0;whiteSpace=wrap;align=left;spacingLeft=38;spacingRight=5;fontSize=15;fontColor=#25364D;fillColor=#F7F2FE;strokeColor=light-dark(#69459A,#CCA9F8);strokeWidth=1.3;html=1;" vertex="1" parent="next" value="&lt;b&gt;Auth.js&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:12px&quot;&gt;所有者照合・JWT&lt;/span&gt;">
+          <mxGeometry x="20" y="49" width="186" height="59" as="geometry" />
+        </mxCell>
+        <mxCell id="authIconTile" style="rounded=1;arcSize=18;html=1;strokeColor=none;fillColor=light-dark(#E6ECF4,#D1DBE7);pointerEvents=0;" vertex="1" connectable="0" parent="auth" value="">
+          <mxGeometry x="7" y="15.5" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="authIcon" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=default;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/assets/tabler-outline/1/Lock_Check.svg;pointerEvents=0;html=1;" vertex="1" parent="auth" value="">
+          <mxGeometry x="10" y="18.5" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="browse" style="rounded=0;whiteSpace=wrap;align=left;spacingLeft=38;spacingRight=5;fontSize=15;fontColor=#25364D;fillColor=#EAF5FF;strokeColor=light-dark(#24649C,#80C7FF);strokeWidth=1.3;html=1;" vertex="1" parent="next" value="&lt;b&gt;01 閲覧&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:12px&quot;&gt;本棚・検索・詳細&lt;/span&gt;">
+          <mxGeometry x="320" y="127" width="166" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="browseIconTile" style="rounded=1;arcSize=18;html=1;strokeColor=none;fillColor=light-dark(#E6ECF4,#D1DBE7);pointerEvents=0;" vertex="1" connectable="0" parent="browse" value="">
+          <mxGeometry x="7" y="17" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="browseIcon" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=default;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/assets/tabler-outline/1/Book.svg;pointerEvents=0;html=1;" vertex="1" parent="browse" value="">
+          <mxGeometry x="10" y="20" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="save" style="rounded=0;whiteSpace=wrap;align=left;spacingLeft=38;spacingRight=5;fontSize=15;fontColor=#25364D;fillColor=#E8F7EF;strokeColor=light-dark(#246949,#8ADEAA);strokeWidth=1.3;html=1;" vertex="1" parent="next" value="&lt;b&gt;03 登録&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:12px&quot;&gt;POST /api/books&lt;br&gt;所有者のみ&lt;/span&gt;">
+          <mxGeometry x="320" y="285" width="166" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="saveIconTile" style="rounded=1;arcSize=18;html=1;strokeColor=none;fillColor=light-dark(#E6ECF4,#D1DBE7);pointerEvents=0;" vertex="1" connectable="0" parent="save" value="">
+          <mxGeometry x="7" y="17" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="saveIcon" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=default;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/assets/tabler-outline/1/Api.svg;pointerEvents=0;html=1;" vertex="1" parent="save" value="">
+          <mxGeometry x="10" y="20" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="lookup" style="rounded=0;whiteSpace=wrap;align=left;spacingLeft=38;spacingRight=5;fontSize=15;fontColor=#25364D;fillColor=#FFF2DF;strokeColor=light-dark(#965407,#FFC16D);strokeWidth=1.3;html=1;" vertex="1" parent="next" value="&lt;b&gt;02 ISBN補完&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:11px&quot;&gt;GET /api/books/lookup&lt;br&gt;所有者のみ&lt;/span&gt;">
+          <mxGeometry x="320" y="47" width="166" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="lookupIconTile" style="rounded=1;arcSize=18;html=1;strokeColor=none;fillColor=light-dark(#E6ECF4,#D1DBE7);pointerEvents=0;" vertex="1" connectable="0" parent="lookup" value="">
+          <mxGeometry x="7" y="17" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="lookupIcon" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=default;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/assets/tabler-outline/1/Devices_Search.svg;pointerEvents=0;html=1;" vertex="1" parent="lookup" value="">
+          <mxGeometry x="10" y="20" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="github" style="rounded=0;whiteSpace=wrap;align=left;spacingLeft=11;spacingRight=5;fontSize=13;fontColor=#25364D;fillColor=#F7F2FE;strokeColor=light-dark(#69459A,#CCA9F8);strokeWidth=1.3;html=1;" vertex="1" parent="identity" value="&lt;b&gt;GitHub OAuth&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:12px&quot;&gt;所有者ログイン&lt;/span&gt;">
+          <mxGeometry x="12" y="41" width="148" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="githubIcon" style="shape=image;html=1;imageAspect=1;pointerEvents=0;image=data:image/svg+xml,PHN2ZyB3aWR0aD0iNDE2IiBoZWlnaHQ9Ijk1IiB2aWV3Qm94PSIwIDAgNDE2IDk1IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZyBjbGlwLXBhdGg9InVybCgjY2xpcDBfNzMxXzI3MTczKSI+CjxwYXRoIGQ9Ik00MS42Mzk0IDY5LjM4NDhDMjkuMDA2NiA2Ny44NTM1IDIwLjEwNjIgNTguNzYxNyAyMC4xMDYyIDQ2Ljk5MDJDMjAuMTA2MiA0Mi4yMDUxIDIxLjgyODkgMzcuMDM3MSAyNC43IDMzLjU5MThDMjMuNDU1OCAzMC40MzM2IDIzLjY0NzIgMjMuNzM0NCAyNS4wODI4IDIwLjk1OUMyOC45MTA5IDIwLjQ4MDUgMzQuMDc4OSAyMi40OTAyIDM3LjE0MTQgMjUuMjY1NkM0MC43NzgxIDI0LjExNzIgNDQuNjA2MiAyMy41NDMgNDkuMjk1NyAyMy41NDNDNTMuOTg1MSAyMy41NDMgNTcuODEzMiAyNC4xMTcyIDYxLjI1ODUgMjUuMTY5OUM2NC4yMjUzIDIyLjQ5MDIgNjkuNDg5IDIwLjQ4MDUgNzMuMzE3MSAyMC45NTlDNzQuNjU3IDIzLjU0MyA3NC44NDg0IDMwLjI0MjIgNzMuNjA0MiAzMy40OTYxQzc2LjY2NjcgMzcuMTMyOCA3OC4yOTM3IDQyLjAxMzcgNzguMjkzNyA0Ni45OTAyQzc4LjI5MzcgNTguNzYxNyA2OS4zOTMzIDY3LjY2MjEgNTYuNTY5MSA2OS4yODkxQzU5LjgyMyA3MS4zOTQ1IDYyLjAyNDIgNzUuOTg4MyA2Mi4wMjQyIDgxLjI1Mkw2Mi4wMjQyIDkxLjIwNTFDNjIuMDI0MiA5NC4wNzYyIDY0LjQxNjcgOTUuNzAzMSA2Ny4yODc4IDk0LjU1NDdDODQuNjEwMSA4Ny45NTEyIDk4LjIgNzAuNjI4OSA5OC4yIDQ5LjE5MTRDOTguMiAyMi4xMDc0IDc2LjE4ODIgNi42OTUzOWUtMDcgNDkuMTA0MiA0LjMwOWUtMDdDMjIuMDIwMyAxLjkyMjYxZS0wNyAwLjE5OTk1MSAyMi4xMDc0IDAuMTk5OTUxIDQ5LjE5MTRDMC4xOTk5NTEgNzAuNDM3NSAxMy42OTQxIDg4LjA0NjkgMzEuODc3NyA5NC42NTA0QzM0LjQ2MTcgOTUuNjA3NCAzNi45NSA5My44ODQ4IDM2Ljk1IDkxLjMwMDhMMzYuOTUgODMuNjQ0NUMzNS42MTAxIDg0LjIxODggMzMuODg3NSA4NC42MDE2IDMyLjM1NjIgODQuNjAxNkMyNi4wMzk4IDg0LjYwMTYgMjIuMzA3NCA4MS4xNTYzIDE5LjYyNzcgNzQuNzQ0MUMxOC41NzUgNzIuMTYwMiAxNy40MjY1IDcwLjYyODkgMTUuMjI1MyA3MC4zNDE4QzE0LjA3NjkgNzAuMjQ2MSAxMy42OTQxIDY5Ljc2NzYgMTMuNjk0MSA2OS4xOTM0QzEzLjY5NDEgNjguMDQ0OSAxNS42MDgyIDY3LjE4MzYgMTcuNTIyMiA2Ny4xODM2QzIwLjI5NzYgNjcuMTgzNiAyMi42OTAyIDY4LjkwNjMgMjUuMTc4NSA3Mi40NDczQzI3LjA5MjUgNzUuMjIyNyAyOS4xMDIzIDc2LjQ2NjggMzEuNDk0OSA3Ni40NjY4QzMzLjg4NzUgNzYuNDY2OCAzNS40MTg3IDc1LjYwNTUgMzcuNjE5OSA3My40MDQzQzM5LjI0NjggNzEuNzc3MyA0MC40OTEgNzAuMzQxOCA0MS42Mzk0IDY5LjM4NDhaIiBmaWxsPSJ3aGl0ZSIvPgo8ZyBjbGlwLXBhdGg9InVybCgjY2xpcDFfNzMxXzI3MTczKSI+CjxwYXRoIGQ9Ik0xODguOTM3IDgzLjAwNDVMMTg4LjkzNyAzMy4yODI3TDIwMi45MTUgMzMuMjgyN0wyMDIuOTE1IDgzLjAwNDVMMTg4LjkzNyA4My4wMDQ1Wk0yMzAuMDE2IDgzLjAwNDVDMjIwLjcyNyA4My4wMDQ1IDIxNy4wOTkgNzkuMDIzMiAyMTcuMDk5IDcwLjYxODNMMjE3LjA5OSA0NC45NjExTDIwOC4yNTIgNDQuOTYxMUwyMDguMjUyIDMzLjI4MjdMMjE3LjA5OSAzMy4yODI3TDIxNy4wOTkgMjMuMzczN0wyMzEuMDc4IDIwLjEwMDJMMjMxLjA3OCAzMy4yODI3TDI0MS40MjkgMzMuMjgyN0wyNDEuNDI5IDQ0Ljk2MTFMMjMxLjA3OCA0NC45NjExTDIzMS4wNzggNjcuNTIxN0MyMzEuMDc4IDcwLjI2NDQgMjMyLjMxNyA3MS4zMjYxIDIzNS4wNTkgNzEuMzI2MUwyNDEuNDI5IDcxLjMyNjFMMjQxLjQyOSA4My4wMDQ1TDIzMC4wMTYgODMuMDA0NVpNMzI3LjQ3IDgzLjg4OTJDMzE2LjU4OCA4My44ODkyIDMxMC42NiA3Ny44NzMxIDMxMC42NiA2Ni45MDI0TDMxMC42NiAzMy4yODI3TDMyNC43MjggMzMuMjgyN0wzMjQuNzI4IDYzLjE4NjZDMzI0LjcyOCA2OS4yOTEyIDMyNy40NyA3Mi42NTMyIDMzMi42OSA3Mi42NTMyQzMzOC43MDYgNzIuNjUzMiAzNDMuMzA3IDY3LjA3OTQgMzQzLjMwNyA1OS40NzA3TDM0My4zMDcgMzMuMjgyN0wzNTcuMzc0IDMzLjI4MjdMMzU3LjM3NCA4My4wMDQ1TDM0My4zMDcgODMuMDA0NUwzNDMuMzA3IDc0LjU5OTZDMzQwLjY1MyA3OS45OTY0IDMzNC4yODMgODMuODg5MiAzMjcuNDcgODMuODg5MlpNMzk0LjYxMyA4My44ODkyQzM4Ny44MzIgODMuODg5MiAzODEuNjM5IDc5Ljk5NjQgMzc4LjY4NyA3NC40MjI2TDM3OC42ODcgODMuMDA0NUwzNjQuNzA5IDgzLjAwNDVMMzY0LjcwOSAxMy42NDE3TDM3OC43NzYgMTMuNjQxN0wzNzguNzc2IDQyLjM5NTRDMzgxLjYzOSAzNi4zNzkyIDM4OC4wOTggMzIuMTMyNSAzOTQuNjEzIDMyLjEzMjVDNDA4LjE4MSAzMi4xMzI1IDQxNS4zNDggNDEuNTEwNyA0MTQuODczIDU4LjA1NTFDNDE1LjM0OCA3NC40MjI2IDQwNy45MTYgODMuODg5MiAzOTQuNjEzIDgzLjg4OTJaTTM4OS42NTggNzIuMTIyM0MzOTYuOTQ1IDcyLjEyMjMgNDAwLjkyNiA2Ni43MjU1IDQwMC40NTIgNTguMDU1MUM0MDAuOTI2IDQ5LjI5NjMgMzk2Ljk0NSA0My44OTk0IDM4OS42NTggNDMuODk5NEMzODMuODUxIDQzLjg5OTQgMzc5LjI1MSA0OS41NjE3IDM3OC43NzYgNTcuMzQ3M0wzNzguNzc2IDU4LjE0MzZDMzc5LjI1MSA2Ni4xOTQ2IDM4My44NTEgNzIuMTIyMyAzODkuNjU4IDcyLjEyMjNaTTI4OC43MzQgMTMuNjQxN0wyODguNzM0IDQxLjc3NjFMMjYyLjM2OSA0MS43NzYxTDI2Mi4zNjkgMTMuNjQxN0wyNDcuMzI5IDEzLjY0MTdMMjQ3LjMyOSA4My4wMDQ1TDI2Mi4zNjkgODMuMDA0NUwyNjIuMzY5IDU1LjIyNEwyODguNzM0IDU1LjIyNEwyODguNzM0IDgzLjAwNDVMMzAzLjc3NSA4My4wMDQ1TDMwMy43NzUgMTMuNjQxN0wyODguNzM0IDEzLjY0MTdaTTE1MC42MjggODQuMzMxNkMxMzAuMTAyIDg0LjMzMTYgMTE3LjE4NSA3MC4yNjQ0IDExNy4xODUgNDguMjM0NkMxMTcuMTg1IDI2LjIwNDggMTMwLjM2OCAxMi4zMTQ2IDE1MS4yNDcgMTIuMzE0NkMxNjguMjM0IDEyLjMxNDYgMTc4LjQ5NyAxOS41NjkzIDE4MS43NyAzMS43Nzg2TDE2Ni41NTMgMzUuNDA2QzE2NC42OTUgMjguNzcwNSAxNTkuMzg3IDI1LjE0MzEgMTUxLjI0NyAyNS4xNDMxQzEzOS4xMjYgMjUuMTQzMSAxMzIuNTc5IDMzLjEwNTcgMTMyLjU3OSA0OC4yMzQ2QzEzMi41NzkgNjMuMzYzNSAxMzguOTQ5IDcxLjUwMyAxNTAuODkzIDcxLjUwM0MxNjEuODY0IDcxLjUwMyAxNjguNDExIDY0Ljc3OTEgMTY4LjQxMSA1My4zNjZMMTY4LjQxMSA1MC43MTE5TDE3Mi4zMDQgNTYuMTA4N0wxNDkuNjU1IDU2LjEwODdMMTQ5LjY1NSA0My4zNjg2TDE4My42MjggNDMuMzY4NkwxODMuNjI4IDUxLjQxOTZDMTgzLjYyOCA3Mi41NjQ3IDE3MS4zMzEgODQuMzMxNiAxNTAuNjI4IDg0LjMzMTZaTTE5NS45MjYgMjguNTkzNkMyMDAuNjE1IDI4LjU5MzYgMjA0LjI0MyAyNC45NjYyIDIwNC4yNDMgMjAuMjc3MUMyMDQuMjQzIDE1LjU4ODEgMjAwLjYxNSAxMS45NjA3IDE5NS45MjYgMTEuOTYwN0MxOTEuMjM3IDExLjk2MDcgMTg3LjYxIDE1LjU4ODEgMTg3LjYxIDIwLjI3NzFDMTg3LjYxIDI0Ljk2NjIgMTkxLjIzNyAyOC41OTM2IDE5NS45MjYgMjguNTkzNloiIGZpbGw9IndoaXRlIi8+CjwvZz4KPC9nPgo8ZGVmcz4KPGNsaXBQYXRoIGlkPSJjbGlwMF83MzFfMjcxNzMiPgo8cmVjdCB3aWR0aD0iNDE2IiBoZWlnaHQ9Ijk1IiBmaWxsPSJ3aGl0ZSIvPgo8L2NsaXBQYXRoPgo8Y2xpcFBhdGggaWQ9ImNsaXAxXzczMV8yNzE3MyI+CjxyZWN0IHdpZHRoPSIyOTguMDY4IiBoZWlnaHQ9Ijc1Ljk0MDgiIGZpbGw9IndoaXRlIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMTcuMTg1IDkuNDkyNTgpIi8+CjwvY2xpcFBhdGg+CjwvZGVmcz4KPC9zdmc+Cg==;" vertex="1" parent="identity" value="">
+          <mxGeometry x="10" y="8.5" width="61.305263157894736" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="google" style="rounded=0;whiteSpace=wrap;align=left;spacingLeft=38;spacingRight=5;fontSize=15;fontColor=#25364D;fillColor=#FFF8EC;strokeColor=light-dark(#965407,#FFC16D);strokeWidth=1.3;html=1;" vertex="1" parent="catalog" value="&lt;b&gt;Google Books&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:12px&quot;&gt;書誌・書影&lt;/span&gt;">
+          <mxGeometry x="12" y="39" width="180" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="googleIconTile" style="rounded=1;arcSize=18;html=1;strokeColor=none;fillColor=light-dark(#E6ECF4,#D1DBE7);pointerEvents=0;" vertex="1" connectable="0" parent="google" value="">
+          <mxGeometry x="7" y="14.5" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="googleIcon" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=default;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/assets/tabler-outline/1/Book_Download.svg;pointerEvents=0;html=1;" vertex="1" parent="google" value="">
+          <mxGeometry x="10" y="17.5" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="openbd" style="rounded=0;whiteSpace=wrap;align=left;spacingLeft=38;spacingRight=5;fontSize=15;fontColor=#25364D;fillColor=#FFF8EC;strokeColor=light-dark(#965407,#FFC16D);strokeWidth=1.3;html=1;" vertex="1" parent="catalog" value="&lt;b&gt;openBD&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:12px&quot;&gt;国内書誌・紙の定価&lt;/span&gt;">
+          <mxGeometry x="12" y="105" width="180" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="openbdIconTile" style="rounded=1;arcSize=18;html=1;strokeColor=none;fillColor=light-dark(#E6ECF4,#D1DBE7);pointerEvents=0;" vertex="1" connectable="0" parent="openbd" value="">
+          <mxGeometry x="7" y="14.5" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="openbdIcon" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=default;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/assets/tabler-outline/1/File_Barcode.svg;pointerEvents=0;html=1;" vertex="1" parent="openbd" value="">
+          <mxGeometry x="10" y="17.5" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="books" style="rounded=0;whiteSpace=wrap;align=left;spacingLeft=38;spacingRight=5;fontSize=15;fontColor=#25364D;fillColor=#F7F2FE;strokeColor=light-dark(#69459A,#CCA9F8);strokeWidth=1.3;html=1;" vertex="1" parent="cms" value="&lt;b&gt;Content API&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:12px&quot;&gt;books · 書籍データ&lt;br&gt;GET / POST&lt;/span&gt;">
+          <mxGeometry x="12" y="39" width="180" height="97" as="geometry" />
+        </mxCell>
+        <mxCell id="booksIconTile" style="rounded=1;arcSize=18;html=1;strokeColor=none;fillColor=light-dark(#E6ECF4,#D1DBE7);pointerEvents=0;" vertex="1" connectable="0" parent="books" value="">
+          <mxGeometry x="7" y="18.5" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="booksIcon" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=default;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/assets/tabler-outline/1/File_Description.svg;pointerEvents=0;html=1;" vertex="1" parent="books" value="">
+          <mxGeometry x="10" y="21.5" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="media" style="rounded=0;whiteSpace=wrap;align=left;spacingLeft=38;spacingRight=5;fontSize=15;fontColor=#25364D;fillColor=#F7F2FE;strokeColor=light-dark(#69459A,#CCA9F8);strokeWidth=1.3;html=1;" vertex="1" parent="cms" value="&lt;b&gt;Management API&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:12px&quot;&gt;書影アップロード&lt;/span&gt;">
+          <mxGeometry x="12" y="186" width="180" height="67" as="geometry" />
+        </mxCell>
+        <mxCell id="mediaIconTile" style="rounded=1;arcSize=18;html=1;strokeColor=none;fillColor=light-dark(#E6ECF4,#D1DBE7);pointerEvents=0;" vertex="1" connectable="0" parent="media" value="">
+          <mxGeometry x="7" y="18.5" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="mediaIcon" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=default;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/assets/tabler-outline/1/Photo.svg;pointerEvents=0;html=1;" vertex="1" parent="media" value="">
+          <mxGeometry x="10" y="21.5" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="launch" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=11;rounded=0;strokeWidth=1.8;strokeColor=#25364D;fontColor=#25364D;fontSize=11;endArrow=block;endSize=7;labelBackgroundColor=default;verticalAlign=bottom;html=1;exitX=1;exitY=0.31;entryX=0;entryY=0.31;" value="HTTPS" source="browser" target="webapp">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-12" y="0" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="session" parent="next" edge="1" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=11;rounded=0;strokeWidth=1.0;strokeColor=light-dark(#69459A,#CCA9F8);fontColor=light-dark(#69459A,#CCA9F8);fontSize=12;endArrow=block;endSize=5;labelBackgroundColor=default;html=1;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" value="" source="webapp" target="auth">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="oauth" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=11;rounded=0;strokeWidth=1.8;strokeColor=light-dark(#69459A,#CCA9F8);fontColor=light-dark(#69459A,#CCA9F8);fontSize=12;endArrow=block;endSize=7;labelBackgroundColor=default;html=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;startArrow=block;startSize=6;" value="" source="auth" target="github">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="196" y="291.5" />
+              <mxPoint x="196" y="197" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="open" parent="next" edge="1" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=11;rounded=0;strokeWidth=1.0;strokeColor=light-dark(#24649C,#80C7FF);fontColor=light-dark(#24649C,#80C7FF);fontSize=12;endArrow=block;endSize=5;labelBackgroundColor=default;verticalAlign=bottom;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" value="" source="webapp" target="browse">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="submit" parent="next" edge="1" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=11;rounded=0;strokeWidth=1.0;strokeColor=light-dark(#246949,#8ADEAA);fontColor=light-dark(#246949,#8ADEAA);fontSize=12;endArrow=block;endSize=5;labelBackgroundColor=default;html=1;exitX=1;exitY=0.78;entryX=0;entryY=0.5;" value="" source="webapp" target="save">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="249" y="176.92" />
+              <mxPoint x="249" y="317" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="isbn" parent="next" edge="1" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=11;rounded=0;strokeWidth=1.0;strokeColor=light-dark(#965407,#FFC16D);fontColor=light-dark(#965407,#FFC16D);fontSize=12;endArrow=block;endSize=5;labelBackgroundColor=default;html=1;exitX=1;exitY=0.22;entryX=0;entryY=0.56;" value="" source="webapp" target="lookup">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="255" y="141" />
+              <mxPoint x="255" y="83" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="readBooks" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=11;rounded=0;strokeWidth=1.8;strokeColor=light-dark(#24649C,#80C7FF);fontColor=light-dark(#24649C,#80C7FF);fontSize=12;endArrow=block;endSize=7;labelBackgroundColor=default;verticalAlign=bottom;html=1;exitX=1;exitY=0.546875;entryX=0;entryY=0.1030927835;" value="書籍GET" source="browse" target="books">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="saveBooks" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=11;rounded=0;strokeWidth=1.8;strokeColor=light-dark(#246949,#8ADEAA);fontColor=light-dark(#246949,#8ADEAA);fontSize=12;endArrow=block;endSize=7;labelBackgroundColor=default;html=1;exitX=1;exitY=0.21;entryX=0;entryY=0.79216494845;startArrow=block;startSize=6;" value="" source="save" target="books">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="795" y="511.44" />
+              <mxPoint x="795" y="441.84" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="checkIsbn" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=11;rounded=0;strokeWidth=1.8;strokeColor=light-dark(#965407,#FFC16D);fontColor=light-dark(#965407,#FFC16D);fontSize=12;endArrow=block;endSize=7;labelBackgroundColor=default;html=1;exitX=1;exitY=0.91;entryX=0.72;entryY=0;startArrow=block;startSize=6;" value="" source="lookup" target="books">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="981.6" y="318.24" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="googleCalls" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=11;rounded=0;strokeWidth=1.8;strokeColor=light-dark(#965407,#FFC16D);fontColor=light-dark(#965407,#FFC16D);fontSize=12;endArrow=block;endSize=7;labelBackgroundColor=default;html=1;exitX=1;exitY=0.22;entryX=0;entryY=0.5;startArrow=block;startSize=6;" value="" source="lookup" target="google">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="780" y="274.08" />
+              <mxPoint x="780" y="171" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="openCalls" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=11;rounded=0;strokeWidth=1.8;strokeColor=light-dark(#965407,#FFC16D);fontColor=light-dark(#965407,#FFC16D);fontSize=12;endArrow=block;endSize=7;labelBackgroundColor=default;html=1;exitX=1;exitY=0.66;entryX=0;entryY=0.5;startArrow=block;startSize=6;" value="" source="lookup" target="openbd">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="800" y="302.24" />
+              <mxPoint x="800" y="237" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="upload" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=11;rounded=0;strokeWidth=1.8;strokeColor=light-dark(#246949,#8ADEAA);fontColor=light-dark(#246949,#8ADEAA);fontSize=10;jumpStyle=arc;jumpSize=8;endArrow=block;endSize=7;labelBackgroundColor=default;verticalAlign=bottom;html=1;exitX=1;exitY=0.7421875;entryX=0;entryY=0.5;startArrow=block;startSize=6;" value="② POST↔URL" source="save" target="media">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="13" y="-3" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="saveRouteCaption" style="text;html=1;align=left;verticalAlign=middle;spacing=0;fontSize=11;fontColor=light-dark(#246949,#8ADEAA);" vertex="1" connectable="0" parent="1" value="① 重複確認・③ 作成・④ 読み戻し">
+          <mxGeometry x="852" y="470" width="186" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="isbnRouteCaption" style="text;html=1;align=left;verticalAlign=middle;spacing=0;fontSize=12;fontColor=light-dark(#965407,#FFC16D);" vertex="1" connectable="0" parent="1" value="ISBN照合">
+          <mxGeometry x="889" y="296" width="78" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="microCmsBrand" style="shape=image;html=1;imageAspect=1;pointerEvents=0;image=data:image/svg+xml,PHN2ZyB3aWR0aD0iMjAxIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMSAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xNzUuMDAyIDBIMjQuOTYwM0MxMS4xNTAxIDAgMCAxMS4xNiAwIDI0Ljk3VjE3NUMwIDE4OC44MSAxMS4yMDAxIDIwMCAyNS4wMTAzIDIwMEgxNzUuMDAyQzE4OC44MTIgMjAwIDIwMC4wMDIgMTg4LjgxIDIwMC4wMDIgMTc1VjI1QzIwMC4wMDIgMTEuMTkgMTg4LjgwMiAwIDE3NS4wMDIgMFpNMjkuNzkwMyAxMDNDMjcuODQwMyAxMDEuMDUgMjcuODQwMyA5Ny44OCAyOS43OTAzIDk1LjkzTDkzLjQzMSAzMi4yOUM5NS4zODExIDMwLjM0IDk4LjU1MTEgMzAuMzQgMTAwLjUwMSAzMi4yOUwxMTguMTgxIDQ5Ljk3TDEwNC4wNDEgNjQuMTFMOTYuOTcxMSA1Ny4wNEw1NC41NDA2IDk5LjQ3TDYxLjYxMDcgMTA2LjU0TDQ3LjQ3MDUgMTIwLjY4TDI5Ljc5MDMgMTAzWk01NC41NDA2IDEyNy43NUwxMjEuNzExIDYwLjU3QzEyMy42NjEgNTguNjIgMTI2LjgzMSA1OC42MiAxMjguNzgxIDYwLjU3TDE0Ni40NjIgNzguMjVMMTMyLjMyMSA5Mi4zOUwxMjUuMjUxIDg1LjMyTDEyNS4yODEgODUuMjlMNjguNjkwOCAxNDEuODhMNTQuNTUwNiAxMjcuNzRINTQuNTMwNkw1NC41NDA2IDEyNy43NVpNMTYwLjYwMiAxMjAuNjlMMTUzLjUzMiAxMTMuNjJMMTUzLjU3MiAxMTMuNThMMTAwLjUwMSAxNjYuNjVDOTguNTUxMSAxNjguNiA5NS4zODExIDE2OC42IDkzLjQzMSAxNjYuNjVMNzUuNzUwOCAxNDguOTdMODkuODkxIDEzNC44M0w5Ni45NjExIDE0MS45TDE0OS45OTIgODguODdDMTUxLjk0MiA4Ni45MiAxNTUuMTEyIDg2LjkyIDE1Ny4wNjIgODguODdMMTc0Ljc0MiAxMDYuNTVMMTYwLjYwMiAxMjAuNjlaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K;" vertex="1" connectable="0" parent="cms" value="">
+          <mxGeometry x="11" y="7" width="12.06" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="legRead" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=light-dark(#24649C,#80C7FF);spacing=0;fontStyle=1;" vertex="1" connectable="0" parent="1" value="━ 01 閲覧">
+          <mxGeometry x="605" y="47" width="91" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="legLookup" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=light-dark(#965407,#FFC16D);spacing=0;fontStyle=1;" vertex="1" connectable="0" parent="1" value="━ 02 ISBN補完">
+          <mxGeometry x="700" y="47" width="119" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="legSave" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=light-dark(#246949,#8ADEAA);spacing=0;fontStyle=1;" vertex="1" connectable="0" parent="1" value="━ 03 登録">
+          <mxGeometry x="824" y="47" width="91" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="legAuth" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=light-dark(#69459A,#CCA9F8);spacing=0;fontStyle=1;" vertex="1" connectable="0" parent="1" value="━ 認証">
+          <mxGeometry x="919" y="47" width="80" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="oauthCaption" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=light-dark(#69459A,#CCA9F8);spacing=0;fontStyle=1;" vertex="1" connectable="0" parent="1" value="OAuth">
+          <mxGeometry x="145" y="251" width="47" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="launchResponse" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=11;rounded=0;strokeWidth=1.35;strokeColor=#25364D;fontColor=#25364D;fontSize=9;endArrow=block;endSize=6;labelBackgroundColor=default;verticalAlign=bottom;html=1;exitX=0;exitY=0.73;entryX=1;entryY=0.73;" value="HTML / JSON" source="webapp" target="browser">
+          <mxGeometry relative="1" as="geometry"><mxPoint as="offset" x="-17" y="0" /></mxGeometry>
+        </mxCell>
+        <mxCell id="readBooksResponse" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=11;rounded=0;strokeWidth=1.35;strokeColor=light-dark(#24649C,#80C7FF);fontColor=light-dark(#24649C,#80C7FF);fontSize=11;endArrow=block;endSize=6;labelBackgroundColor=default;verticalAlign=bottom;html=1;exitX=0;exitY=0.3092783505;entryX=1;entryY=0.859375;" value="書籍データ" source="books" target="browse">
+          <mxGeometry relative="1" as="geometry"><mxPoint as="offset" x="7" y="0" /></mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  </mxfile>
